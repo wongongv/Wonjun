@@ -83,11 +83,11 @@ class main_class(object):
 		# self.slider = slide.make_slide(self.fig, self.vs.vslides[glo_var.lambdas_degree],self.vs.vslides[glo_var.lambdas_degree + 1], self.rhos)
 # receive
 		# self.vs.receive(self.lambda_poly, self.rhos)
-
-		self.win.nextRow()
-		self.jbet = jbeta.jbeta(self.win, self.rh)
-		self.jalph = jalpha.jalpha(self.win, self.rh)
 		self.phas=phase.phase(self.win)
+		self.win.nextRow()
+		self.jalph = jalpha.jalpha(self.win, self.rh)
+		self.jbet = jbeta.jbeta(self.win, self.rh)
+
 		# self.win.nextRow()
 		self.slid=slider.Widget(self.win, self.lamb_po,self.phas, self.rh, self.jbet,self.jalph)
 

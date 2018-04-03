@@ -103,7 +103,8 @@ class Widget(QWidget):
 		
 		
 # =====================================================================================================================================
-
+		self.update_alpha_slid(self.ws[glo_var.lambdas_degree])
+		self.update_beta_slid(self.ws[glo_var.lambdas_degree + 1])
 
 
 
@@ -124,12 +125,6 @@ class Widget(QWidget):
 		self.update_ab_rh()
 
 
-		# if glo_var.alpha > 2*glo_var.alpha_star:
-		#     glo_var.alpha = 2*glo_var.alpha_star/2
-		# if glo_var.beta > 2*glo_var.beta_star:
-		#     glo_var.beta = 2*glo_var.beta_star/2
-
-
 
 	def update_lamb_rh(self):
 		glo_var.alpha = self.ws[glo_var.lambdas_degree].x
@@ -146,7 +141,6 @@ class Widget(QWidget):
 		self.rh.update()
 		self.update_alpha_slid(self.ws[glo_var.lambdas_degree])
 		self.update_beta_slid(self.ws[glo_var.lambdas_degree + 1])
-
 		self.phas.update()
 		self.jalph.update()
 		self.jbet.update()

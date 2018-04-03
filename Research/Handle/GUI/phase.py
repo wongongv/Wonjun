@@ -18,17 +18,13 @@ class phase:
 		self.p5.clear()
 
 		
-		# self.viewbox.setRange(xRange=[0,2*glo_var.alpha_star],yRange=[0,2*glo_var.beta_star],padding=0)
 		bounds1 = np.array([[glo_var.alpha_star,glo_var.beta_star],[1,glo_var.beta_star]])
 		bounds2 = np.array([[glo_var.alpha_star,glo_var.beta_star],[glo_var.alpha_star,1]])
 		bounds3 = np.array([[0,0],[glo_var.alpha_star,glo_var.beta_star]])
 		self.p5.plot(bounds1)
 		self.p5.plot(bounds2)
 		self.p5.plot(bounds3)
-		# self.point = np.array([glo_var.alpha,glo_var.beta])
-		# self.spots = [{'pos': self.point, 'size':1e-6, 'pen':{'color':'w','width':2}}]
-		# self.scat.addPoints(self.spots)	
-		# self.p5.addItem(self.scat)
+
 		self.p5.plot([glo_var.alpha],[glo_var.beta],pen=None, symbol='o')
 
 	def update(self):
@@ -41,22 +37,6 @@ class phase:
 		if glo_var.beta > 2*glo_var.beta_star:
 			glo_var.beta = 2*glo_var.beta_star
 
-
-		# self.slid.ws[glo_var.lambdas_degree].slider.setMaximum(2*glo_var.alpha_star)
-		# self.slid.ws[glo_var.lambdas_degree].x = glo_var.alpha
-		# self.slid.ws[glo_var.lambdas_degree].setLabelValue(self.slid.ws[glo_var.lambdas_degree].x*100)
-		# self.slid.ws[glo_var.lambdas_degree].slider.setValue(glo_var.alpha*100)
-		# self.slid.ws[glo_var.lambdas_degree].slider.valueChanged.connect(self.slid.ws[glo_var.lambdas_degree].setLabelValue)
-  
-		# self.slid.ws[glo_var.lambdas_degree + 1].slider.setMaximum(2*glo_var.beta_star)
-		# self.slid.ws[glo_var.lambdas_degree + 1].x = glo_var.beta
-		# self.slid.ws[glo_var.lambdas_degree + 1].setLabelValue(self.slid.ws[glo_var.lambdas_degree+1].x*100)
-		# self.slid.ws[glo_var.lambdas_degree + 1].slider.setValue(glo_var.beta*100)
-		# self.slid.ws[glo_var.lambdas_degree + 1].slider.valueChanged.connect(self.slid.ws[glo_var.lambdas_degree + 1].setLabelValue)
-
-		# [self.slid.ws[i].slider.valueChanged.connect(self.slid.update_ab_rh) for i in range(glo_var.lambdas_degree, glo_var.lambdas_degree + 2)]
-
-		# self.viewbox.setRange(xRange=[0,2*glo_var.alpha_star],yRange=[0,2*glo_var.beta_star],padding=0)
 		HD = pg.TextItem(html='HD', anchor=(glo_var.alpha_star,0.5*glo_var.beta_star), border='w', fill=(255, 0, 0, 250))
 		self.p5.addItem(HD)
 		HD.setPos(glo_var.alpha_star,0.5*glo_var.beta_star)

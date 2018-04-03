@@ -21,7 +21,7 @@ from scipy.interpolate import interp1d
 class lamb_pol:
 	def __init__(self,win) :
 		self.win = win
-		self.p1 = self.win.addPlot(title = r'\lambda')
+		self.p1 = self.win.addPlot(title = '\u03bb')
 		self.viewbox=self.p1.getViewBox()
 		self.viewbox.setLimits(xMin = -0.02, yMin = -0.02, xMax = 1.02, yMax = 1.02)
 		self.viewbox.setRange(xRange=[-0.02,1.02],yRange=[-0.02,1.02],padding =0)

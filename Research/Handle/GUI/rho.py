@@ -11,7 +11,7 @@ class rho:
 	def __init__(self,win):
 
 		self.win = win
-		self.p2 = self.win.addPlot(title=r'\rho', )
+		self.p2 = self.win.addPlot(title='\u03c1' )
 		self.viewbox=self.p2.getViewBox()
 		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax = 1.01, yMax = 1.01)
 		self.viewbox.setRange(xRange=[0,1],yRange=[0,1])

@@ -10,20 +10,21 @@ class jalpha:
 	def __init__(self, win, rh):
 		self.win = win
 		self.rh=rh
-		self.p3 = self.win.addPlot(title = 'jalpha')
+		self.p3 = self.win.addPlot(title = '\u03B1')
 		self.viewbox=self.p3.getViewBox()
 		self.viewbox.setLimits(xMin = 0, yMin = 0, xMax = 1, yMax = 1)
 		self.viewbox.setRange(xRange=[0,1],yRange=[0,1],padding =0)
 		# self.ax.set_facecolor()
+		self.p3.addLegend()
 		self.update()
+		self.legend()
+		self.p3_2 = self.p3.getViewBox()
+		self.p3.showAxis('right')
+		self.p3.scene().addItem(self.p3_2)
 
 	def update(self):
 		self.p3.clear()
 		self.value_declaration()
-
-
-		# self.j_l=glo_var.alpha*(self.lambda_0-glo_var.alpha)/(self.lambda_0+(glo_var.l-1)*glo_var.alpha)
-
 
 
 		self.trans_point = self.trans_func(glo_var.beta)
@@ -44,42 +45,32 @@ class jalpha:
 		self.num=30
 		self.xs =np.linspace(0,self.trans_point, self.num)
 	
-		# self.alphas_post = np.linspace(glp_var.alpha, 1, 50)
-		# self.j_l_g = interp1d(self.alphas_pre,self.j_l_values)
-		# self.j_c_g = Line2D([glo_var.alpha_star,1],[self.j_c,self.j_c])
-		# self.ax.plot(self.alphas_pre,self.j_l_g(self.alphas_pre))
-		# self.ax.add_line(self.j_c_g)
-
 		# minused 0.00000001 since it is not working
 		
 		self.p3.plot(self.alphas_pre,self.j_l_values)
-		# self.p3.plot(self.xs, self.j_l_g(self.xs))
-
 
 		self.dash = pg.mkPen('y',style=QtCore.Qt.DashLine)
-		# Can alpha_star be 0? then I need to add conner case
 
-		self.p3.plot([self.trans_point,1],[self.j_c,self.j_c])
+		# Can alpha_star be 0? then I need to add conner case
+		if glo_var.beta >= glo_var.beta_star:
+			self.jpost= self.j_c
+		else:
+			self.jpost= self.j_r
+		
+		self.p3.plot([self.trans_point,1],[self.jpost,self.jpost])
 		self.trans_line = self.p3.plot([self.trans_point,self.trans_point],[0,1],pen=self.dash)
 		self.alpha_line = self.p3.plot([glo_var.alpha,glo_var.alpha],[0,1])
-		self.make_right_axis()
+		self.plot_rho()
 		# self.plot_sum_rho()
 		# self.sum_rho_dash = pg.mkPen('r',style=QtCore.Qt.DashLine)
 		# self.p3.plot(self.domain ,self.rho_sum, pen=self.sum_rho_dash)
+	def legend(self):
+		self.p3.plot(pen='w', name='J')
+		self.p3.plot(pen=self.rho_dash, name='\u03c1')
 
-	def make_right_axis(self):
+	def plot_rho(self):
 		self.rho_dash = pg.mkPen('r',style=QtCore.Qt.DashLine)
-		# self.p3.plot(self.domain,self.rho_avg,pen=self.rho_dash)
-		self.p3_2 = self.p3.getViewBox()
-		self.p3.showAxis('right')
-		self.p3.scene().addItem(self.p3_2)
 		self.p3.plot(self.domain,self.rho_avg,pen=self.rho_dash)	
-		# self.p3_2.addItem(self.p3.plot(self.domain,self.rho_avg,pen=self.rho_dash))
-		# p1.showAxis('right')
-		# p1.scene().addItem(p2)
-		# p1.getAxis('right').linkToView(p2)
-		# p2.setXLink(p1)
-		# p1.getAxis('right').setLabel('axis2', color='#0000ff')
 
 
 	def trans_func(self, point):
@@ -93,13 +84,6 @@ class jalpha:
 
 	def cal_rho(self,jval):
 		self.xperlambdas = round(150/glo_var.lambdas_degree)
-
-
-
-
-
-
-
 		self.rhointercal=[]
 		self.rho_l = []
 		self.rho_r = []
@@ -179,14 +163,14 @@ class jalpha:
 		if beta >= self.beta_star:
 			if alpha <= self.alpha_star:
 				self.region = 1
-				return self.alpha*(self.lambda_0-self.alpha)/(self.lambda_0+(self.l-1)*self.alpha)
+				return alpha*(self.lambda_0-alpha)/(self.lambda_0+(self.l-1)*alpha)
 			else :
 				self.region = 3
 				return self.lambda_min/pow((1+sqrt(self.l)),2)
 		elif beta < self.beta_star:
 			if alpha <= self.alpha_star:
-				self.jl = self.alpha*(self.lambda_0-self.alpha)/(self.lambda_0+(self.l-1)*self.alpha)
-				self.jr = self.beta*(self.lambda_1-self.beta)/(self.lambda_1+(self.l-1)*self.beta)
+				self.jl = alpha*(self.lambda_0-alpha)/(self.lambda_0+(self.l-1)*alpha)
+				self.jr = beta*(self.lambda_1-beta)/(self.lambda_1+(self.l-1)*beta)
 				if self.jl < self.jr:
 					self.region = 1 
 					return self.jl
@@ -195,14 +179,15 @@ class jalpha:
 					return self.jr
 			else :
 				self.region = 2
-				return self.beta*(self.lambda_1-self.beta)/(self.lambda_1+(self.l-1)*self.beta)
+				return beta*(self.lambda_1-beta)/(self.lambda_1+(self.l-1)*beta)
 
 	def value_declaration(self):
 		self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas.values()))
 		self.lambda_min = min(self.lambdas_ys)
-		self.j_c = self.lambda_min/pow(1 + sqrt(glo_var.l),2)
 		self.lambda_0 = glo_var.lambdas[0][1]
 		self.lambda_1 = glo_var.lambdas[glo_var.lambdas_degree - 1][1]
+		self.j_c = self.lambda_min/pow(1 + sqrt(glo_var.l),2)
+		self.j_r = glo_var.beta*(self.lambda_1-glo_var.beta)/(self.lambda_1 + (glo_var.l-1)*glo_var.beta)
 		self.alpha_star = glo_var.alpha_star
 		self.beta_star = glo_var.beta_star
 		self.alpha=glo_var.alpha
@@ -211,12 +196,6 @@ class jalpha:
 
 
 
-
-	def plot_sum_rho(self):
-		# self.intercal = 1/(2*glo_var.l) + self.js()
-		self.rho_sum=[]
-		for i in range(len(self.rh.scat_xs)):
-			self.rho_sum += [np.sum(self.rh.scat_ys[:i])/(i+1)]
 
 
 	def plot_sum_rho(self):
