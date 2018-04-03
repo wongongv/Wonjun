@@ -32,9 +32,12 @@ class jbeta:
 
 		self.trans_point = self.trans_func(glo_var.alpha)
 		
-		self.betas_pre = np.linspace(0,self.trans_point,20)
-		
 
+		self.betas_pre_pre = np.linspace(0,self.trans_point,20)
+		# explain here in the meeting
+		self.betas_to_add = np.array([self.trans_point-0.000001, self.trans_point, self.trans_point+0.000001]) 
+		self.betas_pre = np.concatenate((self.betas_pre_pre[:-1],self.betas_to_add))
+		#  do I need to make sure that the last element of betas_pre does not exceed first element of self.betas_post? may be no?
 		self.betas_post = np.linspace(self.trans_point,1,20)[1:]
 		self.domain = np.concatenate((self.betas_pre,self.betas_post))
 
@@ -214,10 +217,10 @@ class jbeta:
 				self.region = 3
 				return self.lambda_min/pow((1+sqrt(self.l)),2)
 		elif beta < self.beta_star:
-			if alpha <= self.alpha_star:
+			if alpha < self.alpha_star:
 				self.jl = alpha*(self.lambda_0-alpha)/(self.lambda_0+(self.l-1)*alpha)
 				self.jr = beta*(self.lambda_1-beta)/(self.lambda_1+(self.l-1)*beta)
-				if self.jl < self.jr:
+				if self.jl <= self.jr:
 					self.region = 1 
 					return self.jl
 				else :
@@ -226,3 +229,10 @@ class jbeta:
 			else :
 				self.region = 2
 				return beta*(self.lambda_1-beta)/(self.lambda_1+(self.l-1)*beta)
+
+	def get_cross(self,upper_array,lower_array,start_position,end_position,steps):
+		step_val=(upper_array[end_position] - lower_array[start_position])/steps
+		self.cross_array=[]
+		for i in range(steps + 1):
+			self.cross_array += [lower_array[start_position] + i*step_val]
+		return self.cross_array

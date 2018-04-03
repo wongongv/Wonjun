@@ -151,15 +151,15 @@ class rho:
 		if beta >= self.beta_star:
 			if alpha <= self.alpha_star:
 				self.region = 1
-				return self.alpha*(self.lambda_0-self.alpha)/(self.lambda_0+(self.l-1)*self.alpha)
+				return alpha*(self.lambda_0-alpha)/(self.lambda_0+(self.l-1)*alpha)
 			else :
 				self.region = 3
 				return self.lambda_min/pow((1+sqrt(self.l)),2)
 		elif beta < self.beta_star:
-			if alpha <= self.alpha_star:
-				self.jl = self.alpha*(self.lambda_0-self.alpha)/(self.lambda_0+(self.l-1)*self.alpha)
-				self.jr = self.beta*(self.lambda_1-self.beta)/(self.lambda_1+(self.l-1)*self.beta)
-				if self.jl < self.jr:
+			if alpha < self.alpha_star:
+				self.jl = alpha*(self.lambda_0-alpha)/(self.lambda_0+(self.l-1)*alpha)
+				self.jr = beta*(self.lambda_1-beta)/(self.lambda_1+(self.l-1)*beta)
+				if self.jl <= self.jr:
 					self.region = 1 
 					return self.jl
 				else :
@@ -167,7 +167,9 @@ class rho:
 					return self.jr
 			else :
 				self.region = 2
-				return self.beta*(self.lambda_1-self.beta)/(self.lambda_1+(self.l-1)*self.beta)
+				return beta*(self.lambda_1-beta)/(self.lambda_1+(self.l-1)*beta)
+
+
 
 	def value_declaration(self):
 		self.l = glo_var.l
