@@ -14,6 +14,7 @@ import rho
 import jbeta
 import jalpha
 import phase
+import csv
 
 # fig = plt.figure()
 # fig.set_size_inches(18.5, 10.5, forward=True)
@@ -92,6 +93,19 @@ class main_class(object):
 		self.slid=slider.Widget(self.win, self.lamb_po,self.phas, self.rh, self.jbet,self.jalph)
 
 	def read_file(self):
+	
+		# with open('input1.csv', newline='') as csvfile:
+		# 	spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+		# 	lis = []
+		# 	for j in spamreader:
+		# 		lis += j
+		# 	glo_var.lambdas_degree = int(len(lis)/2)
+		# 	for i in range(glo_var.lambdas_degree):
+		# 		glo_var.lambdas[i] = [eval(lis[i])/100, eval(lis[i + glo_var.lambdas_degree])]
+		# glo_var.alpha = 0.1
+		# glo_var.beta = 0.1
+		# glo_var.l = 1
+
 		f = open('data.txt','r')
 		N = int(f.readline().strip())	
 
@@ -104,6 +118,19 @@ class main_class(object):
 		glo_var.alpha = float(f.readline().strip())
 		glo_var.beta = float(f.readline().strip())
 		glo_var.l = int(f.readline().strip())
+		
+		# f = open('data.txt','r')
+		# N = int(f.readline().strip())	
+
+		# while(N>3):
+		# 	T = f.readline().strip()
+		# 	glo_var.lambdas[glo_var.lambdas_degree]=[eval(T)[0],eval(T)[1]]
+		# 	glo_var.lambdas_degree+=1
+		# 	N-=1
+
+		# glo_var.alpha = float(f.readline().strip())
+		# glo_var.beta = float(f.readline().strip())
+		# glo_var.l = int(f.readline().strip())
 		
 main = main_class()
 # lamb_pol_bup = plt.axes([0.7,0.05,0.1,0.075])

@@ -34,7 +34,8 @@ class jalpha:
 		self.alphas_to_add = np.array([self.trans_point-0.000001, self.trans_point, self.trans_point+0.000001]) 
 		self.alphas_pre = np.concatenate((self.alphas_pre_pre[:-1],self.alphas_to_add))
 		#  do I need to make sure that the last element of alphas_pre does not exceed first element of self.alphas_post? may be no?
-		self.alphas_post = np.linspace(self.trans_point,1,20)[1:]
+		self.alphas_post=np.array([1])
+		# self.alphas_post = np.linspace(self.trans_point,1,20)[1:]
 		self.domain = np.concatenate((self.alphas_pre,self.alphas_post))
 		self.j_l_values=np.array([i*(self.lambda_0-i)/(self.lambda_0 + (glo_var.l-1)*i) for i in self.alphas_pre])
 		
@@ -102,61 +103,58 @@ class jalpha:
 			self.inter_y=sqrt(0 if y < 0.000001 else y)
 			self.rho_l += [x - self.inter_y] 
 			self.rho_r += [x + self.inter_y]
-		self.plot_scat(self.rh.scat_step,self.rh.scat_cross_step)
+		self.plot_scat(self.rh.scat_step)
 		return sum(self.scat_ys)/len(self.scat_ys)
 
 	def check_two_mins(self):
-		self.min_location_1 = -1
-		self.min_location_2 = -1
-		self.max_location_1 = -1
+		self.minlocation = []
+		self.maxlocation = []
 		counter=0
-		num=0
+		
 		for i in self.lambdas_ys:
 			if i == self.lambda_min:
-				if self.min_location_1 != -1 :
-					self.min_location_2 = counter
-					num += 1
-				else:
-					self.min_location_1 = counter
-					num += 1
-			counter +=1;
-		if self.min_location_2 != -1:
-			local_max_1 = max(self.lambdas_ys[self.min_location_1:self.min_location_2 + 1])
-			counter = 0
-			for i in self.lambdas_ys[self.min_location_1:self.min_location_2 + 1]:
-				if i == local_max_1:
-					self.max_location_1 = self.min_location_1 + counter
-				counter +=1
-		if self.min_location_2 - self.min_location_1 == 1:
-			num = 1
+				self.minlocation+=[counter]
+			counter += 1
+		num=len(self.minlocation)
+		if num > 1:
+			for j in range(num - 1):
+				val = max(self.lambdas_ys[self.minlocation[j]:self.minlocation[j+1]])
+				self.maxlocation += [self.lambdas_ys.index(val,self.minlocation[j])]
 		return num
 
-	def plot_scat(self,steps,cross_steps):
+	def plot_scat(self,steps):
 		self.num_mins = self.check_two_mins()
+		self.scat_ys = []
+		self.scat_xs = []
 		if self.region == 3:
-			if self.num_mins == 1 :
-				self.scat_xs = self.getscatarray(self.rh.lambdas_xs[:self.min_location_1*self.xperlambdas],steps) + self.getscatarray(self.rh.lambdas_xs[self.min_location_1*self.xperlambdas:],steps)
-				self.scat_ys = self.getscatarray(self.rho_r[:self.min_location_1*self.xperlambdas],steps) + self.getscatarray(self.rho_l[self.min_location_1*self.xperlambdas:],steps)
-			elif self.num_mins == 2:
-				self.scat_xs =  self.getscatarray(self.rh.lambdas_xs[:self.min_location_1*self.xperlambdas],steps) \
-								+ self.getscatarray(self.rh.lambdas_xs[self.min_location_1*self.xperlambdas:self.max_location_1*self.xperlambdas-cross_steps],steps) \
-								+ self.getscatarray(self.rh.lambdas_xs[self.max_location_1*self.xperlambdas-cross_steps:self.max_location_1*self.xperlambdas+cross_steps + 1],1) \
-								+ self.getscatarray(self.rh.lambdas_xs[self.max_location_1*self.xperlambdas+cross_steps + 1:self.min_location_2*self.xperlambdas],steps) \
-								+ self.getscatarray(self.rh.lambdas_xs[self.min_location_2*self.xperlambdas:],steps)
-				self.scat_ys = self.getscatarray(self.rho_r[:self.min_location_1*self.xperlambdas],steps) \
-								+ self.getscatarray(self.rho_l[self.min_location_1*self.xperlambdas:self.max_location_1*self.xperlambdas-cross_steps],steps) \
-								+ self.get_cross(self.rho_r,self.rho_l,self.max_location_1*self.xperlambdas-cross_steps ,self.max_location_1*self.xperlambdas+cross_steps + 1,cross_steps*2) \
-								+ self.getscatarray(self.rho_r[self.max_location_1*self.xperlambdas+cross_steps + 1:self.min_location_2*self.xperlambdas],steps) \
-								+ self.getscatarray(self.rho_l[self.min_location_2*self.xperlambdas:], steps)
+			if self.num_mins > 1:
+				self.index1 = self.minlocation[0]*self.xperlambdas
+				self.scat_xs += self.getscatarray(self.rh.lambdas_xval[:self.index1],steps)
+				self.scat_ys += self.getscatarray(self.rho_r[:self.index1],steps)
+				for i in range(1, self.num_mins):
+					self.index1 = self.minlocation[i - 1]*self.xperlambdas
+					self.index2 = self.minlocation[i]*self.xperlambdas
+					self.indexmax = self.maxlocation[i - 1]*self.xperlambdas
+					self.scat_xs += self.getscatarray(self.rh.lambdas_xval[self.index1:self.indexmax],steps)
+					self.scat_ys += self.getscatarray(self.rho_l[self.index1:self.indexmax],steps)
+					self.scat_xs += self.getscatarray(self.rh.lambdas_xval[self.indexmax:self.index2],steps)
+					self.scat_ys += self.getscatarray(self.rho_r[self.indexmax:self.index2],steps)
+				self.scat_xs += self.getscatarray(self.rh.lambdas_xval[self.index2:],steps)
+				self.scat_ys += self.getscatarray(self.rho_l[self.index2:],steps)
 
-	#  what if num_mins is 3?
+			else :
+				self.index = self.minlocation[0]*self.xperlambdas
+				self.scat_xs += self.getscatarray(self.rh.lambdas_xval[:self.index],steps) + self.getscatarray(self.rh.lambdas_xval[self.index:],steps)
+				self.scat_ys += self.getscatarray(self.rho_r[:self.index],steps) + self.getscatarray(self.rho_l[self.index:],steps)
+
 		elif self.region == 2:
-			self.scat_xs = self.getscatarray(self.rh.lambdas_xs,steps)
+			self.scat_xs = self.getscatarray(self.rh.lambdas_xval,steps)
 			self.scat_ys = self.getscatarray(self.rho_r,steps)
-
 		else:
-			self.scat_xs = self.getscatarray(self.rh.lambdas_xs,steps)
+			self.scat_xs = self.getscatarray(self.rh.lambdas_xval,steps)
 			self.scat_ys = self.getscatarray(self.rho_l,steps)
+
+
 
 	def getscatarray(self,array,step):
 		return array[::step]
