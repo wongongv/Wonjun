@@ -16,16 +16,42 @@ class jalpha:
 		self.viewbox.setRange(xRange=[0,1],yRange=[0,1],padding =0)
 		# self.ax.set_facecolor()
 		self.p3.addLegend()
+		self.checkbox()
 		self.update()
 		self.legend()
 		self.p3_2 = self.p3.getViewBox()
 		self.p3.showAxis('right')
 		self.p3.scene().addItem(self.p3_2)
 
+
+
+
+	def checkbox(self):
+		self.alphline = QtGui.QCheckBox('\u03B1 line')
+		self.alphline.stateChanged.connect(self.alphstate)
+		self.alproxy=QtGui.QGraphicsProxyWidget()
+		self.alproxy.setWidget(self.alphline)
+
+		self.p3_w = self.win.addLayout(row=2,col=0)
+
+		self.p3_w.addItem(self.alproxy,row=0,col=1)
+
+
+	def alphstate(self):
+		self.alphacheck * (-1)
+		self.update()
+# proxy = QtGui.QGraphicsProxyWidget()
+# button = QtGui.QPushButton('button')
+# proxy.setWidget(button)
+
+# p3 = win.addLayout(row=2, col=0)
+# p3.addItem(proxy,row=1,col=1)
+
 	def update(self):
 		self.p3.clear()
 		self.value_declaration()
-
+		self.vlim = 1/pow(1+sqrt(glo_var.l),2)
+		self.viewbox.setRange(xRange=[0,1],yRange=[0,self.vlim],padding =0)
 
 		self.trans_point = self.trans_func(glo_var.beta)
 		
@@ -62,8 +88,14 @@ class jalpha:
 			self.jpost= self.j_r
 		
 		self.p3.plot([self.trans_point,1],[self.jpost,self.jpost])
-		self.trans_line = self.p3.plot([self.trans_point,self.trans_point],[0,1],pen=self.dash)
-		self.alpha_line = self.p3.plot([glo_var.alpha,glo_var.alpha],[0,1])
+
+
+
+		if self.transcheck == 1:
+			self.trans_line = self.p3.plot([self.trans_point,self.trans_point],[0,1],pen=self.dash)
+		if self.alphacheck == 1:
+			self.alpha_line = self.p3.plot([glo_var.alpha,glo_var.alpha],[0,1])
+		
 		self.plot_rho()
 		# self.plot_sum_rho()
 		# self.sum_rho_dash = pg.mkPen('r',style=QtCore.Qt.DashLine)
@@ -194,7 +226,8 @@ class jalpha:
 		self.alpha=glo_var.alpha
 		self.beta=glo_var.beta
 		self.l=glo_var.l
-
+		self.alphacheck = 1
+		self.transcheck = 1
 
 
 

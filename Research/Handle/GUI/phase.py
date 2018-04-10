@@ -29,8 +29,12 @@ class phase:
 
 	def update(self):
 		self.p5.clear()
-		self.viewbox.setRange(xRange=[0,2*glo_var.alpha_star+0.01],yRange=[0,2*glo_var.beta_star+0.01],padding=0)	
+		self.ablim = 0.5/(1+sqrt(glo_var.l))
+		self.viewbox.setRange(xRange=[0,self.ablim],yRange=[0,self.ablim],padding=0)	
 		self.value_declaration()
+
+
+
 
 		if glo_var.alpha > 2*glo_var.alpha_star:
 			glo_var.alpha = 2*glo_var.alpha_star

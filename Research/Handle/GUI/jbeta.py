@@ -23,7 +23,8 @@ class jbeta:
 	def update(self):
 		self.p4.clear()
 		self.value_declaration()
-
+		self.vlim = 1/pow(1+sqrt(glo_var.l),2)
+		self.viewbox.setRange(xRange=[0,1],yRange=[0,self.vlim],padding =0)
 
 		# self.j_r=glo_var.alpha*(self.lambda_1-glo_var.alpha)/(self.lambda_1+(glo_var.l-1)*glo_var.alpha)
 
