@@ -49,7 +49,7 @@ class Ui_MainWindow(object):
 					lis += j
 				glo_var.lambdas_degree = int(len(lis)/2)
 				for i in range(glo_var.lambdas_degree):
-					glo_var.lambdas[i] = [eval(lis[i])/100, eval(lis[i + glo_var.lambdas_degree])]
+					glo_var.lambdas += [[eval(lis[i])/100, eval(lis[i + glo_var.lambdas_degree])]]
 			glo_var.alpha = 0.1
 			glo_var.beta = 0.1
 			glo_var.l = 1
@@ -59,7 +59,7 @@ class Ui_MainWindow(object):
 			N = int(f.readline().strip())	
 			while(N>3):
 				T = f.readline().strip()
-				glo_var.lambdas[glo_var.lambdas_degree]=[eval(T)[0],eval(T)[1]]
+				glo_var.lambdas +=[[eval(T)[0],eval(T)[1]]]
 				glo_var.lambdas_degree+=1
 				N-=1
 			glo_var.alpha = float(f.readline().strip())

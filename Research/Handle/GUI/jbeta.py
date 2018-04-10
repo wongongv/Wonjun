@@ -13,6 +13,7 @@ class jbeta:
 		self.p4 = self.win.addPlot(title = '\u03b2')
 		self.viewbox=self.p4.getViewBox()
 		self.viewbox.setLimits(xMin = 0, yMin = 0, xMax = 1, yMax = 1)
+		self.viewbox.menu = None
 		# self.ax.set_facecolor()
 		self.p4.addLegend()
 		self.update()
@@ -80,10 +81,10 @@ class jbeta:
 		self.p4.plot(self.domain,self.rho_avg,pen=self.rho_dash)
 
 	def value_declaration(self):
-		self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas.values()))
+		self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas))
 		self.lambda_min = min(self.lambdas_ys)
 		self.lambda_0 = glo_var.lambdas[0][1]
-		self.lambda_1 = glo_var.lambdas[glo_var.lambdas_degree - 1][1]
+		self.lambda_1 = glo_var.lambdas[-1][1]
 		self.j_c = self.lambda_min/pow(1 + sqrt(glo_var.l),2)
 		self.j_l = glo_var.alpha*(self.lambda_0-glo_var.alpha)/(self.lambda_0 + (glo_var.l-1)*glo_var.alpha)
 		self.alpha_star = glo_var.alpha_star

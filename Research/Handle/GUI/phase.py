@@ -11,6 +11,7 @@ class phase:
 		self.viewbox=self.p5.getViewBox()
 		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax=1.01, yMax=1.01)
 		self.viewbox.setRange(xRange=[0,2*glo_var.alpha_star],yRange=[0,2*glo_var.beta_star],padding=0)
+		self.viewbox.menu = None
 		# self.scat = pg.ScatterPlotItem(size = 1, pen = pg.mkPen('r'), brush =pg.mkBrush(255,255,255,120))
 		self.initiate()
 
@@ -72,9 +73,9 @@ class phase:
 
 
 	def value_declaration(self):
-		self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas.values()))
+		self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas))
 		self.lambda_0 = glo_var.lambdas[0][1]
-		self.lambda_1 = glo_var.lambdas[glo_var.lambdas_degree - 1][1]
+		self.lambda_1 = glo_var.lambdas[ - 1][1]
 
 	def trans_func(self, point):
 		self.B = point*(self.lambda_0 - point)/(self.lambda_0 + (glo_var.l -1) * point)

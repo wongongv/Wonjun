@@ -14,9 +14,10 @@ class jalpha:
 		self.viewbox=self.p3.getViewBox()
 		self.viewbox.setLimits(xMin = 0, yMin = 0, xMax = 1, yMax = 1)
 		self.viewbox.setRange(xRange=[0,1],yRange=[0,1],padding =0)
+		self.viewbox.menu = None
 		# self.ax.set_facecolor()
 		self.p3.addLegend()
-		self.checkbox()
+		# self.checkbox()
 		self.update()
 		self.legend()
 		self.p3_2 = self.p3.getViewBox()
@@ -215,10 +216,10 @@ class jalpha:
 				return beta*(self.lambda_1-beta)/(self.lambda_1+(self.l-1)*beta)
 
 	def value_declaration(self):
-		self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas.values()))
+		self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas))
 		self.lambda_min = min(self.lambdas_ys)
 		self.lambda_0 = glo_var.lambdas[0][1]
-		self.lambda_1 = glo_var.lambdas[glo_var.lambdas_degree - 1][1]
+		self.lambda_1 = glo_var.lambdas[-1][1]
 		self.j_c = self.lambda_min/pow(1 + sqrt(glo_var.l),2)
 		self.j_r = glo_var.beta*(self.lambda_1-glo_var.beta)/(self.lambda_1 + (glo_var.l-1)*glo_var.beta)
 		self.alpha_star = glo_var.alpha_star

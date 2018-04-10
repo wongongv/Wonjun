@@ -9,7 +9,7 @@ from matplotlib.widgets import AxesWidget
 import six
 import pdb
 l = 1
-lambdas={}
-lambdas_degree=len(lambdas)
+lambdas=[]
+lambdas_degree=0
 alpha = 0.1
 beta = 0.1

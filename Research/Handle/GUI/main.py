@@ -55,8 +55,14 @@ class main_class(object):
 		# for i in range(24):
 		# 	glo_var.lambdas[i]=[i/23,0.8]
 		# self.read_file()
-		# self.app1 = QtGui.QApplication([])
-
+# 		# self.app1 = QtGui.QApplication([])
+# # to pdb
+# 		glo_var.lambdas=[[0.1,0.5],[0.2,0.7]]
+# 		glo_var.lambdas_degree = 2
+# 		glo_var.alpha =0.1
+# 		glo_var.beta = 0.2
+# 		glo_var.l =1
+# # delete it!
 
 		self.app1 = app
 		
@@ -89,6 +95,7 @@ class main_class(object):
 
 		# self.win.nextRow()
 		self.slid=slider.Widget(self.win, self.lamb_po,self.phas, self.rh, self.jbet,self.jalph)
+		self.lamb_po.receive(self.slid)
 		self.layout = pg.LayoutWidget()
 		# self.checkboxes()
 
@@ -101,6 +108,7 @@ class main_class(object):
 		self.alproxy.setWidget(self.alphline)
 		self.win.addItem(self.alphline)
 		self.alphline.stateChanged.connect(self.alphstate)
+
 
 
 
@@ -192,11 +200,11 @@ class main_class(object):
 # Increase_l_button.on_clicked(main.increment_l)
 # Decrease_l_button.on_clicked(main.decrement_l)
 
-# executing
-# # plt.show()
-# main = main_class()
+# # executing
+# # # plt.show()
+# main = main_class(QtGui.QApplication(sys.argv))
 
 
-# #  To Do  : cursor move -> alpha beta switch update. Think about it. 
+# # #  To Do  : cursor move -> alpha beta switch update. Think about it. 
 # if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
 #     QtGui.QApplication.instance().exec_()

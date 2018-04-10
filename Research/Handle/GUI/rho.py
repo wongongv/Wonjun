@@ -18,6 +18,7 @@ class rho:
 		self.viewbox=self.p2.getViewBox()
 		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax = 1.01, yMax = 1.01)
 		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l])
+		self.viewbox.menu = None
 		self.update()
 
 	def update(self):
@@ -179,8 +180,8 @@ class rho:
 		self.beta = glo_var.beta
 		self.linspace=np.linspace(0,1,100)
 		self.lambda_0=glo_var.lambdas[0][1]
-		self.lambda_1=glo_var.lambdas[glo_var.lambdas_degree - 1][1]
-		self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas.values()))
+		self.lambda_1=glo_var.lambdas[-1][1]
+		self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas))
 		self.lambda_min=min(self.lambdas_ys)
 		self.lambda_max=max(self.lambdas_ys)
 		self.scat_step = 3
