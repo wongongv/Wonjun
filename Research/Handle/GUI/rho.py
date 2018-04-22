@@ -11,11 +11,15 @@ import timeit
 
 # required variables alhpha, beta, lambdas
 class rho:
-	def __init__(self,win):
+	def __init__(self,layout):
 
-		self.win = win
-		self.p2 = self.win.addPlot(title='\u03c1' )
-		self.viewbox=self.p2.getViewBox()
+		self.layout = layout
+		self.p2 = glo_var.MyPW()
+		self.viewbox = self.p2.getPlotItem().getViewBox()
+		self.viewbox.setBackgroundColor('w')
+		self.item = self.p2.getPlotItem()
+		self.layout.addWidget(self.p2,0,0)
+		# self.viewbox=self.p2.getViewBox()
 		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax = 1.01, yMax = 1.01)
 		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l])
 		self.viewbox.menu = None
@@ -67,11 +71,15 @@ class rho:
 		glo_var.j_r = self.j_r
 		glo_var.alpha_star=self.alpha_star
 		glo_var.beta_star=self.beta_star
+		rpen=pg.mkPen('r', width=2, style=QtCore.Qt.DashLine)  
+		lpen=pg.mkPen('b', width=2, style=QtCore.Qt.DashLine)
+		realpen=pg.mkPen('k', width=1)
 
-		self.p2.plot(self.lambdas_xval, self.rho_l, name = r'\rho_L',pen='r')
-		self.p2.plot(self.lambdas_xval, self.rho_r, name = r'\rho_R',pen='b')
+		self.p2.plot(self.lambdas_xval, self.rho_l, name = r'\rho_L',pen=lpen)
+		self.p2.plot(self.lambdas_xval, self.rho_r, name = r'\rho_R',pen=rpen)
 		self.plot_scat(self.scat_step)
 		self.p2.plot(self.scat_xs, self.scat_ys, pen=None, symbol='o', symbolPen='r')
+		self.p2.plot(self.scat_xs, self.scat_ys, pen=realpen)
 
 		# until here.
 # calculating transition line

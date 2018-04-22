@@ -7,11 +7,19 @@ from math import sqrt
 import pdb
 from scipy.interpolate import interp1d
 class jbeta:
-	def __init__(self, win,rh):
-		self.win = win
+	def __init__(self, layout,rh):
+
+
+
+		self.layout = layout
+		self.p4 = glo_var.MyPW()
+		self.viewbox = self.p4.getPlotItem().getViewBox()
+		self.viewbox.setBackgroundColor('w')
+		self.item = self.p4.getPlotItem()
+		self.layout.addWidget(self.p4,0,2)
+
+# '\u03b2'
 		self.rh=rh
-		self.p4 = self.win.addPlot(title = '\u03b2')
-		self.viewbox=self.p4.getViewBox()
 		self.viewbox.setLimits(xMin = 0, yMin = 0, xMax = 1, yMax = 1)
 		self.viewbox.menu = None
 		# self.ax.set_facecolor()
@@ -25,7 +33,7 @@ class jbeta:
 		self.p4.clear()
 		self.value_declaration()
 		self.vlim = 1/pow(1+sqrt(glo_var.l),2)
-		self.viewbox.setRange(xRange=[0,1],yRange=[0,self.vlim],padding =0)
+		self.viewbox.setRange(xRange=[0,self.vlim],yRange=[0,self.vlim],padding =0)
 
 		# self.j_r=glo_var.alpha*(self.lambda_1-glo_var.alpha)/(self.lambda_1+(glo_var.l-1)*glo_var.alpha)
 

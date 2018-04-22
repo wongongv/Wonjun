@@ -43,7 +43,7 @@ class myscat(pg.ScatterPlotItem):
 				ev.accept()
 			else:
 				#print "no spots"
-				self.lamb_po.lastClicked.resetPen()
+				self.lamb_po.lastClicked[0].resetPen()
 				self.lamb_po.lastClicked=[]
 
 				ev.ignore()
@@ -56,11 +56,14 @@ class myscat(pg.ScatterPlotItem):
 				self.raisecontextmenu(pts, ev)
 				ev.accept()
 			else:
+				self.lamb_po.lastClicked[0].resetPen()
+				self.lamb_po.lastClicked=[]
 				ev.ignore()
 		else:
 			ev.ignore()
 	 
 	def wheelEvent(self, ev, axis=None):
+		print(self.lamb_po.lastClicked)
 		if len(self.lamb_po.lastClicked) ==1:
 			s = self.ptsClicked[0]._data[1]+ ev.delta() / 2000 # actual scaling factor
 			if s > 1:
@@ -69,8 +72,6 @@ class myscat(pg.ScatterPlotItem):
 			elif s < 0.0001 :
 				s = 0.0001
 			self.set_yval(s)
-			self.ptsClicked[0].resetPen()
-			self.ptsClicked[0].setPen('b', width=2)
 			ev.accept()
 	 
 	def set_yval(self, value):
@@ -114,10 +115,20 @@ class Menu(QtGui.QMenu):
 		self.item.set_yval(self.fracPosSpin.value())
 
 class lamb_pol:
-	def __init__(self,win) :
-		self.win = win
-		self.p1 = self.win.addPlot(title = '\u03bb')
+	def __init__(self,layout) :
+		self.layout = layout
+
+		self.p1 = glo_var.MyPW()
+		
+		# self.viewbox = self.p1.getPlotItem().getViewBox()
+		# self.viewbox.setBackgroundColor('w')
+		# self.item = self.p1.getPlotItem()
+
+		# self.win = win
+		self.p1 = pg.PlotWidget(title = '\u03bb')
 		self.viewbox=self.p1.getViewBox()
+		self.viewbox.setBackgroundColor('w')
+
 		self.viewbox.setLimits(xMin = -0.02, yMin = -0.02, xMax = 1.02, yMax = 1.02)
 		self.viewbox.setRange(xRange=[-0.02,1.02],yRange=[-0.02,1.02],padding =0)
 		self.sp = myscat(size = 10, pen = pg.mkPen(None), brush=pg.mkBrush(100,200,200), symbolPen='w')
@@ -128,6 +139,9 @@ class lamb_pol:
 		# self.sp.addPoints(self.spots)
 		# self.p1.addItem(self.sp)
 		self.viewbox.menu = None
+
+		self.layout.addWidget(self.p1,1,0)
+		
 		self.update()
 
 	def update(self):
@@ -137,10 +151,12 @@ class lamb_pol:
 		# self.spots = [{'pos':self.lambs[:,i], 'data': 1} for i in range(glo_var.lambdas_degree)]
 		# self.sp.addPoints(self.spots)
 		self.curve=pg.PlotCurveItem(np.array(self.x), np.array(self.y))
+		self.curve.setPen(pg.mkPen('k'))
 		self.p1.addItem(self.curve)
 		self.sp.setData(self.x,self.y)
-		self.sp.sigClicked.connect(self.clicked)		
+		self.sp.sigClicked.connect(self.clicked)
 		self.p1.addItem(self.sp)
+
 
 	def clicked(self, item, points):
 		self.points=points

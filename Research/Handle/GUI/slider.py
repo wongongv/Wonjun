@@ -125,8 +125,12 @@ class Slider(QWidget):
 # 		self.update_ab_rh()
 
 class Widget(QWidget):
-	def __init__(self, win, lamb_po, phas,rh,jalph,jbet, parent=None):
+	def __init__(self, layout, lamb_po, phas,rh,jalph,jbet, parent=None):
 		super(Widget, self).__init__(parent=parent)
+
+		self.layout = layout
+
+
 		self.horizontalLayout = QHBoxLayout(self)
 		self.ws=[]
 		for i in range(2) :
@@ -169,7 +173,8 @@ class Widget(QWidget):
 		self.ws[2].slider.valueChanged.connect(self.update_lamb_l)
 
 
-		self.nwin = win
+		# self.layout.addWidget(self.ws[0],1,2)
+
 		self.phas=phas
 
 

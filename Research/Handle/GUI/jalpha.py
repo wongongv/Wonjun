@@ -7,14 +7,21 @@ import pdb
 from scipy.interpolate import interp1d
 
 class jalpha:
-	def __init__(self, win, rh):
-		self.win = win
+	def __init__(self, layout, rh):
+
+		self.layout = layout
+		self.p3 = glo_var.MyPW()
+		self.viewbox = self.p3.getPlotItem().getViewBox()
+		self.viewbox.setBackgroundColor('w')
+		self.item = self.p3.getPlotItem()
+		self.layout.addWidget(self.p3,0,1)
+
+# '\u03B1'
 		self.rh=rh
-		self.p3 = self.win.addPlot(title = '\u03B1')
-		self.viewbox=self.p3.getViewBox()
 		self.viewbox.setLimits(xMin = 0, yMin = 0, xMax = 1, yMax = 1)
 		self.viewbox.setRange(xRange=[0,1],yRange=[0,1],padding =0)
 		self.viewbox.menu = None
+		# self.viewbox.setLabel("\u03B1")
 		# self.ax.set_facecolor()
 		self.p3.addLegend()
 		# self.checkbox()
@@ -23,6 +30,15 @@ class jalpha:
 		self.p3_2 = self.p3.getViewBox()
 		self.p3.showAxis('right')
 		self.p3.scene().addItem(self.p3_2)
+
+		# self.xscale = pg.AxisItem(orientation='bottom', linkView=self.viewbox)
+		# self.viewbox.addItem(self.xscale)
+		# self.yscale = pg.AxisItem(orientation='left', linkView=self.viewbox)
+		# self.viewbox.addItem(self.yscale)
+
+
+		# self.xscale.setLabel(text="<span style='color: #ff0000; font-weight: bold'>X</span> <i>Axis</i>", units="s")
+		# self.yscale.setLabel(text="<span style='color: #ff0000; font-weight: bold'>Y</span> <i>Axis</i>", units='V')
 
 
 
@@ -52,7 +68,7 @@ class jalpha:
 		self.p3.clear()
 		self.value_declaration()
 		self.vlim = 1/pow(1+sqrt(glo_var.l),2)
-		self.viewbox.setRange(xRange=[0,1],yRange=[0,self.vlim],padding =0)
+		self.viewbox.setRange(xRange=[0,self.vlim],yRange=[0,self.vlim],padding =0)
 
 		self.trans_point = self.trans_func(glo_var.beta)
 		
