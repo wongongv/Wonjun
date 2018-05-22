@@ -21,13 +21,19 @@ class jbeta:
 		self.frame = glo_var.setframe(self.p4main, width = 1)
 		self.dbeta.addWidget(self.frame)
 
-		self.p4.setLabel('left',"J(\u03b2)")
-		self.p4.setLabel('right',"\u03c1(\u03b2)")
+		self.p4.setLabel('left',"J(\u03b2)",**glo_var.labelstyle)
+
+		self.p4.setLabel('bottom',"\u03b2",**glo_var.labelstyle)
+
+		self.p4.setLabel('right',"\u03c1(\u03b2)",**glo_var.labelstyle)
+
 
 		self.rh=rh
 		self.viewbox.menu = None
-		self.rho_dash = pg.mkPen('r',style=QtCore.Qt.DashLine)
-		self.dash = pg.mkPen('y',style=QtCore.Qt.DashLine)
+		self.rho_dash = pg.mkPen('b',width=glo_var.line_width,style=QtCore.Qt.DashLine)
+		self.dash = pg.mkPen('r',width=glo_var.line_width,style=QtCore.Qt.DashLine)
+		self.jpen = pg.mkPen('k',width=glo_var.line_width)
+		self.beta_pen = pg.mkPen('k',width=glo_var.line_width)
 
 		self.p4.addLegend = glo_var.myaddLegend
 		self.p4.addLegend(self.p4)
@@ -91,21 +97,21 @@ class jbeta:
 
 		# minused 0.00000001 since it is not working
 		
-		self.p4.plot(self.betas_pre,self.j_r_values, pen = 'k')
+		self.p4.plot(self.betas_pre,self.j_r_values, pen = self.jpen)
 
 		# Can alpha_star be 0? then I need to add conner case
 		if glo_var.alpha >= glo_var.alpha_star:
 			self.jpost= self.j_c
 		else:
 			self.jpost= self.j_l
-		self.p4.plot([self.trans_point,1],[self.jpost,self.jpost], pen = 'k')
+		self.p4.plot([self.trans_point,1],[self.jpost,self.jpost], pen = self.jpen)
 		self.trans_line = self.p4.plot([self.trans_point,self.trans_point],[0,1],pen=self.dash)
-		self.alpha_line = self.p4.plot([glo_var.beta,glo_var.beta],[0,1])
+		self.alpha_line = self.p4.plot([glo_var.beta,glo_var.beta],[0,1], pen = self.beta_pen)
 		self.make_right_axis()
 		self.set_range()
 
 	def legend(self):
-		self.p4.plot(pen='w', name='J')
+		self.p4.plot(pen=self.jpen, name='J')
 		self.p4.plot(pen=self.rho_dash, name='\u03c1')
 
 	def updateview(self):

@@ -20,15 +20,17 @@ class rho:
 		self.drho.addWidget(self.frame)
 
 
-
-		self.p2.setLabel('left',"\u03c1")
-		self.p2.setLabel('bottom',"x")
+		self.p2.setLabel('left',"\u03c1",**glo_var.labelstyle)
+		self.p2.setLabel('bottom',"x",**glo_var.labelstyle)
 
 
 		# self.viewbox=self.p2.getViewBox()
 		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax = 1.01, yMax = 1.01)
 		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l])
 		self.viewbox.menu = None
+		self.rpen=pg.mkPen('r', width=glo_var.line_width, style=QtCore.Qt.DashLine)  
+		self.lpen=pg.mkPen('b', width=glo_var.line_width, style=QtCore.Qt.DashLine)
+		self.realpen=pg.mkPen('k', width=1)
 		self.update()
 
 	def update(self):
@@ -77,16 +79,20 @@ class rho:
 		glo_var.j_r = self.j_r
 		glo_var.alpha_star=self.alpha_star
 		glo_var.beta_star=self.beta_star
-		rpen=pg.mkPen('r', width=2, style=QtCore.Qt.DashLine)  
-		lpen=pg.mkPen('b', width=2, style=QtCore.Qt.DashLine)
-		realpen=pg.mkPen('k', width=1)
 
-		self.p2.plot(self.lambdas_xval, self.rho_l, name = r'\rho_L',pen=lpen)
-		self.p2.plot(self.lambdas_xval, self.rho_r, name = r'\rho_R',pen=rpen)
+
+
+		self.p2.plot(self.lambdas_xval, self.rho_l, name = r'\rho_L',pen=self.lpen)
+		self.p2.plot(self.lambdas_xval, self.rho_r, name = r'\rho_R',pen=self.rpen)
 		self.plot_scat(self.scat_step)
 		self.p2.plot(self.scat_xs, self.scat_ys, pen=None, symbol='o', symbolPen='r')
-		self.p2.plot(self.scat_xs, self.scat_ys, pen=realpen)
 
+		if self.num_mins > 1:
+			c = np.rec.fromarrays([self.scat_xs,self.scat_ys])
+			c.sort()
+			self.p2.plot(c.f0,c.f1, pen=self.realpen)
+		else:
+			self.p2.plot(self.scat_xs, self.scat_ys, pen=self.realpen)
 		# until here.
 # calculating transition line
 		# self.al_func = lambda x : x*(self.lambda_0-x)/(self.lambda_0 + (self.l - 1)*x)

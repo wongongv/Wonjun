@@ -16,6 +16,7 @@ from pyqtgraph.widgets.GraphicsLayoutWidget import GraphicsLayoutWidget
 import pyqtgraph.widgets.RemoteGraphicsView
 from pyqtgraph.dockarea import *
 
+import pdb
 
 # for free movement
 	# def __init__(self,parent=None):
@@ -216,6 +217,26 @@ class MyTabWidget(QtGui.QWidget):
  
 
 
+# class checkbox_window():
+# 	def setup_check_window(self, check_window):
+# 		self.boxeswidget=QtGui.QWidget(self)
+# 		self.checkbox_layout = QtGui.QGridLayout(self.boxeswidget)
+# 		self.ch_lamb=QtGui.QCheckBox(self.boxeswidget)
+# 		self.ch_rho=QtGui.QCheckBox(self.boxeswidget)
+# 		self.ch_alpha=QtGui.QCheckBox(self.boxeswidget)
+# 		self.ch_beta=QtGui.QCheckBox(self.boxeswidget)
+# 		self.ch_phas=QtGui.QCheckBox(self.boxeswidget)
+# 		self.ch_cont=QtGui.QCheckBox(self.boxeswidget)
+# 		self.checkbox_layout.addWidget(self.ch_rho,0,0,1,1)
+# 		self.checkbox_layout.addWidget(self.ch_lamb,1,0,1,1)
+# 		self.checkbox_layout.addWidget(self.ch_alpha,0,1,1,1)
+# 		self.checkbox_layout.addWidget(self.ch_phas,1,1,1,1)
+# 		self.checkbox_layout.addWidget(self.ch_beta,0,2,1,1)
+# 		self.checkbox_layout.addWidget(self.ch_cont,1,2,1,1)	
+# 		self.check_window.setCentralWidget(self.boxeswidget)		
+
+
+
 class MainWindow(QtGui.QMainWindow):
 # for dock
 	def __init__(self,parent=None):
@@ -234,21 +255,22 @@ class MainWindow(QtGui.QMainWindow):
 		palette.setColor(QtGui.QPalette.Background, QtGui.QColor(215,214,213,255))
 		self.setPalette(palette)
 
-		self.mytab = MyTabWidget(self)
-		self.maintab = self.mytab.tabs
+		# self.mytab = MyTabWidget(self)
+		# self.maintab = self.mytab.tabs
 
-		self.mytab.tab1.layout = QtGui.QVBoxLayout(self.mytab)
-		self.mytab.tab1.setLayout(self.mytab.tab1.layout)
-		# Add tabs to widget        
-		self.mytab.layout.addWidget(self.maintab)
-		self.mytab.setLayout(self.mytab.layout)
+		# self.mytab.tab1.layout = QtGui.QVBoxLayout(self.mytab)
+		# self.mytab.tab1.setLayout(self.mytab.tab1.layout)
+		# # Add tabs to widget        
+		# self.mytab.layout.addWidget(self.maintab)
+		# self.mytab.setLayout(self.mytab.layout)
 
 
 		self.mainframe = QtGui.QFrame()
 
 
+		self.copen=0
 
-
+		self.current_docks=[]
 
 		# self.test1 = MyPW()
 		# self.i=self.test1.plot([1],[2])
@@ -309,6 +331,124 @@ class MainWindow(QtGui.QMainWindow):
 		# for fast revision. Delete it after revision!
 		# self.read_file("C:/GUI/data/input1.csv")
 		# self.realinit()
+
+
+# all those have different relative positions so made bunch of functions, not one.
+	def dlambadd(self):
+		try:
+			self.area.addDock(self.dlamb,'bottom', self.drho)
+		except:
+			try:
+				self.area.addDock(self.dlamb,'left',self.dphase)
+			except:
+				self.area.addDock(self.dlamb,'left')
+
+	def drhoadd(self):
+		try:
+			self.area.addDock(self.drho,'top', self.dlamb)
+		except:
+			try:
+				self.area.addDock(self.drho,'left',self.dalpha)
+			except:
+				self.area.addDock(self.drho,'left')
+
+	def dalphaadd(self):
+		try:
+			self.area.addDock(self.dalpha,'left', self.dbeta)
+		except:
+			try:
+				self.area.addDock(self.dalpha,'right',self.drho)
+			except:
+				try:
+					self.area.addDock(self.dalpha,'top',self.dphase)
+				except:
+					self.area.addDock(self.dalpha,'left')
+
+	def dbetaadd(self):
+		try:
+			self.area.addDock(self.dbeta,'top', self.dcontrols)
+		except:
+			try:
+				self.area.addDock(self.dbeta,'right',self.dalpha)
+			except:
+				self.area.addDock(self.dbeta,'right')
+
+	def dphaseadd(self):
+		try:
+			self.area.addDock(self.dphase,'left', self.dcontrols)
+		except:
+			try:
+				self.area.addDock(self.dphase,'bottom',self.dalpha)
+			except:
+				try:
+					self.area.addDock(self.dphase,'right',self.dlamb)
+				except:
+					self.area.addDock(self.drho,'bottom')
+
+	def dcontrolsadd(self):
+		try:
+			self.area.addDock(self.dcontrols,'right', self.dphase)
+		except:
+			try:
+				self.area.addDock(self.dcontrols,'bottom',self.dbeta)
+			except:
+				self.area.addDock(self.dcontrols,'right')
+
+
+	def checkbox_init(self):
+		self.dock_on = []
+
+		self.cwindow = QtGui.QMainWindow()
+
+		self.boxeswidget=QtGui.QWidget(self.cwindow)
+		self.checkbox_layout = QtGui.QGridLayout(self.boxeswidget)
+		self.ch_lamb=QtGui.QCheckBox(self.boxeswidget)
+		self.ch_lamb.setText('\u03bb(x)')
+		self.ch_lamb.setChecked(True)
+		self.ch_lamb.stateChanged.connect(lambda : self.dlamb.close() if not self.ch_lamb.isChecked() else self.dlambadd())
+
+		self.ch_rho=QtGui.QCheckBox(self.boxeswidget)
+		self.ch_rho.setText('\u03c1(x)')
+		self.ch_rho.setChecked(True)
+		self.ch_rho.stateChanged.connect(lambda : self.drho.close() if not self.ch_rho.isChecked() else self.drhoadd())
+
+		self.ch_alpha=QtGui.QCheckBox(self.boxeswidget)
+		self.ch_alpha.setText('\u03b1')
+		self.ch_alpha.setChecked(True)
+		self.ch_alpha.stateChanged.connect(lambda : self.dalpha.close() if not self.ch_alpha.isChecked() else self.dalphaadd())
+
+		self.ch_beta=QtGui.QCheckBox(self.boxeswidget)
+		self.ch_beta.setText('\u03b2')
+		self.ch_beta.setChecked(True)
+		self.ch_beta.stateChanged.connect(lambda : self.dbeta.close() if not self.ch_beta.isChecked() else self.dbetaadd())
+
+		self.ch_phase=QtGui.QCheckBox(self.boxeswidget)
+		self.ch_phase.setText('Phase')
+		self.ch_phase.setChecked(True)
+		self.ch_phase.stateChanged.connect(lambda : self.dphase.close() if not self.ch_phase.isChecked() else self.dphaseadd())
+
+		self.ch_controls=QtGui.QCheckBox(self.boxeswidget)
+		self.ch_controls.setText('Controls')
+		self.ch_controls.setChecked(True)
+		self.ch_controls.stateChanged.connect(lambda : self.dcontrols.close() if not self.ch_controls.isChecked() else self.dcontrolsadd())
+
+		self.checkbox_layout.addWidget(self.ch_rho,0,0,1,1)
+		self.checkbox_layout.addWidget(self.ch_lamb,1,0,1,1)
+		self.checkbox_layout.addWidget(self.ch_alpha,0,1,1,1)
+		self.checkbox_layout.addWidget(self.ch_phase,1,1,1,1)
+		self.checkbox_layout.addWidget(self.ch_beta,0,2,1,1)
+		self.checkbox_layout.addWidget(self.ch_controls,1,2,1,1)	
+		self.cwindow.setCentralWidget(self.boxeswidget)		
+		
+	def checkbox(self):
+		
+		if self.copen == 0:
+			self.cwindow.show()
+			self.copen = 1
+		else:
+			self.cwindow.hide()
+			self.copen = 0
+
 	def exportdata(self):
 		
 
@@ -338,9 +478,16 @@ class MainWindow(QtGui.QMainWindow):
 		save.triggered.connect(self.savedock)
 		self.toolbar.addAction(save)
 
-		restore = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_BrowserReload)),'restore saved position',self)
+		restore = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_BrowserReload)),'Restore saved position',self)
 		restore.triggered.connect(self.restoredock)
 		self.toolbar.addAction(restore)
+		
+		self.checkbox_init()
+		checkbox = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_FileDialogDetailedView)),'Open & close specific windows',self)
+		checkbox.triggered.connect(self.checkbox)
+		self.toolbar.addAction(checkbox)
+
+
 
 	def fixdock(self):
 		if self.titlebarstate == 1:
@@ -351,6 +498,7 @@ class MainWindow(QtGui.QMainWindow):
 			self.dcontrols.hideTitleBar()
 			self.dphase.hideTitleBar()
 			self.titlebarstate = 0
+
 		else:
 			self.dlamb.showTitleBar()
 			self.drho.showTitleBar()
@@ -379,7 +527,6 @@ class MainWindow(QtGui.QMainWindow):
 		self.dphase=Dock("Phase")
 		self.dcontrols=Dock("Controls")
 
-
 		self.layout = QtGui.QHBoxLayout()
 		self.layout.addWidget(self.area)
 		self.mainframe.setLayout(self.layout)
@@ -404,6 +551,8 @@ class MainWindow(QtGui.QMainWindow):
 		self.area.addDock(self.dbeta,'right', self.dalpha)
 		self.area.addDock(self.dphase,'bottom', self.dalpha)
 		self.area.addDock(self.dcontrols,'bottom', self.dbeta)
+
+
 
 		self.setCentralWidget(self.area)
 
@@ -447,7 +596,7 @@ class MainWindow(QtGui.QMainWindow):
 					lis += j
 				glo_var.lambdas_degree = int(len(lis)/2)
 				for i in range(glo_var.lambdas_degree):
-					glo_var.lambdas += [[eval(lis[i])/100, eval(lis[i + glo_var.lambdas_degree])]]
+					glo_var.lambdas += [[eval(lis[i])/100, round(eval(lis[i + glo_var.lambdas_degree]),2)]]
 			glo_var.alpha = 0.1
 			glo_var.beta = 0.1
 			glo_var.l = 1
@@ -457,7 +606,7 @@ class MainWindow(QtGui.QMainWindow):
 			N = int(f.readline().strip())	
 			while(N>3):
 				T = f.readline().strip()
-				glo_var.lambdas +=[[eval(T)[0],eval(T)[1]]]
+				glo_var.lambdas +=[[eval(T)[0],round(eval(T)[1],2)]]
 				glo_var.lambdas_degree+=1
 				N-=1
 			glo_var.alpha = float(f.readline().strip())

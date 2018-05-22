@@ -4,6 +4,8 @@ import pyqtgraph as pg
 import glo_var
 from math import sqrt
 
+
+import pdb
 class MyROI(pg.ROI):
 	def __init__(self, pos, size=[0.03,0.03], angle=0.0, invertible=False, maxBounds=None, snapSize=1.0, scaleSnap=False, translateSnap=False, rotateSnap=False, parent=None, pen=None, movable=True, removable=False):
 		super().__init__(pos, size)
@@ -37,7 +39,7 @@ class MyROI(pg.ROI):
 			penn = self.phas.red
 		elif b> glo_var.beta_star:
 			region = 'LD ||'
-			penn = self.pahs.blue
+			penn = self.phas.blue
 		elif b > self.phas.trans_func(a):
 			region = 'LD |'
 			penn = self.phas.blue
@@ -106,12 +108,16 @@ class phase:
 		self.purple = pg.mkPen(QtGui.QColor(20,20,140,255))
 		self.red = pg.mkPen(QtGui.QColor(180,0,0,255))
 		self.blue = pg.mkPen(QtGui.QColor(20,20,140,255))
+		self.roicolor = QtGui.QPen()
+		self.roicolor.setBrush(QtGui.QColor(20,20,140,255))
+
+		# self.roicolor = QtGui.QPen.brush(QtGui.QColor(20,20,140,255))
 		self.dphase = dphase
 		self.p5 = glo_var.MyPW()
 		# self.p5=pg.PlotWidget()
 
 		# self.point = myscat([glo_var.alpha_star], [glo_var.beta_star])
-		self.p5.plot([glo_var.alpha],[glo_var.beta],pen='r', symbol='o')
+		# self.p5.plot([glo_var.alpha],[glo_var.beta],pen='r', symbol='o')
 
 		self.viewbox = self.p5.getPlotItem().getViewBox()
 		self.viewbox.setBackgroundColor('w')
@@ -119,7 +125,7 @@ class phase:
 		self.frame = glo_var.setframe(self.p5, width = 1)
 		self.dphase.addWidget(self.frame)
 		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax=1.01, yMax=1.01)
-		self.viewbox.setRange(xRange=[0,2*glo_var.alpha_star],yRange=[0,2*glo_var.beta_star],padding=0)
+		self.viewbox.setRange(xRange=[0,2*max(glo_var.alpha,glo_var.alpha_star)],yRange=[0,2*max(glo_var.beta, glo_var.beta_star)],padding=0)
 		self.viewbox.menu = None
 
 		self.p5.plotItem.addLegend = glo_var.myaddLegend
@@ -129,8 +135,8 @@ class phase:
 		self.p5.plot(pen=self.blue, name='LD |')
 		self.leg = self.p5.plotItem.legend
 
-		self.p5.setLabel('bottom',"\u03b1")
-		self.p5.setLabel('left',"\u03b2")
+		self.p5.setLabel('bottom',"\u03b1",**glo_var.labelstyle)
+		self.p5.setLabel('left',"\u03b2",**glo_var.labelstyle)
 		# self.scat = pg.ScatterPlotItem(size = 1, pen = pg.mkPen('r'), brush =pg.mkBrush(255,255,255,120))
 		self.initiate()
 
@@ -147,8 +153,8 @@ class phase:
 		# self.p1.addItem(self.sp)
 
 		self.ablim = 0.5/(1+sqrt(glo_var.l))
-		self.pointer = MyROI([self.ablim/2, self.ablim/2], size = [0.01,0.01])
-		self.pointer.setPen(self.blue)
+		self.pointer = MyROI([glo_var.alpha, glo_var.beta], size = [glo_var.alpha_star/10,glo_var.beta_star/10])
+		self.pointer.setPen(self.roicolor)
 		# self.bounds1 = pg.PlotCurveItem(np.array([glo_var.alpha_star,1]),np.array([1,glo_var.beta_star]))
 		# self.bounds1.setPen(pg.mkPen('k'))
 		self.bounds1 = np.array([[glo_var.alpha_star,glo_var.beta_star],[1,glo_var.beta_star]])
@@ -168,11 +174,11 @@ class phase:
 		self.p5.addItem(self.pointer)
 
 		
+		self.pointer.setPos(glo_var.alpha,glo_var.beta)
+		# self.ablim = 0.5/(1+sqrt(glo_var.l))
+		# self.viewbox.setRange(xRange=[0,self.ablim],yRange=[0,self.ablim],padding=0)	
 
-		self.ablim = 0.5/(1+sqrt(glo_var.l))
-		self.viewbox.setRange(xRange=[0,self.ablim],yRange=[0,self.ablim],padding=0)	
 		self.value_declaration()
-
 
 
 
@@ -192,6 +198,9 @@ class phase:
 		# self.p5.addItem(MC)
 		
 		# self.bounds1.setData(np.array([glo_var.alpha_star,glo_var.beta_star]),np.array([1,glo_var.beta_star]))
+
+
+		# self.pointer = self.MyROI([self.ablim/2, self.ablim/2], size = [glo_var.alpha_star/10,glo_var.beta_star/10])
 
 		self.bounds1 = np.array([[glo_var.alpha_star,glo_var.beta_star],[1,glo_var.beta_star]])
 		self.bounds2 = np.array([[glo_var.alpha_star,glo_var.beta_star],[glo_var.alpha_star,1]])

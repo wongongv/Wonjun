@@ -114,9 +114,8 @@ class lamb_pol:
 		# self.win = win
 		# self.p1 = pg.PlotWidget(title = '\u03bb')
 
-		self.labelstyle = {'font-size': '20px'}
-		self.p1.setLabel('bottom',"x",**self.labelstyle)
-		self.p1.setLabel('left',"\u03bb(x)",**self.labelstyle)
+		self.p1.setLabel('bottom',"x",**glo_var.labelstyle)
+		self.p1.setLabel('left',"\u03bb(x)",**glo_var.labelstyle)
 
 # I didnt use it. Think about it.
 		self.font = QtGui.QFont()
@@ -128,7 +127,15 @@ class lamb_pol:
 		self.viewbox.setBackgroundColor('w')
 
 		self.viewbox.setLimits(xMin = -0.02, yMin = -0.02, xMax = 1.02)
-		self.viewbox.setRange(xRange=[-0.02,1.02],yRange=[-0.02,1.02],padding =0)
+
+
+
+		self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas))
+		self.lambda_min=min(self.lambdas_ys)
+		self.lambda_max=max(self.lambdas_ys)
+
+
+		self.viewbox.setRange(xRange=[-0.02,1.2*self.lambda_max],yRange=[-0.02,1.2*self.lambda_max],padding =0)
 		self.sp = myscat(size = 10, pen = pg.mkPen(None), brush=pg.mkBrush(100,200,200), symbolPen='w')
 		self.lastClicked=[]
 		# self.x, self.y = zip(*sorted(glo_var.lambdas.values()))
@@ -153,7 +160,7 @@ class lamb_pol:
 		# self.spots = [{'pos':self.lambs[:,i], 'data': 1} for i in range(glo_var.lambdas_degree)]
 		# self.sp.addPoints(self.spots)
 		self.curve=pg.PlotCurveItem(np.array(self.x), np.array(self.y))
-		self.curve.setPen(pg.mkPen('k'))
+		self.curve.setPen(pg.mkPen('k',width = glo_var.line_width))
 		self.p1.addItem(self.curve)
 		self.sp.setData(self.x,self.y)
 		self.sp.sigClicked.connect(self.clicked)

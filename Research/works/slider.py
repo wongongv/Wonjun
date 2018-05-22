@@ -8,17 +8,32 @@ import numpy as np
 import glo_var
 
 class Slider(QtGui.QWidget):
-	def __init__(self, minimum, maximum, tick=0, parent=None):
+	def __init__(self, minimum, maximum, label, tick=0, parent=None):
 		super(Slider, self).__init__(parent=parent)
 		self.verticalLayout = QtGui.QVBoxLayout(self)
 		self.label = QtGui.QLabel(self)
+		self.label.setAlignment(QtCore.Qt.AlignCenter)
+		self.font = QtGui.QFont("?",18)
+		self.label.setFont(self.font)
 		self.verticalLayout.addWidget(self.label)
 		self.horizontalLayout = QtGui.QHBoxLayout()
 		spacerItem = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
 		self.horizontalLayout.addItem(spacerItem)
 		self.slider = QtGui.QSlider(self)
 		self.slider.setOrientation(QtCore.Qt.Vertical)
+		
+# check!
+		self.text_label = label
+		# self.font = QtGui.QFont("?",30, QtGui.QFont.Bold) 
+
+		# self.label2 = QtGui.QLabel(label)
+		# self.label2.setFont(self.font)
+		# self.horizontalLayout.addWidget(self.label2)
+	
+
 		self.horizontalLayout.addWidget(self.slider)
+
+
 		spacerItem1 = QtGui.QSpacerItem(0, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
 		self.horizontalLayout.addItem(spacerItem1)
 		self.verticalLayout.addLayout(self.horizontalLayout)
@@ -53,12 +68,11 @@ class Slider(QtGui.QWidget):
 		# self.x = self.minimum + (float(value) / (self.slider.maximum() - self.slider.minimum())) * (
 		# self.maximum - self.minimum)
 		self.x = value/100
-		self.label.setText("{0:.4g}".format(self.x))
+		self.label.setText(self.text_label + " : " + "{0:.4g}".format(self.x))
 
 	def intsetLabelValue(self, value):
 		self.x = value
-
-		self.label.setText("{0:.1g}".format(self.x))
+		self.label.setText(self.text_label + " : " + "{0:.2g}".format(self.x))
 
 # class Widget(QWidget):
 # 	def __init__(self, win, lamb_po, phas,rh,jalph,jbet, parent=None):
@@ -133,9 +147,10 @@ class Widget(QtGui.QWidget):
 		self.layout = pg.LayoutWidget()
 
 		self.ws=[]
-		for i in range(2) :
-			self.ws += [Slider(0, 1)]
-		self.ws += [Slider(1,10)]
+		self.ws += [Slider(0, 1,"\u03b1")]
+		self.ws += [Slider(0, 1,"\u03b2")]
+
+		self.ws += [Slider(1, 10,"l")]
 		for i in range(3) :
 			self.layout.addWidget(self.ws[i],row=0,col=i)
 		self.dcontrols.addWidget(self.layout)
@@ -150,6 +165,8 @@ class Widget(QtGui.QWidget):
 		# 	self.horizontalLayout.addWidget(self.ws[i])
 		# self.dcontrols.addWidget
 # alpha,beta,l
+
+
 
 
 # =========================================================================

@@ -14,9 +14,9 @@ class jalpha:
 		self.rh=rh
 
 
-		self.p3.setLabel('bottom',"\u03b2")
-		self.p3.setLabel('left',"J(\u03b2)")
-		self.p3.setLabel('right',"\u03c1(\u03b2)")
+		self.p3.setLabel('bottom',"\u03b1",**glo_var.labelstyle)
+		self.p3.setLabel('left',"J(\u03b1)",**glo_var.labelstyle)
+		self.p3.setLabel('right',"\u03c1(\u03b1)",**glo_var.labelstyle)
 
 		self.p3.addLegend = glo_var.myaddLegend
 		self.p3.addLegend(self.p3)
@@ -29,9 +29,10 @@ class jalpha:
 		self.p3_2.setBackgroundColor('w')
 
 		# self.p3.vb.menu = None
-		self.rho_dash = pg.mkPen('r',style=QtCore.Qt.DashLine)
-		self.dash = pg.mkPen('y',style=QtCore.Qt.DashLine)
-
+		self.rho_dash = pg.mkPen('b',width=glo_var.line_width,style=QtCore.Qt.DashLine)
+		self.dash = pg.mkPen('r',width=glo_var.line_width ,style=QtCore.Qt.DashLine)
+		self.jpen = pg.mkPen('k',width=glo_var.line_width)
+		self.alpha_pen = pg.mkPen('k',width = glo_var.line_width)
 
 		self.frame = glo_var.setframe(self.p3main, 1)
 		self.dalpha.addWidget(self.frame)
@@ -98,7 +99,7 @@ class jalpha:
 	
 		# minused 0.00000001 since it is not working
 		
-		self.p3.plot(self.alphas_pre,self.j_l_values, pen = 'k')
+		self.p3.plot(self.alphas_pre,self.j_l_values, pen = self.jpen)
 
 		# Can alpha_star be 0? then I need to add conner case
 		if glo_var.beta >= glo_var.beta_star:
@@ -106,20 +107,20 @@ class jalpha:
 		else:
 			self.jpost= self.j_r
 		
-		self.p3.plot([self.trans_point,1],[self.jpost,self.jpost],pen = 'k')
+		self.p3.plot([self.trans_point,1],[self.jpost,self.jpost],pen = self.jpen)
 
 
 
 		if self.transcheck == 1:
 			self.trans_line = self.p3.plot([self.trans_point,self.trans_point],[0,1],pen=self.dash)
 		if self.alphacheck == 1:
-			self.alpha_line = self.p3.plot([glo_var.alpha,glo_var.alpha],[0,1])
+			self.alpha_line = self.p3.plot([glo_var.alpha,glo_var.alpha],[0,1],pen = self.alpha_pen)
 		
 		self.make_right_axis()
 		self.set_range()
 
 	def legend(self):
-		self.p3.plot(pen='w', name='J')
+		self.p3.plot(pen=self.jpen, name='J')
 		self.p3.plot(pen=self.rho_dash, name='\u03c1')
 
 	def updateview(self):

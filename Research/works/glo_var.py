@@ -168,3 +168,5 @@ lambdas=[]
 lambdas_degree=0
 alpha = 0.1
 beta = 0.1
+labelstyle = {'font-size': '24px'}
+line_width = 2
