@@ -114,6 +114,7 @@ class phase:
 		# self.roicolor = QtGui.QPen.brush(QtGui.QColor(20,20,140,255))
 		self.dphase = dphase
 		self.p5 = glo_var.MyPW()
+		self.p5._rescale=self.set_range
 		# self.p5=pg.PlotWidget()
 
 		# self.point = myscat([glo_var.alpha_star], [glo_var.beta_star])
@@ -139,6 +140,9 @@ class phase:
 		self.p5.setLabel('left',"\u03b2",**glo_var.labelstyle)
 		# self.scat = pg.ScatterPlotItem(size = 1, pen = pg.mkPen('r'), brush =pg.mkBrush(255,255,255,120))
 		self.initiate()
+	def set_range(self):
+		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax=1.01, yMax=1.01)
+		self.viewbox.setRange(xRange=[0,2*max(glo_var.alpha,glo_var.alpha_star)],yRange=[0,2*max(glo_var.beta, glo_var.beta_star)],padding=0)
 
 	def initiate(self):
 		self.p5.clear()

@@ -25,14 +25,17 @@ class rho:
 
 
 		# self.viewbox=self.p2.getViewBox()
-		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax = 1.01, yMax = 1.01)
-		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l])
+		self.p2._rescale=self.set_range
 		self.viewbox.menu = None
 		self.rpen=pg.mkPen('r', width=glo_var.line_width, style=QtCore.Qt.DashLine)  
 		self.lpen=pg.mkPen('b', width=glo_var.line_width, style=QtCore.Qt.DashLine)
 		self.realpen=pg.mkPen('k', width=1)
 		self.update()
 
+	def set_range(self):
+		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax = 1.01, yMax = 1.01)
+		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l])
+		
 	def update(self):
 		# self.p2.clear()
 		# self.linspace=np.linspace(0,1,100)

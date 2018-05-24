@@ -9,6 +9,7 @@ class jalpha:
 
 		self.dalpha = dalpha
 		self.p3main = glo_var.MyPW()
+		self.p3main._rescale = self.set_range
 		self.p3 = self.p3main.plotItem
 
 		self.rh=rh
@@ -118,6 +119,8 @@ class jalpha:
 		
 		self.make_right_axis()
 		self.set_range()
+		if self.jpost < 0.1:
+			self.set_range()
 
 	def legend(self):
 		self.p3.plot(pen=self.jpen, name='J')

@@ -12,6 +12,7 @@ class jbeta:
 
 		self.dbeta = dbeta
 		self.p4main = glo_var.MyPW()
+		self.p4main._rescale = self.set_range
 		self.p4 = self.p4main.plotItem
 		self.viewbox = self.p4.getViewBox()
 		# self.viewbox.setBackgroundColor('w')

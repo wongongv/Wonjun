@@ -15,8 +15,9 @@ import pyqtgraph.widgets.RemoteGraphicsView
 from pyqtgraph.widgets.GraphicsLayoutWidget import GraphicsLayoutWidget
 import pyqtgraph.widgets.RemoteGraphicsView
 from pyqtgraph.dockarea import *
-
-import pdb
+from pyqtgraph import exporters
+import os.path
+import os.mkdirs
 
 # for free movement
 	# def __init__(self,parent=None):
@@ -449,10 +450,27 @@ class MainWindow(QtGui.QMainWindow):
 			self.cwindow.hide()
 			self.copen = 0
 
-	def exportdata(self):
-		
 
-		pass
+	def exportdata(self):
+		folder_name = QtGui.QFileDialog.getSaveFileName(self, "Save Files")
+
+		print(folder_name)
+		filepath = os.path.join(os.path.abspath(os.sep), folder_name)
+		if not os.path.exists(filepath):
+		    os.makedirs(filepath)
+		f = open(filepath, "a")
+
+
+		#Assuming res is a flat list
+		with open(csvfile, "w") as output:
+		    writer = csv.writer(output, lineterminator='\n')
+		    for val in [3,4,5,6,1,2,3]:
+		        writer.writerow([val])    
+
+		# #Assuming res is a list of lists
+		# with open(csvfile, "w") as output:
+		#     writer = csv.writer(output, lineterminator='\n')
+		#     writer.writerows(res)
 
 
 	# def setExportMethods(self, methods):
@@ -469,6 +487,12 @@ class MainWindow(QtGui.QMainWindow):
 		self.state = None
 		self.titlebarstate = 1
 		self.toolbar = self.addToolBar("Toolbar")
+
+
+		home = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_ComputerIcon)),'Default dock position',self)
+		home.triggered.connect(self.homedock)
+		self.toolbar.addAction(home)
+
 
 		fix = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_ArrowDown)),'Fix current position',self)
 		fix.triggered.connect(self.fixdock)
@@ -518,6 +542,8 @@ class MainWindow(QtGui.QMainWindow):
 
 	def realinit(self):
 		
+
+		self.docklist = ['self.drho','self.dlamb','self.dalpha','self.dbeta','self.dphase','self.dcontrols']
 		self.area = DockArea()
 		
 		self.drho = Dock("\u03c1")
@@ -545,6 +571,15 @@ class MainWindow(QtGui.QMainWindow):
 		self.lamb_po.receive(self.slid)
 
 
+		self.homedock()
+		self.setCentralWidget(self.area)
+
+	def homedock(self):
+		for i in self.docklist:
+			try:
+				eval(i).close()
+			except:
+				pass
 		self.area.addDock(self.drho, 'left')
 		self.area.addDock(self.dlamb,'bottom', self.drho)
 		self.area.addDock(self.dalpha,'right')
@@ -552,9 +587,6 @@ class MainWindow(QtGui.QMainWindow):
 		self.area.addDock(self.dphase,'bottom', self.dalpha)
 		self.area.addDock(self.dcontrols,'bottom', self.dbeta)
 
-
-
-		self.setCentralWidget(self.area)
 
 	def checkboxes(self):
 		self.alphacheck()
@@ -580,7 +612,7 @@ class MainWindow(QtGui.QMainWindow):
 			self.realinit()
 
 	def read_file(self, input):
-		global ison	
+		global ison 
 		if ison == 0:
 			ison = 1
 		else:
@@ -594,24 +626,33 @@ class MainWindow(QtGui.QMainWindow):
 				lis = []
 				for j in spamreader:
 					lis += j
-				glo_var.lambdas_degree = int(len(lis)/2)
-				for i in range(glo_var.lambdas_degree):
-					glo_var.lambdas += [[eval(lis[i])/100, round(eval(lis[i + glo_var.lambdas_degree]),2)]]
-			glo_var.alpha = 0.1
-			glo_var.beta = 0.1
+				num_of_inputs = len(lis)
+				glo_var.lambdas_degree = num_of_inputs
+				for i in range(num_of_inputs):
+					glo_var.lambdas += [[i/(num_of_inputs - 1), round(eval(lis[i]),2)]]
+			glo_var.alpha = 0.2
+			glo_var.beta = 0.2
 			glo_var.l = 1
 
 		elif input[-3:] == 'txt':
 			f = open(input,'r')
-			N = int(f.readline().strip())	
-			while(N>3):
-				T = f.readline().strip()
-				glo_var.lambdas +=[[eval(T)[0],round(eval(T)[1],2)]]
-				glo_var.lambdas_degree+=1
-				N-=1
-			glo_var.alpha = float(f.readline().strip())
-			glo_var.beta = float(f.readline().strip())
-			glo_var.l = int(f.readline().strip())
+			N = int(f.readline().strip())
+ # Breaks the loop i 
+			try:
+				while(True):
+					if(eval(T) > -1):
+						T = f.readline().strip()
+						glo_var.lambdas +=[[glo_var.lambdas_degree,round(eval(T),2)]]
+						glo_var.lambdas_degree+=1
+			except:
+				pass
+
+			glo_var.alpha = 0.2
+			glo_var.beta = 0.2
+			glo_var.l = 1
+			# glo_var.alpha = float(f.readline().strip())
+			# glo_var.beta = float(f.readline().strip())
+			# glo_var.l = int(f.readline().strip())
 		else:
 			err = QtGui.QMessageBox(self.win)
 			err.setIcon(QMessageBox().Warning)
@@ -619,6 +660,7 @@ class MainWindow(QtGui.QMainWindow):
 			err.setWindowTitle("File Format Error")
 			err.setStandardButtons(QMessageBox.Ok)
 			err.buttonClicked.connect()
+
 
 
 

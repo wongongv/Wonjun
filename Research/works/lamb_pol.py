@@ -50,7 +50,6 @@ class myscat(pg.ScatterPlotItem):
 			ev.ignore()
 	 
 	def wheelEvent(self, ev, axis=None):
-		print(self.lamb_po.lastClicked)
 		if len(self.lamb_po.lastClicked) ==1:
 			s = self.ptsClicked[0]._data[1]+ ev.delta() / 2000 # actual scaling factor
 			if s > 1:
@@ -106,7 +105,7 @@ class lamb_pol:
 		self.dlamb = dlamb
 
 		self.p1 = glo_var.MyPW()
-		
+		self.p1._rescale = self.set_range
 		# self.viewbox = self.p1.getPlotItem().getViewBox()
 		# self.viewbox.setBackgroundColor('w')
 		# self.item = self.p1.getPlotItem()
@@ -134,8 +133,7 @@ class lamb_pol:
 		self.lambda_min=min(self.lambdas_ys)
 		self.lambda_max=max(self.lambdas_ys)
 
-
-		self.viewbox.setRange(xRange=[-0.02,1.2*self.lambda_max],yRange=[-0.02,1.2*self.lambda_max],padding =0)
+		self.set_range()
 		self.sp = myscat(size = 10, pen = pg.mkPen(None), brush=pg.mkBrush(100,200,200), symbolPen='w')
 		self.lastClicked=[]
 		# self.x, self.y = zip(*sorted(glo_var.lambdas.values()))
@@ -151,6 +149,8 @@ class lamb_pol:
 		
 		self.update()
 
+	def set_range(self):
+		self.viewbox.setRange(xRange=[-0.02,1.2*self.lambda_max],yRange=[-0.02,1.2*self.lambda_max],padding =0)
 	def update(self):
 		self.p1.clear()
 
