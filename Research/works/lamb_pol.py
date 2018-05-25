@@ -80,7 +80,7 @@ class Menu(QtGui.QMenu):
 		self.point = point
 		self.item = item
 		self.removal = self.addAction("Remove point", lambda :self.item.remove_point())
-		self.positionMenu = self.addMenu("Change \u03bb(x)")
+		self.positionMenu = self.addMenu("Change \u03bb")
 		self.w=QtGui.QWidget()
 		self.l=QtGui.QGridLayout()
 
@@ -104,17 +104,18 @@ class lamb_pol:
 	def __init__(self,dlamb) :
 		self.dlamb = dlamb
 
-		self.p1 = glo_var.MyPW()
-		self.p1._rescale = self.set_range
-		# self.viewbox = self.p1.getPlotItem().getViewBox()
+		self.p1main = glo_var.MyPW()
+		self.p1main._rescale = self.set_range
+		self.p1=self.p1main.plotItem
+		# self.viewbox = self.p1main.getPlotItem().getViewBox()
 		# self.viewbox.setBackgroundColor('w')
-		# self.item = self.p1.getPlotItem()
+		# self.item = self.p1main.getPlotItem()
 
 		# self.win = win
-		# self.p1 = pg.PlotWidget(title = '\u03bb')
+		# self.p1main = pg.PlotWidget(title = '\u03bb')
 
-		self.p1.setLabel('bottom',"x",**glo_var.labelstyle)
-		self.p1.setLabel('left',"\u03bb(x)",**glo_var.labelstyle)
+		self.p1main.setLabel('bottom',"x",**glo_var.labelstyle)
+		self.p1main.setLabel('left',"\u03bb(x)",**glo_var.labelstyle)
 
 # I didnt use it. Think about it.
 		self.font = QtGui.QFont()
@@ -122,7 +123,7 @@ class lamb_pol:
 
 
 
-		self.viewbox=self.p1.getViewBox()
+		self.viewbox=self.p1main.getViewBox()
 		self.viewbox.setBackgroundColor('w')
 
 		self.viewbox.setLimits(xMin = -0.02, yMin = -0.02, xMax = 1.02)
@@ -140,11 +141,11 @@ class lamb_pol:
 		# self.lambs = np.array([self.x,self.y])
 		# self.spots = [{'pos':self.lambs[:,i], 'data': 1} for i in range(glo_var.lambdas_degree)]
 		# self.sp.addPoints(self.spots)
-		# self.p1.addItem(self.sp)
-		self.viewbox.menu = None
+		# self.p1main.addItem(self.sp)
+		# self.viewbox.menu = None
 
 
-		self.frame = glo_var.setframe(self.p1, width = 1)
+		self.frame = glo_var.setframe(self.p1main, width = 1)
 		self.dlamb.addWidget(self.frame)
 		
 		self.update()
@@ -152,7 +153,7 @@ class lamb_pol:
 	def set_range(self):
 		self.viewbox.setRange(xRange=[-0.02,1.2*self.lambda_max],yRange=[-0.02,1.2*self.lambda_max],padding =0)
 	def update(self):
-		self.p1.clear()
+		self.p1main.clear()
 
 
 		self.x, self.y = zip(*sorted(glo_var.lambdas))
@@ -161,10 +162,10 @@ class lamb_pol:
 		# self.sp.addPoints(self.spots)
 		self.curve=pg.PlotCurveItem(np.array(self.x), np.array(self.y))
 		self.curve.setPen(pg.mkPen('k',width = glo_var.line_width))
-		self.p1.addItem(self.curve)
+		self.p1main.addItem(self.curve)
 		self.sp.setData(self.x,self.y)
 		self.sp.sigClicked.connect(self.clicked)
-		self.p1.addItem(self.sp)
+		self.p1main.addItem(self.sp)
 
 
 	def clicked(self, item, points):
@@ -186,7 +187,7 @@ class lamb_pol:
 		# self.ax.set_xlim(0,1)
 		# self.pol_points=glo_var.lambdas
 		# self.pol_x, self.pol_y = zip(*sorted(self.pol_points.values()))
-		# self.pol_z = interp1d(self.pol_x, self.pol_y)
+		# self.pol_z = interp1maind(self.pol_x, self.pol_y)
 		# # self.pol_z=CubicSpline(self.pol_x, self.pol_y) # Use the interactive widget! that receives input.
 		# # self.pol_f=np.poly1d(self.pol_z)
 		# self.x = np.linspace(0,1,glo_var.lambdas_degree * 10)							 # maybe need to change 50 according to the # of knobs
@@ -195,4 +196,4 @@ class lamb_pol:
 	# def clear(self):
 		# self.ax.remove()
 	# def new_update(self):
-	# 	self.p1.setData
+	# 	self.p1main.setData

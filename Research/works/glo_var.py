@@ -75,6 +75,8 @@ class MyPW(pg.PlotWidget):
 		self.plotItem.autoBtn = ButtonItem.ButtonItem(pixmaps.getPixmap('default'), 14, self.plotItem)
 		self._rescale = lambda:None
 		self.plotItem.autoBtn.clicked.connect(self._rescale)
+		self.plotItem.vb.menu.clear()
+		self.plotItem.ctrlMenu = None
 	# doubleClicked = pyqtSignal()
 	#
 	#

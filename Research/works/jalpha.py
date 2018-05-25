@@ -16,8 +16,8 @@ class jalpha:
 
 
 		self.p3.setLabel('bottom',"\u03b1",**glo_var.labelstyle)
-		self.p3.setLabel('left',"J(\u03b1)",**glo_var.labelstyle)
-		self.p3.setLabel('right',"\u03c1(\u03b1)",**glo_var.labelstyle)
+		self.p3.setLabel('left',"J",**glo_var.labelstyle)
+		self.p3.setLabel('right',"\u03c1",**glo_var.labelstyle)
 
 		self.p3.addLegend = glo_var.myaddLegend
 		self.p3.addLegend(self.p3)
@@ -29,7 +29,6 @@ class jalpha:
 		self.p3_2.setXLink(self.p3)
 		self.p3_2.setBackgroundColor('w')
 
-		# self.p3.vb.menu = None
 		self.rho_dash = pg.mkPen('b',width=glo_var.line_width,style=QtCore.Qt.DashLine)
 		self.dash = pg.mkPen('r',width=glo_var.line_width ,style=QtCore.Qt.DashLine)
 		self.jpen = pg.mkPen('k',width=glo_var.line_width)

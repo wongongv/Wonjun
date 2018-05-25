@@ -17,7 +17,7 @@ import pyqtgraph.widgets.RemoteGraphicsView
 from pyqtgraph.dockarea import *
 from pyqtgraph import exporters
 import os.path
-import os.mkdirs
+from os import makedirs
 
 # for free movement
 	# def __init__(self,parent=None):
@@ -246,7 +246,7 @@ class MainWindow(QtGui.QMainWindow):
 		QtGui.QMainWindow.__init__(self, parent)
 	
 		# self.setWindowIcon (QtGui.QIcon('sicon.jpg'))
-		self.setWindowTitle('TASEP')  
+		self.setWindowTitle('CIVET')  
 
 		self.setGeometry(200,100,500,500)
 		self.resize(QtGui.QDesktopWidget().availableGeometry(self).size() * 1)
@@ -442,7 +442,6 @@ class MainWindow(QtGui.QMainWindow):
 		self.cwindow.setCentralWidget(self.boxeswidget)		
 		
 	def checkbox(self):
-		
 		if self.copen == 0:
 			self.cwindow.show()
 			self.copen = 1
@@ -452,20 +451,38 @@ class MainWindow(QtGui.QMainWindow):
 
 
 	def exportdata(self):
-		folder_name = QtGui.QFileDialog.getSaveFileName(self, "Save Files")
+		self.dialog = QtGui.QFileDialog()
+		self.dialog.setOption(QtGui.QFileDialog.ShowDirsOnly)
+		self.dialog.setFileMode(QtGui.QFileDialog.DirectoryOnly)
 
-		print(folder_name)
+		folder_name = self.dialog.getSaveFileName(self, "Save Directory")
 		filepath = os.path.join(os.path.abspath(os.sep), folder_name)
 		if not os.path.exists(filepath):
-		    os.makedirs(filepath)
-		f = open(filepath, "a")
+			makedirs(filepath)
 
 
+		file1=os.path.join(filepath, "Lambdas_data.csv")
 		#Assuming res is a flat list
-		with open(csvfile, "w") as output:
-		    writer = csv.writer(output, lineterminator='\n')
-		    for val in [3,4,5,6,1,2,3]:
-		        writer.writerow([val])    
+		# with open(filepath + 'h', "w") as output:
+		with open(file1, "w") as output:
+			writer = csv.writer(output, lineterminator='\n')
+			for val in [3,4,5,6,1,2,3]:
+				writer.writerow([val])  
+		
+		for name, pitem in self.pltlist:
+			self.exportimg(pitem,os.path.join(filepath,name + ".png"))
+
+	
+	def exportimg(self,img,path):
+		self.img = pg.exporters.ImageExporter(img)
+		self.img.export(path)
+	
+
+
+		# p1 = QtGui.QPixmap.grabWindow(widget.winId())
+		# p.save(filename, 'jpg') 
+
+
 
 		# #Assuming res is a list of lists
 		# with open(csvfile, "w") as output:
@@ -570,9 +587,11 @@ class MainWindow(QtGui.QMainWindow):
 		self.slid=slider.Widget(self.dcontrols, self.lamb_po,self.phas, self.rh, self.jbet,self.jalph)
 		self.lamb_po.receive(self.slid)
 
+		self.pltlist = [['Lambdas_fig', self.lamb_po.p1], ['Rho_fig',self.rh.p2], ['Jalpha_fig', self.jalph.p3], ['Jbeta_fig',self.jbet.p4], ['Phase_fig',self.phas.p5]]
 
 		self.homedock()
 		self.setCentralWidget(self.area)
+
 
 	def homedock(self):
 		for i in self.docklist:

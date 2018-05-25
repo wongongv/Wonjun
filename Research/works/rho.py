@@ -11,22 +11,21 @@ class rho:
 	def __init__(self,drho):
 
 		self.drho = drho
-		self.p2 = glo_var.MyPW()
-		self.viewbox = self.p2.getPlotItem().getViewBox()
+		self.p2main = glo_var.MyPW()
+		self.viewbox = self.p2main.getPlotItem().getViewBox()
 		self.viewbox.setBackgroundColor('w')
-		self.item = self.p2.getPlotItem()
+		self.p2 = self.p2main.plotItem
 
-		self.frame = glo_var.setframe(self.p2, width = 1)
+		self.frame = glo_var.setframe(self.p2main, width = 1)
 		self.drho.addWidget(self.frame)
 
 
-		self.p2.setLabel('left',"\u03c1",**glo_var.labelstyle)
-		self.p2.setLabel('bottom',"x",**glo_var.labelstyle)
+		self.p2main.setLabel('left',"\u03c1",**glo_var.labelstyle)
+		self.p2main.setLabel('bottom',"x",**glo_var.labelstyle)
 
 
-		# self.viewbox=self.p2.getViewBox()
-		self.p2._rescale=self.set_range
-		self.viewbox.menu = None
+		# self.viewbox=self.p2main.getViewBox()
+		self.p2main._rescale=self.set_range
 		self.rpen=pg.mkPen('r', width=glo_var.line_width, style=QtCore.Qt.DashLine)  
 		self.lpen=pg.mkPen('b', width=glo_var.line_width, style=QtCore.Qt.DashLine)
 		self.realpen=pg.mkPen('k', width=1)
@@ -37,7 +36,7 @@ class rho:
 		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l])
 		
 	def update(self):
-		# self.p2.clear()
+		# self.p2main.clear()
 		# self.linspace=np.linspace(0,1,100)
 		# self.lambda_ys=glo_var.lambda_function(self.linspace)
 
@@ -66,12 +65,12 @@ class rho:
 		# glo_var.alpha_star=self.alpha_star
 		# glo_var.beta_star=self.beta_star
 
-		# self.p2.plot(self.linspace, self.rho_l, name = r'\rho_L',pen='r')
-		# self.p2.plot(self.linspace, self.rho_r, name = r'\rho_R',pen='b')
+		# self.p2main.plot(self.linspace, self.rho_l, name = r'\rho_L',pen='r')
+		# self.p2main.plot(self.linspace, self.rho_r, name = r'\rho_R',pen='b')
 
 # should care about when there is no lambda? division by zero error.
 
-		self.p2.clear()
+		self.p2main.clear()
 		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l])
 		self.value_declaration()
 		self.cal_stars()
@@ -85,17 +84,17 @@ class rho:
 
 
 
-		self.p2.plot(self.lambdas_xval, self.rho_l, name = r'\rho_L',pen=self.lpen)
-		self.p2.plot(self.lambdas_xval, self.rho_r, name = r'\rho_R',pen=self.rpen)
+		self.p2main.plot(self.lambdas_xval, self.rho_l, name = r'\rho_L',pen=self.lpen)
+		self.p2main.plot(self.lambdas_xval, self.rho_r, name = r'\rho_R',pen=self.rpen)
 		self.plot_scat(self.scat_step)
-		self.p2.plot(self.scat_xs, self.scat_ys, pen=None, symbol='o', symbolPen='r')
+		self.p2main.plot(self.scat_xs, self.scat_ys, pen=None, symbol='o', symbolPen='r')
 
 		if self.num_mins > 1:
 			c = np.rec.fromarrays([self.scat_xs,self.scat_ys])
 			c.sort()
-			self.p2.plot(c.f0,c.f1, pen=self.realpen)
+			self.p2main.plot(c.f0,c.f1, pen=self.realpen)
 		else:
-			self.p2.plot(self.scat_xs, self.scat_ys, pen=self.realpen)
+			self.p2main.plot(self.scat_xs, self.scat_ys, pen=self.realpen)
 		# until here.
 # calculating transition line
 		# self.al_func = lambda x : x*(self.lambda_0-x)/(self.lambda_0 + (self.l - 1)*x)
@@ -294,7 +293,7 @@ class rho:
 	# 		if self.num_mins == 1 :
 	# 			self.scat_xs = self.getscatarray(self.lambdas_xval[:self.min_location_1*self.xperlambdas],steps) + self.getscatarray(self.lambdas_xval[self.min_location_1*self.xperlambdas:],steps)
 	# 			self.scat_ys = self.getscatarray(self.rho_r[:self.min_location_1*self.xperlambdas],steps) + self.getscatarray(self.rho_l[self.min_location_1*self.xperlambdas:],steps)
-	# 			self.p2.plot(self.scat_xs, self.scat_ys, pen=None, symbol='o', symbolPen='r')
+	# 			self.p2main.plot(self.scat_xs, self.scat_ys, pen=None, symbol='o', symbolPen='r')
 	# 		elif self.num_mins == 2:
 	# 			self.scat_xs =  self.getscatarray(self.lambdas_xval[:self.min_location_1*self.xperlambdas],steps) \
 	# 							+ self.getscatarray(self.lambdas_xval[self.min_location_1*self.xperlambdas:self.max_location_1*self.xperlambdas-cross_steps],steps) \

@@ -22,15 +22,14 @@ class jbeta:
 		self.frame = glo_var.setframe(self.p4main, width = 1)
 		self.dbeta.addWidget(self.frame)
 
-		self.p4.setLabel('left',"J(\u03b2)",**glo_var.labelstyle)
+		self.p4.setLabel('left',"J",**glo_var.labelstyle)
 
 		self.p4.setLabel('bottom',"\u03b2",**glo_var.labelstyle)
 
-		self.p4.setLabel('right',"\u03c1(\u03b2)",**glo_var.labelstyle)
+		self.p4.setLabel('right',"\u03c1",**glo_var.labelstyle)
 
 
 		self.rh=rh
-		self.viewbox.menu = None
 		self.rho_dash = pg.mkPen('b',width=glo_var.line_width,style=QtCore.Qt.DashLine)
 		self.dash = pg.mkPen('r',width=glo_var.line_width,style=QtCore.Qt.DashLine)
 		self.jpen = pg.mkPen('k',width=glo_var.line_width)

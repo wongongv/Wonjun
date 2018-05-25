@@ -48,7 +48,7 @@ class MyROI(pg.ROI):
 			region = 'HD |'
 		self.phas.pointer.setPen(penn)
 		self.phas.leg.items = []
-		self.phas.p5.plot(pen=penn, name=region)
+		self.phas.p5main.plot(pen=penn, name=region)
 		
 class myscat(pg.ScatterPlotItem):
 
@@ -113,31 +113,32 @@ class phase:
 
 		# self.roicolor = QtGui.QPen.brush(QtGui.QColor(20,20,140,255))
 		self.dphase = dphase
-		self.p5 = glo_var.MyPW()
-		self.p5._rescale=self.set_range
-		# self.p5=pg.PlotWidget()
+		self.p5main = glo_var.MyPW()
+		self.p5main._rescale=self.set_range
+		self.p5=self.p5main.plotItem
+		# self.p5main=pg.PlotWidget()
 
 		# self.point = myscat([glo_var.alpha_star], [glo_var.beta_star])
-		# self.p5.plot([glo_var.alpha],[glo_var.beta],pen='r', symbol='o')
+		# self.p5main.plot([glo_var.alpha],[glo_var.beta],pen='r', symbol='o')
 
-		self.viewbox = self.p5.getPlotItem().getViewBox()
+		self.viewbox = self.p5main.getPlotItem().getViewBox()
 		self.viewbox.setBackgroundColor('w')
 
-		self.frame = glo_var.setframe(self.p5, width = 1)
+		self.frame = glo_var.setframe(self.p5main, width = 1)
 		self.dphase.addWidget(self.frame)
 		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax=1.01, yMax=1.01)
 		self.viewbox.setRange(xRange=[0,2*max(glo_var.alpha,glo_var.alpha_star)],yRange=[0,2*max(glo_var.beta, glo_var.beta_star)],padding=0)
-		self.viewbox.menu = None
-
-		self.p5.plotItem.addLegend = glo_var.myaddLegend
-		self.p5.addLegend(self.p5.plotItem)
 
 
-		self.p5.plot(pen=self.blue, name='LD |')
-		self.leg = self.p5.plotItem.legend
+		self.p5main.plotItem.addLegend = glo_var.myaddLegend
+		self.p5main.addLegend(self.p5main.plotItem)
 
-		self.p5.setLabel('bottom',"\u03b1",**glo_var.labelstyle)
-		self.p5.setLabel('left',"\u03b2",**glo_var.labelstyle)
+
+		self.p5main.plot(pen=self.blue, name='LD |')
+		self.leg = self.p5main.plotItem.legend
+
+		self.p5main.setLabel('bottom',"\u03b1",**glo_var.labelstyle)
+		self.p5main.setLabel('left',"\u03b2",**glo_var.labelstyle)
 		# self.scat = pg.ScatterPlotItem(size = 1, pen = pg.mkPen('r'), brush =pg.mkBrush(255,255,255,120))
 		self.initiate()
 	def set_range(self):
@@ -145,7 +146,7 @@ class phase:
 		self.viewbox.setRange(xRange=[0,2*max(glo_var.alpha,glo_var.alpha_star)],yRange=[0,2*max(glo_var.beta, glo_var.beta_star)],padding=0)
 
 	def initiate(self):
-		self.p5.clear()
+		self.p5main.clear()
 
 		# self.pointer = myscat([glo_var.alpha_star], [glo_var.beta_star])
 
@@ -164,18 +165,18 @@ class phase:
 		self.bounds1 = np.array([[glo_var.alpha_star,glo_var.beta_star],[1,glo_var.beta_star]])
 		self.bounds2 = np.array([[glo_var.alpha_star,glo_var.beta_star],[glo_var.alpha_star,1]])
 		self.bounds3 = np.array([[0,0],[glo_var.alpha_star,glo_var.beta_star]])
-		self.p5.plot(self.bounds1)
-		self.p5.plot(self.bounds2)
-		self.p5.plot(self.bounds3)
-		# self.p5.plot([glo_var.alpha],[glo_var.beta],pen='r', symbol='o')
-		# self.p5.plot([glo_var.alpha],[glo_var.beta],pen=None, symbol='o')
+		self.p5main.plot(self.bounds1)
+		self.p5main.plot(self.bounds2)
+		self.p5main.plot(self.bounds3)
+		# self.p5main.plot([glo_var.alpha],[glo_var.beta],pen='r', symbol='o')
+		# self.p5main.plot([glo_var.alpha],[glo_var.beta],pen=None, symbol='o')
 
 	def update(self):
-		self.p5.clear()
+		self.p5main.clear()
 
 
 		# r = pg.PolyLineROI([(glo_var.alpha_star, glo_var.beta_star)])
-		self.p5.addItem(self.pointer)
+		self.p5main.addItem(self.pointer)
 
 		
 		self.pointer.setPos(glo_var.alpha,glo_var.beta)
@@ -192,14 +193,14 @@ class phase:
 			glo_var.beta = 2*glo_var.beta_star
 
 		HD = pg.TextItem(html='HD', anchor=(glo_var.alpha_star,0.5*glo_var.beta_star), border='w', fill=(255, 0, 0, 250))
-		# self.p5.addItem(HD)
+		# self.p5main.addItem(HD)
 		HD.setPos(glo_var.alpha_star,0.5*glo_var.beta_star)
 		LD = pg.TextItem(html='LD', anchor=(glo_var.alpha_star*0.3,glo_var.beta_star*1.3), border='w', fill=(0, 255, 0, 200))
-		# self.p5.addItem(LD)
+		# self.p5main.addItem(LD)
 		LD.setPos(glo_var.alpha_star*0.3,glo_var.beta_star*1.3)
 		MC = pg.TextItem(html='MC', anchor=(glo_var.alpha_star*1.2,glo_var.beta_star*1.3), border='w', fill=(0, 0, 255, 200))
 		MC.setPos(glo_var.alpha_star*1.2,glo_var.beta_star*1.3)
-		# self.p5.addItem(MC)
+		# self.p5main.addItem(MC)
 		
 		# self.bounds1.setData(np.array([glo_var.alpha_star,glo_var.beta_star]),np.array([1,glo_var.beta_star]))
 
@@ -212,15 +213,15 @@ class phase:
 		trans_line_val=[]
 		for i in linspace:
 			trans_line_val += [self.trans_func(i)]
-		self.p5.plot(self.bounds1, pen = 'k')
-		self.p5.plot(self.bounds2, pen = 'k')
-		self.p5.plot(linspace,trans_line_val, pen = 'k')
+		self.p5main.plot(self.bounds1, pen = 'k')
+		self.p5main.plot(self.bounds2, pen = 'k')
+		self.p5main.plot(linspace,trans_line_val, pen = 'k')
 
 		# self.point = np.array([glo_var.alpha,glo_var.beta])
 		# self.spots = [{'pos': self.point, 'size':1e-6, 'pen':{'color':'w','width':2}}]
 		# self.scat.addPoints(self.spots)	
-		# self.p5.addItem(self.scat)
-		# self.p5.plot([glo_var.alpha],[glo_var.beta],pen=None, symbol='o')
+		# self.p5main.addItem(self.scat)
+		# self.p5main.plot([glo_var.alpha],[glo_var.beta],pen=None, symbol='o')
 
 	# def receive(self,slid):
 	# 	self.slid = slid
