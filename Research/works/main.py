@@ -501,7 +501,8 @@ class MainWindow(QtGui.QMainWindow):
 		# with open(filepath + 'h', "w") as output:
 		with open(file1, "w") as output:
 			writer = csv.writer(output, lineterminator='\n')
-			for val in [3,4,5,6,1,2,3]:
+			print(glo_var.lambdas)
+			for val in glo_var.lambdas:
 				writer.writerow([val])  
 		
 		for name, pitem in self.pltlist:

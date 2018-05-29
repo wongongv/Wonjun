@@ -71,6 +71,10 @@ class MyPW(pg.PlotWidget):
 		self.plotItem.vb.menu.clear()
 		self.plotItem.ctrlMenu = None
 
+# delete default view, get rid of Export
+		self.plotItem.hideButtons()
+		self.plotItem.scene().contextMenu = None  # get rid of 'Export'
+
 	# 	self.vLine = pg.InfiniteLine(angle=90, movable=False)
 	# 	self.hLine = pg.InfiniteLine(angle=0, movable=False)
 	# 	self.proxy = pg.SignalProxy(self.plotItem.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
