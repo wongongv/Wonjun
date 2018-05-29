@@ -564,7 +564,15 @@ class MainWindow(QtGui.QMainWindow):
 		checkbox = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_FileDialogDetailedView)),'Open & close specific windows',self)
 		checkbox.triggered.connect(self.checkbox)
 		self.toolbar.addAction(checkbox)
+	
+		spacer = QtGui.QWidget(self)
+		spacer.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+		self.toolbar.addWidget(spacer)
+		# toolbar.addWidget(label)
 
+		info = QtGui.QAction(QtGui.QIcon("logo.png"),"Information",self)
+		# info.triggered.connect(self.checkbox)
+		self.toolbar.addAction(info)
 
 
 	def fixdock(self):
@@ -635,24 +643,6 @@ class MainWindow(QtGui.QMainWindow):
 		self.default_view_1()
 		self.setCentralWidget(self.area)
 
-
-	def default_view_2(self):
-		for i in self.docklist:
-			try:
-				eval(i).close()
-			except:
-				pass
-		self.area.addDock(self.drho, 'top')
-		self.area.addDock(self.dlamb,'bottom', self.drho)
-		self.area.addDock(self.dphase,'bottom')
-		self.area.addDock(self.dcontrols, 'left', self.dphase)
-		self.area.addDock(self.dalpha,'right')
-		self.area.addDock(self.dbeta,'bottom', self.dalpha)
-
-
-
-		
-
 	def default_view_1(self):
 		for i in self.docklist:
 			try:
@@ -681,15 +671,30 @@ class MainWindow(QtGui.QMainWindow):
 		self.dalpha.setMinimumSize(0,0)
 		self.dbeta.setMinimumSize(0,0)
 
+
+	def default_view_2(self):
+		for i in self.docklist:
+			try:
+				eval(i).close()
+			except:
+				pass
+		self.area.addDock(self.drho, 'top')
+		self.area.addDock(self.dlamb,'bottom', self.drho)
+		self.area.addDock(self.dphase,'bottom')
+		self.area.addDock(self.dcontrols, 'left', self.dphase)
+		self.area.addDock(self.dalpha,'right')
+		self.area.addDock(self.dbeta,'bottom', self.dalpha)
+
+
 	def checkboxes(self):
 		self.alphacheck()
 
-	def alphacheck(self):
-		self.alphline = QtGui.QCheckBox('\u03B1 line')
-		self.alproxy=QtGui.QGraphicsProxyWidget()
-		self.alproxy.setWidget(self.alphline)
-		self.win.addItem(self.alphline)
-		self.alphline.stateChanged.connect(self.alphstate)
+	# def alphacheck(self):
+	# 	self.alphline = QtGui.QCheckBox('\u03B1 line')
+	# 	self.alproxy=QtGui.QGraphicsProxyWidget()
+	# 	self.alproxy.setWidget(self.alphline)
+	# 	self.win.addItem(self.alphline)
+	# 	self.alphline.stateChanged.connect(self.alphstate)
 
 
 	def opengraphs(self):
@@ -757,15 +762,15 @@ class MainWindow(QtGui.QMainWindow):
 
 
 
-	def alphstate(self):
-		self.alph.alphacheck * (-1)
-		self.alph.update()
-	def betacheck(self):
-		return
-	def rhocheck(self):
-		return
-	def phasecheck(self):
-		return
+	# def alphstate(self):
+	# 	self.alph.alphacheck * (-1)
+	# 	self.alph.update()
+	# def betacheck(self):
+	# 	return
+	# def rhocheck(self):
+	# 	return
+	# def phasecheck(self):
+	# 	return
 
 
 

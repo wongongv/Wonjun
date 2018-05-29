@@ -17,8 +17,9 @@ class Slider(QtGui.QWidget):
 		self.label.setFont(self.font)
 		
 		if label == "l":
-			self.spin = pg.SpinBox(value = glo_var.l, bounds = [1, None])
-			self.intspinargs = {'int':True}
+			self.spin = pg.SpinBox(value = glo_var.l)
+			self.spin.setRange(1,20)
+			self.intspinargs = {'int':True,'step':1}
 			self.spin.setOpts(**self.intspinargs)
 		else:
 			self.spin = pg.SpinBox(value=glo_var.alpha, bounds=[0, 1])
@@ -36,6 +37,8 @@ class Slider(QtGui.QWidget):
 		
 # check!
 		self.text_label = label
+		self.label.setText(self.text_label)
+
 		# self.font = QtGui.QFont("?",30, QtGui.QFont.Bold) 
 
 		# self.label2 = QtGui.QLabel(label)
@@ -54,15 +57,16 @@ class Slider(QtGui.QWidget):
 		self.maximum = maximum
 		self.x = None
 		
-		if tick == 1:
+		if label=='l':
 			self.x = 1
-			self.slider.setValue(1)
+			# self.slider.setValue(self.x)
 			self.slider.setSingleStep(1)
+			self.spin.sigValueChanging.connect(self.Intspinvalue)
+
 			# self.slider.setTickInterval(1)
 			# self.slider.valueChanged.connect(self.Intspinvalue)
 		else :
-			pass
-			# self.slider.valueChanged.connect(self.spinvalue)
+			self.spin.sigValueChanging.connect(self.spinvalue)
 			# self.x = None
 			# self.slider.valueChanged.connect(self.setLabelValue)
 
@@ -78,27 +82,44 @@ class Slider(QtGui.QWidget):
 # check whether the value is exact
 
 	def Intspinvalue(self, sb, value):
-		self.intsetLabelValue(sb.value())
+		if sb.value()== 0:
+			pass
+		else:
+			self.intsetLabelValue(sb.value(),fromsb=True)
 
 	def spinvalue(self, sb, value):
-		pass
-		# self.setLabelValue(sb.value(), fromsb=True)
+		self.setLabelValue(sb.value(),fromsb=True)
 
 # fromsb = from spinbox
-	def setLabelValue(self, value):
+	def setLabelValue(self, value,fromsb=False):
 		# self.x = self.minimum + (float(value) / (self.slider.maximum() - self.slider.minimum())) * (
 		# self.maximum - self.minimum)
-		print("working")
 		# if fromsb:
 		# 	self.x = value
 		# 	print(self.x)
-		print("divide100")
-		self.x = value/100
-		self.label.setText(self.text_label + " : " + "{0:.4g}".format(self.x))
+		if fromsb:
+			self.x=value
+			self.slider.setValue(self.x*100)
+		else:
+			self.x = value/100
+			self.spin.setValue(self.x)
+		
+		# self.label.setText(self.text_label + " : " + "{0:.4g}".format(self.x))
 
-	def intsetLabelValue(self, value):
-		self.x = value
-		self.label.setText(self.text_label + " : " + "{0:.2g}".format(self.x))
+	def intsetLabelValue(self, value, fromsb=False):
+		if value == 0:
+			pass
+		else:
+			if fromsb:
+				self.x=value
+				self.slider.setValue(self.x)
+				print("fromsb",self.x)
+			else:
+				self.x = value
+				self.spin.setValue(self.x)
+				print("here",self.x)
+		
+		# self.label.setText(self.text_label + " : " + "{0:.2g}".format(self.x))
 		# self.spin.setValue(self.x)
 
 # class Widget(QWidget):
@@ -177,7 +198,7 @@ class Widget(QtGui.QWidget):
 		self.ws += [Slider(0, 1,"\u03b1")]
 		self.ws += [Slider(0, 1,"\u03b2")]
 
-		self.ws += [Slider(1, 10,"l")]
+		self.ws += [Slider(1, 10, "l")]
 		for i in range(3) :
 			self.layout.addWidget(self.ws[i],row=0,col=i)
 		self.dcontrols.addWidget(self.layout)
@@ -201,13 +222,13 @@ class Widget(QtGui.QWidget):
 		self.ws[0].x = glo_var.alpha
 		self.ws[0].setLabelValue(self.ws[0].x*100)
 		self.ws[0].slider.setValue(glo_var.alpha*100)
-		# self.ws[0].slider.valueChanged.connect(self.ws[0].setLabelValue)
+		self.ws[0].slider.valueChanged.connect(self.ws[0].setLabelValue)
   
 		self.ws[1].slider.setMaximum(100)
 		self.ws[1].x = glo_var.beta
 		self.ws[1].setLabelValue(self.ws[1].x*100)
 		self.ws[1].slider.setValue(glo_var.beta*100)
-		# self.ws[0 + 1].slider.valueChanged.connect(self.ws[0 + 1].setLabelValue)
+		self.ws[0 + 1].slider.valueChanged.connect(self.ws[1].setLabelValue)
   
 
 		self.ws[2].x = glo_var.l
@@ -217,17 +238,16 @@ class Widget(QtGui.QWidget):
 		self.ws[2].slider.valueChanged.connect(self.ws[2].intsetLabelValue)       
 		
 		self.ws[2].slider.setMaximum(20)
-		
+		self.ws[2].slider.setMinimum(1)
 # =====================================================================================================================================
 		self.update_alpha_slid(self.ws[0])
 		self.update_beta_slid(self.ws[1])
+		self.update_l_slid(self.ws[2])
 
 
 
 		[self.ws[i].slider.valueChanged.connect(self.update_ab_rh) for i in range(2)]
-		# [self.ws[i].spin.sigValueChanging.connect(self.update_ab_rh) for i in range(2)]
 		self.ws[2].slider.valueChanged.connect(self.update_lamb_l)
-		# self.ws[2].spin.sigValueChanging.connect(self.update_lamb_l)
 
 
 
@@ -300,10 +320,10 @@ class Widget(QtGui.QWidget):
 		glo_var.beta = self.ws[1].x
 		glo_var.l = self.ws[2].x
 		# self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas)) 
-		self.lamb_po.update()
-		self.rh.update()
 		self.update_alpha_slid(self.ws[0])
 		self.update_beta_slid(self.ws[1])
+		self.lamb_po.update()
+		self.rh.update()
 		self.phas.update()
 		self.jalph.update()
 		self.jbet.update()
@@ -343,8 +363,6 @@ class Widget(QtGui.QWidget):
 	def update_ab_rh(self):
 		glo_var.alpha = self.ws[0].x
 		glo_var.beta = self.ws[1].x
-		print(glo_var.beta)
-		print("updated_ab_rh")
 		self.rh.update()
 		self.phas.update()
 		self.jalph.update()
@@ -357,10 +375,15 @@ class Widget(QtGui.QWidget):
 		# data = a + np.cos(x + c * np.pi / 180) * np.exp(-b * x) * d
 		# self.curve.setData(data)
 		# self.show()
-		
-	def update_alpha_slid(self,slid):
+	def update_l_slid(self,slid):
+		slid.x = glo_var.l
+		slid.spin.setValue(slid.x)
+		slid.intsetLabelValue(slid.x*100)
+		slid.slider.setValue(glo_var.l)
 
-		slid.slider.setMaximum(2*glo_var.alpha_star*100)
+	def update_alpha_slid(self,slid):
+		# slid.slider.setMaximum(2*glo_var.alpha_star*100)
+		# slid.slider.setMaximum(2*glo_var.alpha_star*100)
 		slid.x = glo_var.alpha
 		slid.spin.setValue(slid.x)
 		slid.setLabelValue(slid.x*100)
@@ -369,7 +392,7 @@ class Widget(QtGui.QWidget):
 		# self.show()
 
 	def update_beta_slid(self,slid):
-		slid.slider.setMaximum(2*glo_var.beta_star*100)
+		# slid.slider.setMaximum(2*glo_var.beta_star*100)
 		slid.x = glo_var.beta
 		slid.spin.setValue(slid.x)
 		slid.setLabelValue(slid.x*100)
