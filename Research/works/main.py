@@ -712,6 +712,7 @@ class MainWindow(QtGui.QMainWindow):
 
 	def read_file(self, input):
 		global ison 
+		temp=[]
 		if ison == 0:
 			ison = 1
 		else:
@@ -741,8 +742,9 @@ class MainWindow(QtGui.QMainWindow):
 				while(True):
 					if(eval(T) > -1):
 						T = f.readline().strip()
-						glo_var.lambdas +=[[glo_var.lambdas_degree,round(eval(T),2)]]
+						temp +=[[glo_var.lambdas_degree,round(eval(T),2)]]
 						glo_var.lambdas_degree+=1
+				glo_var.lambdas=np.array(temp)
 			except:
 				pass
 

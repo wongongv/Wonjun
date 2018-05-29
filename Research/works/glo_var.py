@@ -219,14 +219,17 @@ def initialize():
 	global l, lambdas, lambdas_degree, alpha, beta
 	l = 1
 	lambdas=[]
+	# lambdas=np.array([])
 	lambdas_degree=0
 	alpha = 0.1
 	beta = 0.1
 
 l = 1
 lambdas=[]
+# lambdas=np.array([])
 lambdas_degree=0
 alpha = 0.1
 beta = 0.1
 labelstyle = {'font-size': '24px'}
 line_width = 2
+slid_precision = 1000000
