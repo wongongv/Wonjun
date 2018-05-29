@@ -723,8 +723,8 @@ class MainWindow(QtGui.QMainWindow):
 				glo_var.lambdas_degree = num_of_inputs
 				for i in range(num_of_inputs):
 					glo_var.lambdas += [[i/(num_of_inputs - 1), round(eval(lis[i]),2)]]
-			glo_var.alpha = 0.2
-			glo_var.beta = 0.2
+			glo_var.alpha = 0.04
+			glo_var.beta = 0.04
 			glo_var.l = 1
 
 		elif input[-3:] == 'txt':

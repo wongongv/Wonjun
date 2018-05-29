@@ -30,7 +30,7 @@ class jbeta:
 
 
 		self.rh=rh
-		self.rho_dash = pg.mkPen(color=(14,150,210),width=glo_var.line_width,style=QtCore.Qt.DashLine)
+		self.rho_dash = pg.mkPen(color=(16,52,166),width=glo_var.line_width,style=QtCore.Qt.DashLine)
 		self.dash = pg.mkPen('r',width=glo_var.line_width,style=QtCore.Qt.DashLine)
 		self.jpen = pg.mkPen('k',width=glo_var.line_width)
 		self.beta_pen = pg.mkPen('k',width=glo_var.line_width)
@@ -95,7 +95,14 @@ class jbeta:
 		for i in self.betas_post:
 			self.rho_avg_post += [self.cal_rho(self.js(glo_var.alpha,i))]
 
-
+		if self.betacheck == 1:
+			self.text = pg.TextItem(html='<span style="color: #1034A6; font-size: 16pt;">\u03b2</span></div>', anchor=(0.5,1.5))
+			self.p4.addItem(self.text)
+			self.arrow = pg.ArrowItem(pos=(glo_var.beta,0),angle=-90)
+			self.p4.addItem(self.arrow)
+			self.betacheck=0
+		self.text.setPos(glo_var.beta,0)
+		self.arrow.setPos(glo_var.beta,0)
 
 		# minused 0.00000001 since it is not working
 		
@@ -108,7 +115,6 @@ class jbeta:
 			self.jpost= self.j_l
 		self.p4.plot([self.trans_point,1],[self.jpost,self.jpost], pen = self.jpen)
 		self.trans_line = self.p4.plot([self.trans_point,self.trans_point],[0,1],pen=self.dash)
-		self.alpha_line = self.p4.plot([glo_var.beta,glo_var.beta],[0,1], pen = self.beta_pen)
 		self.make_right_axis()
 		self.set_range()
 
@@ -140,6 +146,7 @@ class jbeta:
 		self.alpha=glo_var.alpha
 		self.beta=glo_var.beta
 		self.l=glo_var.l
+		self.betacheck=1
 
 	def cal_rho(self,jval):
 		self.xperlambdas = round(150/glo_var.lambdas_degree)

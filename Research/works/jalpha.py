@@ -15,6 +15,7 @@ class jalpha:
 		self.rh=rh
 
 
+
 		self.p3.setLabel('bottom',"\u03b1",**glo_var.labelstyle)
 		self.p3.setLabel('left',"J",**glo_var.labelstyle)
 		self.p3.setLabel('right',"\u03c1",**glo_var.labelstyle)
@@ -29,7 +30,7 @@ class jalpha:
 		self.p3_2.setXLink(self.p3)
 		self.p3_2.setBackgroundColor('w')
 
-		self.rho_dash = pg.mkPen(color=(17,30,108),width=glo_var.line_width,style=QtCore.Qt.DashLine)
+		self.rho_dash = pg.mkPen(color=(16,52,166),width=glo_var.line_width,style=QtCore.Qt.DashLine)
 		self.dash = pg.mkPen('r',width=glo_var.line_width ,style=QtCore.Qt.DashLine)
 		self.jpen = pg.mkPen('k',width=glo_var.line_width)
 		self.alpha_pen = pg.mkPen('k',width = glo_var.line_width)
@@ -113,11 +114,16 @@ class jalpha:
 
 
 
-		if self.transcheck == 1:
-			self.trans_line = self.p3.plot([self.trans_point,self.trans_point],[0,1],pen=self.dash)
+		self.trans_line = self.p3.plot([self.trans_point,self.trans_point],[0,1],pen=self.dash)
 		if self.alphacheck == 1:
-			self.alpha_line = self.p3.plot([glo_var.alpha,glo_var.alpha],[0,1],pen = self.alpha_pen)
-		
+			self.text = pg.TextItem(html='<span style="color: #1034A6; font-size: 16pt;">\u03b1</span></div>', anchor=(0.5,1.5))
+			self.p3.addItem(self.text)
+			self.arrow = pg.ArrowItem(pos=(glo_var.alpha,0),angle=-90)
+			self.p3.addItem(self.arrow)
+			self.alphacheck=0
+		self.text.setPos(glo_var.alpha,0)
+		self.arrow.setPos(glo_var.alpha,0)
+
 		self.make_right_axis()
 		self.set_range()
 		if self.jpost < 0.1:

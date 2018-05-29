@@ -71,26 +71,26 @@ class MyPW(pg.PlotWidget):
 		self.plotItem.vb.menu.clear()
 		self.plotItem.ctrlMenu = None
 
-		self.vLine = pg.InfiniteLine(angle=90, movable=False)
-		self.hLine = pg.InfiniteLine(angle=0, movable=False)
-		self.proxy = pg.SignalProxy(self.plotItem.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
+	# 	self.vLine = pg.InfiniteLine(angle=90, movable=False)
+	# 	self.hLine = pg.InfiniteLine(angle=0, movable=False)
+	# 	self.proxy = pg.SignalProxy(self.plotItem.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
 
 
-	def mouseMoved(self,evt):
-		print(evt)
-		print(evt[0])
-		pos = evt[0]  # using signal proxy turns original arguments into a tuple
-		self.pos_label = pg.LabelItem(justify='right')
-		self.plotItem.vb.addItem(self.pos_label)
-		if self.plotItem.sceneBoundingRect().contains(pos):
-			mousePoint = self.plotItem.vb.mapSceneToView(pos)
-			index = int(mousePoint.x())
-			if index >= 0 and index <= 1:
-				self.pos_label.setText("<span style='font-size: 12pt'>x=%0.2f,   <span style='font-size: 12pt'>y=%0.2f</span>" % (mousePoint.x(), mousePoint.y()))
+	# def mouseMoved(self,evt):
+	# 	print(evt)
+	# 	print(evt[0])
+	# 	pos = evt[0]  # using signal proxy turns original arguments into a tuple
+	# 	self.pos_label = pg.LabelItem(justify='right')
+	# 	self.plotItem.vb.addItem(self.pos_label)
+	# 	if self.plotItem.sceneBoundingRect().contains(pos):
+	# 		mousePoint = self.plotItem.vb.mapSceneToView(pos)
+	# 		index = int(mousePoint.x())
+	# 		if index >= 0 and index <= 1:
+	# 			self.pos_label.setText("<span style='font-size: 12pt'>x=%0.2f,   <span style='font-size: 12pt'>y=%0.2f</span>" % (mousePoint.x(), mousePoint.y()))
 			
 
-			self.vLine.setPos(mousePoint.x())
-			self.hLine.setPos(mousePoint.y())
+	# 		self.vLine.setPos(mousePoint.x())
+	# 		self.hLine.setPos(mousePoint.y())
 
 
 

@@ -27,7 +27,7 @@ class rho:
 		# self.viewbox=self.p2main.getViewBox()
 		self.p2main._rescale=self.set_range
 		self.rpen=pg.mkPen('r', width=glo_var.line_width, style=QtCore.Qt.DashLine)  
-		self.lpen=pg.mkPen(color=(17,30,108), width=glo_var.line_width, style=QtCore.Qt.DashLine)
+		self.lpen=pg.mkPen(color=(16,52,166), width=glo_var.line_width, style=QtCore.Qt.DashLine)
 		self.realpen=pg.mkPen('k', width=2)
 		self.update()
 
