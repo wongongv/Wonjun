@@ -52,10 +52,8 @@ class myscat(pg.ScatterPlotItem):
 	def wheelEvent(self, ev, axis=None):
 		if len(self.lamb_po.lastClicked) ==1:
 			s = self.ptsClicked[0]._data[1]+ ev.delta() / 2000 # actual scaling factor
-			if s > 1:
-				s = 1
-				# should say that I limited this number by 0.0001 to prevent zero division
-			elif s < 0.0001 :
+			# should say that I limited this number by 0.0001 to prevent zero division
+			if s < 0.0001 :
 				s = 0.0001
 			self.set_yval(s)
 			ev.accept()
@@ -87,7 +85,7 @@ class Menu(QtGui.QMenu):
 		self.w.setLayout(self.l)
 
 		self.fracPosSpin = widgets.SpinBox.SpinBox()
-		self.fracPosSpin.setOpts(value=point[0]._data[1], bounds=(0.0, 1.0), step=0.01, decimals=2)
+		self.fracPosSpin.setOpts(value=point[0]._data[1], bounds=(0.0, None), step=0.01, decimals=2)
 		self.l.addWidget(QtGui.QLabel("\u03bb(x) : "), 0,0)
 		self.l.addWidget(self.fracPosSpin, 0, 1)
 		self.a = QtGui.QWidgetAction(self)		
@@ -98,7 +96,16 @@ class Menu(QtGui.QMenu):
 		
 		
 	def fractionalValueChanged(self, x):
-		self.item.set_yval(self.fracPosSpin.value())
+		val = self.fracPosSpin.value()
+		if val > self.item.lamb_po.lambda_max:
+			self.item.lamb_po.lambda_max = val
+			self.item.lamb_po.set_range()
+		else:
+			self.item.lamb_po.lambda_max=max(self.item.lamb_po.lambdas_ys)
+			self.item.lamb_po.set_range()
+
+
+		self.item.set_yval(val)
 
 class lamb_pol:
 	def __init__(self,dlamb) :
@@ -115,7 +122,7 @@ class lamb_pol:
 		# self.p1main = pg.PlotWidget(title = '\u03bb')
 
 		self.p1main.setLabel('bottom',"x",**glo_var.labelstyle)
-		self.p1main.setLabel('left',"\u03bb(x)",**glo_var.labelstyle)
+		self.p1main.setLabel('left',"\u03bb",**glo_var.labelstyle)
 
 # I didnt use it. Think about it.
 		self.font = QtGui.QFont()
@@ -135,7 +142,7 @@ class lamb_pol:
 		self.lambda_max=max(self.lambdas_ys)
 
 		self.set_range()
-		self.sp = myscat(size = 10, pen = pg.mkPen(None), brush=pg.mkBrush(100,200,200), symbolPen='w')
+		self.sp = myscat(size = 7, pen = pg.mkPen(None), brush=pg.mkBrush(100,200,200), symbolPen='w')
 		self.lastClicked=[]
 		# self.x, self.y = zip(*sorted(glo_var.lambdas.values()))
 		# self.lambs = np.array([self.x,self.y])

@@ -9,7 +9,7 @@ class jalpha:
 
 		self.dalpha = dalpha
 		self.p3main = glo_var.MyPW()
-		self.p3main._rescale = self.set_range
+		# self.p3main._rescale = self.set_range
 		self.p3 = self.p3main.plotItem
 
 		self.rh=rh
@@ -29,7 +29,7 @@ class jalpha:
 		self.p3_2.setXLink(self.p3)
 		self.p3_2.setBackgroundColor('w')
 
-		self.rho_dash = pg.mkPen('b',width=glo_var.line_width,style=QtCore.Qt.DashLine)
+		self.rho_dash = pg.mkPen(color=(17,30,108),width=glo_var.line_width,style=QtCore.Qt.DashLine)
 		self.dash = pg.mkPen('r',width=glo_var.line_width ,style=QtCore.Qt.DashLine)
 		self.jpen = pg.mkPen('k',width=glo_var.line_width)
 		self.alpha_pen = pg.mkPen('k',width = glo_var.line_width)
@@ -49,11 +49,13 @@ class jalpha:
 	def set_range(self):
 		self.uplim1 = min(self.jpost * 1.3, 1)
 		self.lolim1 = 0
-		self.p3.vb.setRange(xRange=[0,self.vlim],yRange=[self.lolim1,self.uplim1],padding =0)
-		self.uplim2 = min(1, max(max(self.rho_avg_pre)*1.3,max(self.rho_avg_post)*1.3))
-		self.lolim2 = max(0, min(min(self.rho_avg_pre)*0.7,min(self.rho_avg_post)*0.7))
-		self.p3_2.setRange(xRange=[0,self.vlim],yRange=[self.lolim2,self.uplim2], padding = 0)
+		# self.p3.vb.setRange(xRange=[0,self.vlim],yRange=[self.lolim1,self.uplim1],padding =0)
+		self.uplim2 = min(1, max(max(self.rho_avg_pre)*1.4,max(self.rho_avg_post)*1.4))
+		self.lolim2 = max(0, min(min(self.rho_avg_pre)*0.6,min(self.rho_avg_post)*0.6))
+		# self.p3_2.setRange(xRange=[0,self.vlim],yRange=[self.lolim2,self.uplim2], padding = 0)
 
+		self.p3.vb.setRange(xRange=[0,3*self.trans_point],yRange=[self.lolim1,self.uplim1],padding =0)
+		self.p3_2.setRange(xRange=[0,3*self.trans_point],yRange=[self.lolim2,self.uplim2], padding = 0)
 
 	def checkbox(self):
 		self.alphline = QtGui.QCheckBox('\u03B1 line')

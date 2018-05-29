@@ -5,15 +5,8 @@ import pyqtgraph as pg
 from pyqtgraph.Qt import QtGui, QtCore
 from pyqtgraph import pixmaps
 from pyqtgraph.graphicsItems import ButtonItem
-# To change legend
-# -------------------------------------------
-# legendLabelStyle = {'color': '#FFF', 'size': '12pt', 'bold': True, 'italic': False}
-# for item in p1.legend.items:
-#     for single_item in item:
-#         if isinstance(single_item, pg.graphicsItems.LabelItem.LabelItem):
-#             single_item.setText(single_item.text, **legendLabelStyle)
-
-
+# from pyqtgraph.GraphicsScene import exportDialog
+# from pyqtgraph import exporters as exporters
 class mylegend(pg.LegendItem):
 	def addItem(self, item, name):
 		legendLabelStyle = {'size': '14pt', 'bold': True}
@@ -77,6 +70,51 @@ class MyPW(pg.PlotWidget):
 		self.plotItem.autoBtn.clicked.connect(self._rescale)
 		self.plotItem.vb.menu.clear()
 		self.plotItem.ctrlMenu = None
+
+		self.vLine = pg.InfiniteLine(angle=90, movable=False)
+		self.hLine = pg.InfiniteLine(angle=0, movable=False)
+		self.proxy = pg.SignalProxy(self.plotItem.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
+
+
+	def mouseMoved(self,evt):
+		print(evt)
+		print(evt[0])
+		pos = evt[0]  # using signal proxy turns original arguments into a tuple
+		self.pos_label = pg.LabelItem(justify='right')
+		self.plotItem.vb.addItem(self.pos_label)
+		if self.plotItem.sceneBoundingRect().contains(pos):
+			mousePoint = self.plotItem.vb.mapSceneToView(pos)
+			index = int(mousePoint.x())
+			if index >= 0 and index <= 1:
+				self.pos_label.setText("<span style='font-size: 12pt'>x=%0.2f,   <span style='font-size: 12pt'>y=%0.2f</span>" % (mousePoint.x(), mousePoint.y()))
+			
+
+			self.vLine.setPos(mousePoint.x())
+			self.hLine.setPos(mousePoint.y())
+
+
+
+		# self.expDialog = exportDialog.ExportDialog(pg.plot().scene())
+		# self.expDialog.updateFormatList = self.revisedlist()
+
+	# def revisedlist(self):
+	# 	self.explist = exporters.listExporters()
+	# 	current = self.expDialog.ui.formatList.currentItem()
+	# 	if current is not None:
+	# 		current = str(current.text())
+	# 	self.expDialog.ui.formatList.clear()
+	# 	self.expDialog.exporterClasses = {}
+	# 	gotCurrent = False
+	# 	for exp in self.explist:
+	# 		self.expDialog.ui.formatList.addItem(exp.Name)
+	# 		self.expDialog.exporterClasses[exp.Name] = exp
+	# 		if exp.Name == current:
+	# 			self.expDialog.ui.formatList.setCurrentRow(self.expDialog.ui.formatList.count()-1)
+	# 			gotCurrent = True
+				
+	# 	if not gotCurrent:
+	# 		self.expDialog.ui.formatList.setCurrentRow(0)
+
 	# doubleClicked = pyqtSignal()
 	#
 	#

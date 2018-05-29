@@ -15,7 +15,21 @@ class Slider(QtGui.QWidget):
 		self.label.setAlignment(QtCore.Qt.AlignCenter)
 		self.font = QtGui.QFont("?",18)
 		self.label.setFont(self.font)
+		
+		if label == "l":
+			self.spin = pg.SpinBox(value = glo_var.l, bounds = [1, None])
+			self.intspinargs = {'int':True}
+			self.spin.setOpts(**self.intspinargs)
+			self.spin.sigValueChanging.connect(self.Intspinvalue)
+		else:
+			self.spin = pg.SpinBox(value=glo_var.alpha, bounds=[0, 1])
+			self.spin.sigValueChanging.connect(self.spinvalue)
+
+
 		self.verticalLayout.addWidget(self.label)
+
+		self.verticalLayout.addWidget(self.spin)
+		
 		self.horizontalLayout = QtGui.QHBoxLayout()
 		spacerItem = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
 		self.horizontalLayout.addItem(spacerItem)
@@ -47,9 +61,10 @@ class Slider(QtGui.QWidget):
 			self.slider.setValue(1)
 			self.slider.setSingleStep(1)
 			# self.slider.setTickInterval(1)
-			self.slider.valueChanged.connect(self.intsetLabelValue)
+			# self.slider.valueChanged.connect(self.Intspinvalue)
 		else :
 			pass
+			# self.slider.valueChanged.connect(self.spinvalue)
 			# self.x = None
 			# self.slider.valueChanged.connect(self.setLabelValue)
 
@@ -64,15 +79,26 @@ class Slider(QtGui.QWidget):
 
 # check whether the value is exact
 
-	def setLabelValue(self, value):
+	def Intspinvalue(self, sb, value):
+		self.intsetLabelValue(sb.value())
+
+	def spinvalue(self, sb, value):
+		self.setLabelValue(sb.value(), fromsb=True)
+
+# fromsb = from spinbox
+	def setLabelValue(self, value, fromsb = False):
 		# self.x = self.minimum + (float(value) / (self.slider.maximum() - self.slider.minimum())) * (
 		# self.maximum - self.minimum)
-		self.x = value/100
+		if fromsb:
+			self.x = value
+		else:
+			self.x = value/100
 		self.label.setText(self.text_label + " : " + "{0:.4g}".format(self.x))
 
 	def intsetLabelValue(self, value):
 		self.x = value
 		self.label.setText(self.text_label + " : " + "{0:.2g}".format(self.x))
+		# self.spin.setValue(self.x)
 
 # class Widget(QWidget):
 # 	def __init__(self, win, lamb_po, phas,rh,jalph,jbet, parent=None):
@@ -189,6 +215,7 @@ class Widget(QtGui.QWidget):
 		self.ws[2].slider.setValue(glo_var.l)
 		self.ws[2].slider.valueChanged.connect(self.ws[2].intsetLabelValue)       
 		
+		self.ws[2].slider.setMaximum(20)
 		
 # =====================================================================================================================================
 		self.update_alpha_slid(self.ws[0])
@@ -325,16 +352,19 @@ class Widget(QtGui.QWidget):
 		# self.show()
 		
 	def update_alpha_slid(self,slid):
+
 		slid.slider.setMaximum(2*glo_var.alpha_star*100)
 		slid.x = glo_var.alpha
+		slid.spin.setValue(slid.x)
 		slid.setLabelValue(slid.x*100)
 		slid.slider.setValue(glo_var.alpha*100)
-		slid.slider.valueChanged.connect(slid.setLabelValue)
+		# slid.slider.valueChanged.connect(slid.setLabelValue)
 		# self.show()
 	def update_beta_slid(self,slid):
 		slid.slider.setMaximum(2*glo_var.beta_star*100)
 		slid.x = glo_var.beta
+		slid.spin.setValue(slid.x)
 		slid.setLabelValue(slid.x*100)
 		slid.slider.setValue(glo_var.beta*100)
-		slid.slider.valueChanged.connect(slid.setLabelValue)
+		# slid.slider.valueChanged.connect(slid.setLabelValue)
 		# self.show()

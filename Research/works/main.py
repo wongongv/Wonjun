@@ -15,10 +15,8 @@ import pyqtgraph.widgets.RemoteGraphicsView
 from pyqtgraph.widgets.GraphicsLayoutWidget import GraphicsLayoutWidget
 import pyqtgraph.widgets.RemoteGraphicsView
 from pyqtgraph.dockarea import *
-from pyqtgraph import exporters
 import os.path
 from os import makedirs
-
 # for free movement
 	# def __init__(self,parent=None):
 	
@@ -241,15 +239,17 @@ class MyTabWidget(QtGui.QWidget):
 class MainWindow(QtGui.QMainWindow):
 # for dock
 	def __init__(self,parent=None):
-	
+
+		from pyqtgraph import exporters
+		exporters.Exporter.register = self.modified_register
 
 		QtGui.QMainWindow.__init__(self, parent)
 	
 		# self.setWindowIcon (QtGui.QIcon('sicon.jpg'))
 		self.setWindowTitle('CIVET')  
 
-		self.setGeometry(200,100,500,500)
-		self.resize(QtGui.QDesktopWidget().availableGeometry(self).size() * 1)
+		self.setGeometry(200,143,1574,740)
+		# self.resize(QtGui.QDesktopWidget().availableGeometry(self).size() * 1)
 		pg.setConfigOption('background', QtGui.QColor(215,214,213,255))
 		pg.setConfigOption('foreground', 'k')
 		palette = QtGui.QPalette()
@@ -299,14 +299,25 @@ class MainWindow(QtGui.QMainWindow):
 
 		self.exportaction = QtGui.QAction("&Export",self)
 		self.exportaction.setShortcut("Ctrl+E")
-		self.exportaction.setStatusTip("Export to latx")
+		self.exportaction.setStatusTip("Export to a folder")
 		self.exportaction.triggered.connect(self.exportdata)
 
+		self.viewaction1 = QtGui.QAction("&Default View 1",self)
+		self.viewaction1.setStatusTip("Export to latx")
+		self.viewaction1.triggered.connect(self.default_view_1)
+
+		self.viewaction2 = QtGui.QAction("&Default View 2",self)
+		self.viewaction2.setStatusTip("Export to latx")
+		self.viewaction2.triggered.connect(self.default_view_2)
 
 		self.mainMenu = self.menuBar()
 		self.fileMenu = self.mainMenu.addMenu("&File")
 		self.fileMenu.addAction(self.loadaction)
 		self.fileMenu.addAction(self.exportaction)
+
+		self.viewMenu = self.mainMenu.addMenu("&View")
+		self.viewMenu.addAction(self.viewaction1)
+		self.viewMenu.addAction(self.viewaction2)
 
 
 		self.maketoolbar()
@@ -329,12 +340,36 @@ class MainWindow(QtGui.QMainWindow):
 		self.mainframe.setFrameStyle(QtGui.QFrame.Box | QtGui.QFrame.Raised)
 		self.mainframe.setLineWidth(8)
 
-		# for fast revision. Delete it after revision!
-		# self.read_file("C:/GUI/data/input1.csv")
-		# self.realinit()
 
+		# self.updateexportlist()
+
+  # 	def updateexportlist(self):
+
+  #       current = self.ui.formatList.currentItem()
+  #       if current is not None:
+  #           current = str(current.text())
+  #       self.ui.formatList.clear()
+  #       self.exporterClasses = {}
+  #       gotCurrent = False
+  #       for exp in exporters.listExporters():
+  #           self.ui.formatList.addItem(exp.Name)
+  #           self.exporterClasses[exp.Name] = exp
+  #           if exp.Name == current:
+  #               self.ui.formatList.setCurrentRow(self.ui.formatList.count()-1)
+  #               gotCurrent = True
+				
+  #       if not gotCurrent:
+  #           self.ui.formatList.setCurrentRow(0)
+		
 
 # all those have different relative positions so made bunch of functions, not one.
+	def modified_register(self,cls):
+		print('he')
+		print(dir(cls))
+		print(cls.Name)
+
+		exporters.Exporter.Exporters.append(None)
+
 	def dlambadd(self):
 		try:
 			self.area.addDock(self.dlamb,'bottom', self.drho)
@@ -472,7 +507,9 @@ class MainWindow(QtGui.QMainWindow):
 		for name, pitem in self.pltlist:
 			self.exportimg(pitem,os.path.join(filepath,name + ".png"))
 
-	
+
+	# def exportj(self,list):
+			
 	def exportimg(self,img,path):
 		self.img = pg.exporters.ImageExporter(img)
 		self.img.export(path)
@@ -507,7 +544,7 @@ class MainWindow(QtGui.QMainWindow):
 
 
 		home = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_ComputerIcon)),'Default dock position',self)
-		home.triggered.connect(self.homedock)
+		home.triggered.connect(self.default_view_1)
 		self.toolbar.addAction(home)
 
 
@@ -562,13 +599,17 @@ class MainWindow(QtGui.QMainWindow):
 
 		self.docklist = ['self.drho','self.dlamb','self.dalpha','self.dbeta','self.dphase','self.dcontrols']
 		self.area = DockArea()
-		
-		self.drho = Dock("\u03c1")
-		self.dlamb=Dock("\u03bb")
-		self.dalpha=Dock("\u03b1")
-		self.dbeta=Dock("\u03b2")
-		self.dphase=Dock("Phase")
-		self.dcontrols=Dock("Controls")
+
+
+
+		self.drho = Dock("\u03c1",closable = True)
+		self.dlamb=Dock("\u03bb", closable = True)
+		self.dphase=Dock("Phase", closable = True)
+		self.dcontrols=Dock("Controls", closable = True)
+		self.dalpha=Dock("\u03b1", closable = True)
+		self.dbeta=Dock("\u03b2", closable = True)
+
+
 
 		self.layout = QtGui.QHBoxLayout()
 		self.layout.addWidget(self.area)
@@ -578,6 +619,8 @@ class MainWindow(QtGui.QMainWindow):
 
 
 		pg.setConfigOptions(antialias=True)
+
+
 
 		self.lamb_po = lamb_pol.lamb_pol(self.dlamb)
 		self.rh=rho.rho(self.drho)
@@ -589,23 +632,54 @@ class MainWindow(QtGui.QMainWindow):
 
 		self.pltlist = [['Lambdas_fig', self.lamb_po.p1], ['Rho_fig',self.rh.p2], ['Jalpha_fig', self.jalph.p3], ['Jbeta_fig',self.jbet.p4], ['Phase_fig',self.phas.p5]]
 
-		self.homedock()
+		self.default_view_1()
 		self.setCentralWidget(self.area)
 
 
-	def homedock(self):
+	def default_view_2(self):
 		for i in self.docklist:
 			try:
 				eval(i).close()
 			except:
 				pass
+		self.area.addDock(self.drho, 'top')
+		self.area.addDock(self.dlamb,'bottom', self.drho)
+		self.area.addDock(self.dphase,'bottom')
+		self.area.addDock(self.dcontrols, 'left', self.dphase)
+		self.area.addDock(self.dalpha,'right')
+		self.area.addDock(self.dbeta,'bottom', self.dalpha)
+
+
+
+		
+
+	def default_view_1(self):
+		for i in self.docklist:
+			try:
+				eval(i).close()
+			except:
+				pass
+
+		self.drho.setMinimumSize(652,370)
+		self.dlamb.setMinimumSize(652,370)
+		self.dphase.setMinimumSize(487,465)
+		self.dcontrols.setMinimumSize(487,275)
+		self.dalpha.setMinimumSize(435,370)
+		self.dbeta.setMinimumSize(435,370)
+
 		self.area.addDock(self.drho, 'left')
 		self.area.addDock(self.dlamb,'bottom', self.drho)
+		self.area.addDock(self.dphase,'right')
+		self.area.addDock(self.dcontrols,'bottom', self.dphase)
 		self.area.addDock(self.dalpha,'right')
-		self.area.addDock(self.dbeta,'right', self.dalpha)
-		self.area.addDock(self.dphase,'bottom', self.dalpha)
-		self.area.addDock(self.dcontrols,'bottom', self.dbeta)
+		self.area.addDock(self.dbeta,'bottom', self.dalpha)		
 
+		self.drho.setMinimumSize(0,0)
+		self.dlamb.setMinimumSize(0,0)
+		self.dphase.setMinimumSize(0,0)
+		self.dcontrols.setMinimumSize(0,0)
+		self.dalpha.setMinimumSize(0,0)
+		self.dbeta.setMinimumSize(0,0)
 
 	def checkboxes(self):
 		self.alphacheck()

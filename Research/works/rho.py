@@ -27,8 +27,8 @@ class rho:
 		# self.viewbox=self.p2main.getViewBox()
 		self.p2main._rescale=self.set_range
 		self.rpen=pg.mkPen('r', width=glo_var.line_width, style=QtCore.Qt.DashLine)  
-		self.lpen=pg.mkPen('b', width=glo_var.line_width, style=QtCore.Qt.DashLine)
-		self.realpen=pg.mkPen('k', width=1)
+		self.lpen=pg.mkPen(color=(17,30,108), width=glo_var.line_width, style=QtCore.Qt.DashLine)
+		self.realpen=pg.mkPen('k', width=2)
 		self.update()
 
 	def set_range(self):
@@ -87,7 +87,7 @@ class rho:
 		self.p2main.plot(self.lambdas_xval, self.rho_l, name = r'\rho_L',pen=self.lpen)
 		self.p2main.plot(self.lambdas_xval, self.rho_r, name = r'\rho_R',pen=self.rpen)
 		self.plot_scat(self.scat_step)
-		self.p2main.plot(self.scat_xs, self.scat_ys, pen=None, symbol='o', symbolPen='r')
+		# self.p2main.plot(self.scat_xs, self.scat_ys, pen=None, symbol='o', symbolPen='r')
 
 		if self.num_mins > 1:
 			c = np.rec.fromarrays([self.scat_xs,self.scat_ys])

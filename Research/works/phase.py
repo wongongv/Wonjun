@@ -33,22 +33,22 @@ class MyROI(pg.ROI):
 
 		if a > glo_var.alpha_star and b > glo_var.beta_star:
 			region = 'MC'
-			penn = self.phas.purple
+			# penn = self.phas.purple
 		elif a> glo_var.alpha_star:
-			region = 'HD ||'
-			penn = self.phas.red
+			region = 'HD  ' + '\u2161'
+			# penn = self.phas.red
 		elif b> glo_var.beta_star:
-			region = 'LD ||'
-			penn = self.phas.blue
+			region = 'LD  ' + '\u2161'
+			# penn = self.phas.blue
 		elif b > self.phas.trans_func(a):
-			region = 'LD |'
-			penn = self.phas.blue
+			region = 'LD  ' + '\u2160'
+			# penn = self.phas.blue
 		else:
-			penn = self.phas.red
-			region = 'HD |'
-		self.phas.pointer.setPen(penn)
+			# penn = self.phas.red
+			region = 'HD  ' + '\u2160'
+		self.phas.pointer.setPen(None)
 		self.phas.leg.items = []
-		self.phas.p5main.plot(pen=penn, name=region)
+		self.phas.p5main.plot(pen=None, name=region)
 		
 class myscat(pg.ScatterPlotItem):
 
@@ -127,14 +127,15 @@ class phase:
 		self.frame = glo_var.setframe(self.p5main, width = 1)
 		self.dphase.addWidget(self.frame)
 		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax=1.01, yMax=1.01)
-		self.viewbox.setRange(xRange=[0,2*max(glo_var.alpha,glo_var.alpha_star)],yRange=[0,2*max(glo_var.beta, glo_var.beta_star)],padding=0)
+		self.set_range()
+		# self.viewbox.setRange(xRange=[0,2*max(glo_var.alpha,glo_var.alpha_star)],yRange=[0,2*max(glo_var.beta, glo_var.beta_star)],padding=0)
 
 
 		self.p5main.plotItem.addLegend = glo_var.myaddLegend
-		self.p5main.addLegend(self.p5main.plotItem)
+		self.p5main.addLegend(self.p5main.plotItem, offset=(-30,30))
 
 
-		self.p5main.plot(pen=self.blue, name='LD |')
+		self.p5main.plot(pen=None, name='LD  '+"\u2160")
 		self.leg = self.p5main.plotItem.legend
 
 		self.p5main.setLabel('bottom',"\u03b1",**glo_var.labelstyle)
@@ -143,7 +144,8 @@ class phase:
 		self.initiate()
 	def set_range(self):
 		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax=1.01, yMax=1.01)
-		self.viewbox.setRange(xRange=[0,2*max(glo_var.alpha,glo_var.alpha_star)],yRange=[0,2*max(glo_var.beta, glo_var.beta_star)],padding=0)
+		# self.viewbox.setRange(xRange=[0,2*max(glo_var.alpha,glo_var.alpha_star)],yRange=[0,2*max(glo_var.beta, glo_var.beta_star)],padding=0)
+		self.viewbox.setRange(xRange=[0,2*glo_var.alpha_star],yRange=[0,2*glo_var.beta_star],padding=0)
 
 	def initiate(self):
 		self.p5main.clear()
@@ -158,7 +160,7 @@ class phase:
 		# self.p1.addItem(self.sp)
 
 		self.ablim = 0.5/(1+sqrt(glo_var.l))
-		self.pointer = MyROI([glo_var.alpha, glo_var.beta], size = [glo_var.alpha_star/10,glo_var.beta_star/10])
+		self.pointer = MyROI([glo_var.alpha_star, glo_var.beta_star], size = [glo_var.alpha_star/10,glo_var.beta_star/10])
 		self.pointer.setPen(self.roicolor)
 		# self.bounds1 = pg.PlotCurveItem(np.array([glo_var.alpha_star,1]),np.array([1,glo_var.beta_star]))
 		# self.bounds1.setPen(pg.mkPen('k'))
@@ -168,6 +170,31 @@ class phase:
 		self.p5main.plot(self.bounds1)
 		self.p5main.plot(self.bounds2)
 		self.p5main.plot(self.bounds3)
+
+# cross hair
+	# 	self.vLine = pg.InfiniteLine(angle=90, movable=False)
+	# 	self.hLine = pg.InfiniteLine(angle=0, movable=False)
+	# 	self.proxy = pg.SignalProxy(self.p5main.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
+
+
+	# def mouseMoved(self,evt):
+	# 	print(evt)
+	# 	print(evt[0])
+	# 	pos = evt[0]  # using signal proxy turns original arguments into a tuple
+	# 	self.pos_label = pg.LabelItem(justify='right')
+	# 	self.p5main.addItem(self.pos_label)
+	# 	if self.p5.sceneBoundingRect().contains(pos):
+	# 		mousePoint = self.p5.vb.mapSceneToView(pos)
+	# 		index = int(mousePoint.x())
+	# 		if index >= 0 and index <= 1:
+	# 			self.pos_label.setText("<span style='font-size: 12pt'>x=%0.2f,   <span style='font-size: 12pt'>y=%0.2f</span>" % (mousePoint.x(), mousePoint.y()))
+			
+
+	# 		self.vLine.setPos(mousePoint.x())
+	# 		self.hLine.setPos(mousePoint.y())
+
+
+
 		# self.p5main.plot([glo_var.alpha],[glo_var.beta],pen='r', symbol='o')
 		# self.p5main.plot([glo_var.alpha],[glo_var.beta],pen=None, symbol='o')
 
@@ -216,7 +243,7 @@ class phase:
 		self.p5main.plot(self.bounds1, pen = 'k')
 		self.p5main.plot(self.bounds2, pen = 'k')
 		self.p5main.plot(linspace,trans_line_val, pen = 'k')
-
+		self.set_range()
 		# self.point = np.array([glo_var.alpha,glo_var.beta])
 		# self.spots = [{'pos': self.point, 'size':1e-6, 'pen':{'color':'w','width':2}}]
 		# self.scat.addPoints(self.spots)	

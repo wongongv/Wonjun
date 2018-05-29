@@ -12,7 +12,7 @@ class jbeta:
 
 		self.dbeta = dbeta
 		self.p4main = glo_var.MyPW()
-		self.p4main._rescale = self.set_range
+		# self.p4main._rescale = self.set_range
 		self.p4 = self.p4main.plotItem
 		self.viewbox = self.p4.getViewBox()
 		# self.viewbox.setBackgroundColor('w')
@@ -30,7 +30,7 @@ class jbeta:
 
 
 		self.rh=rh
-		self.rho_dash = pg.mkPen('b',width=glo_var.line_width,style=QtCore.Qt.DashLine)
+		self.rho_dash = pg.mkPen(color=(14,150,210),width=glo_var.line_width,style=QtCore.Qt.DashLine)
 		self.dash = pg.mkPen('r',width=glo_var.line_width,style=QtCore.Qt.DashLine)
 		self.jpen = pg.mkPen('k',width=glo_var.line_width)
 		self.beta_pen = pg.mkPen('k',width=glo_var.line_width)
@@ -56,11 +56,13 @@ class jbeta:
 	def set_range(self):
 		self.uplim1 = min(self.jpost * 1.3, 1)
 		self.lolim1 = 0
-		self.viewbox.setRange(xRange=[0,self.vlim],yRange=[self.lolim1,self.uplim1],padding =0)
-		self.uplim2 = min(1, max(max(self.rho_avg_pre)*1.3,max(self.rho_avg_post)*1.3))
-		self.lolim2 = max(0, min(min(self.rho_avg_pre)*0.7,min(self.rho_avg_post)*0.7))
-		self.p4_2.setRange(xRange=[0,self.vlim],yRange=[self.lolim2,self.uplim2], padding = 0)
+		# self.viewbox.setRange(xRange=[0,self.vlim],yRange=[self.lolim1,self.uplim1],padding =0)
+		self.uplim2 = min(1, max(max(self.rho_avg_pre)*1.4,max(self.rho_avg_post)*1.4))
+		self.lolim2 = max(0, min(min(self.rho_avg_pre)*0.6,min(self.rho_avg_post)*0.6))
+		# self.p4_2.setRange(xRange=[0,self.vlim],yRange=[self.lolim2,self.uplim2], padding = 0)
 
+		self.viewbox.setRange(xRange=[0,3*self.trans_point],yRange=[self.lolim1,self.uplim1],padding =0)
+		self.p4_2.setRange(xRange=[0,3*self.trans_point],yRange=[self.lolim2,self.uplim2], padding = 0)
 
 	def update(self):
 		self.p4.clear()
