@@ -520,15 +520,42 @@ class MainWindow(QtGui.QMainWindow):
 			except:
 				pass
 
-		current_alpha_data=os.path.join(filepath, "Lambda_data.csv")
-		with open(current_alpha_data, "w") as output:
+		summary=os.path.join(filepath, "Summary.csv")
+		with open(summary, "w") as output:
 			try:
-				writer = csv.writer(output, lineterminator='\n')
-				for val in np.array(glo_var.lambdas)[:,1]:
-					writer.writerow([val])  
+				writer = csv.writer(output, delimiter='\t' ,lineterminator='\n')
+				writer.writerow(["alpha",glo_var.alpha])
+				writer.writerow(["beta",glo_var.beta])
+				writer.writerow(["l",glo_var.l])
+				writer.writerow(["Phase",self.phas.pointer.region_aft])
 			except:
 				pass
 
+		for name, pitem in self.pltlist:
+			self.exportimg(pitem,os.path.join(filepath,name + ".png"))
+
+
+		currentanddensity=os.path.join(filepath, "Current & Density.csv")
+		with open(currentanddensity, "w") as output:
+			writer = csv.writer(output, delimiter='\t' ,lineterminator='\n')
+			# combine alpha, beta    pre and post. Do it here to lessen the computation
+			alpha_x_data = np.concatenate([np.array(self.jalph.alphas_pre), np.linspace(self.jalph.trans_point,1,2)])
+			alpha_j_data = np.concatenate([self.jalph.j_l_values, np.array([self.jalph.jpost] * 2) ])
+			alpha_rho_data = np.array(self.jalph.rho_avg_pre + self.jalph.rho_avg_post)
+
+			beta_x_data = np.concatenate([np.array(self.jbet.betas_pre), np.linspace(self.jbet.trans_point,1,2)])
+			beta_j_data = np.concatenate([self.jbet.j_r_values,np.array([self.jbet.jpost] * 2 )])
+			beta_rho_data = np.array(self.jbet.rho_avg_pre + self.jbet.rho_avg_post)
+			
+			alpha_data = np.vstack([alpha_x_data,alpha_j_data,alpha_rho_data])
+			beta_data = np.vstack([beta_x_data,beta_j_data,beta_rho_data])
+
+			print(alpha_data)
+			writer.writerow(["alpha","Current","Average Density",'\t','\t',"beta","Current","Average Density"])
+			for i in range(len(alpha_x_data)):
+				writer.writerow(list(alpha_data[:,i]) + [''] *2 + list(beta_data[:,i]))
+			writer.writerow('\n')
+			writer.writerow(['transition point',self.jalph.trans_point,'','','','transition point',self.jbet.trans_point,''])
 		for name, pitem in self.pltlist:
 			self.exportimg(pitem,os.path.join(filepath,name + ".png"))
 
@@ -709,12 +736,15 @@ class MainWindow(QtGui.QMainWindow):
 			glo_var.beta = self.savedbeta
 			glo_var.l = self.savedl
 
+
 			self.lamb_po.update()
 			self.rh.update()
 			self.phas.update()
 			self.jalph.update()
 			self.jbet.update()
-			self.slid.update()
+			self.slid.update_alpha_slid(self.slid.ws[0])
+			self.slid.update_beta_slid(self.slid.ws[1])
+			self.slid.update_l_slid(self.slid.ws[2])
 
 		if self.re_dock.checkState:
 

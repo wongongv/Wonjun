@@ -449,7 +449,7 @@ class phase:
 
 		self.p5main.addItem(self.pointer)
 		self.pointer.setData(pos = np.array([[glo_var.alpha,glo_var.beta]],dtype=float))
-		
+		self.pointer.legend(glo_var.alpha,glo_var.beta)
 
 
 		# r = pg.PolyLineROI([(glo_var.alpha_star, glo_var.beta_star)])

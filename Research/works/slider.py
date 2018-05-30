@@ -21,8 +21,10 @@ class Slider(QtGui.QWidget):
 			self.spin.setRange(1,20)
 			self.intspinargs = {'int':True,'step':1}
 			self.spin.setOpts(**self.intspinargs)
+		elif label == "\u03b1":
+			self.spin = pg.SpinBox(value=glo_var.alpha, bounds=[0, 1],parent=self)
 		else:
-			self.spin = pg.SpinBox(value=glo_var.alpha, bounds=[0, 1])
+			self.spin = pg.SpinBox(value=glo_var.beta, bounds=[0, 1],parent =self)
 
 
 		self.verticalLayout.addWidget(self.label)
@@ -111,10 +113,12 @@ class Slider(QtGui.QWidget):
 			pass
 		else:
 			if fromsb:
+				print("fromsb:",value)
 				self.x=value
 				self.slider.setValue(self.x)
 				print("fromsb",self.x)
 			else:
+				print("not fromsb:",value)
 				self.x = value
 				self.spin.setValue(self.x)
 				print("here",self.x)
@@ -188,7 +192,9 @@ class Slider(QtGui.QWidget):
 class Widget(QtGui.QWidget):
 	def __init__(self, dcontrols, lamb_po, phas,rh,jalph,jbet, parent=None):
 		super(Widget, self).__init__(parent=parent)
+		self.initiate(dcontrols, lamb_po, phas,rh,jalph,jbet)
 
+	def initiate(self, dcontrols, lamb_po, phas,rh,jalph,jbet):
 		self.dcontrols = dcontrols
 
 
@@ -199,23 +205,10 @@ class Widget(QtGui.QWidget):
 		self.ws += [Slider(0, 1,"\u03b2")]
 
 		self.ws += [Slider(1, 10, "l")]
+		print(self.ws[2].x)
 		for i in range(3) :
 			self.layout.addWidget(self.ws[i],row=0,col=i)
 		self.dcontrols.addWidget(self.layout)
-
-# on revision
-		# self.horizontalLayout = QHBoxLayout(self)
-		# self.ws=[]
-		# for i in range(2) :
-		# 	self.ws += [Slider(0, 1)]
-		# self.ws += [Slider(1,10)]
-		# for i in range(3) :
-		# 	self.horizontalLayout.addWidget(self.ws[i])
-		# self.dcontrols.addWidget
-# alpha,beta,l
-
-
-
 
 # =========================================================================
 		self.ws[0].slider.setMaximum(glo_var.slid_precision)
@@ -228,7 +221,7 @@ class Widget(QtGui.QWidget):
 		self.ws[1].x = glo_var.beta
 		self.ws[1].setLabelValue(self.ws[1].x*glo_var.slid_precision)
 		self.ws[1].slider.setValue(glo_var.beta*glo_var.slid_precision)
-		self.ws[0 + 1].slider.valueChanged.connect(self.ws[1].setLabelValue)
+		self.ws[1].slider.valueChanged.connect(self.ws[1].setLabelValue)
   
 
 		self.ws[2].x = glo_var.l
@@ -305,6 +298,7 @@ class Widget(QtGui.QWidget):
 		glo_var.alpha = self.ws[0].x
 		glo_var.beta = self.ws[1].x
 		glo_var.l = self.ws[2].x
+
 		# self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas)) 
 		self.lamb_po.update()
 		self.rh.update()
@@ -319,6 +313,7 @@ class Widget(QtGui.QWidget):
 		glo_var.alpha = self.ws[0].x
 		glo_var.beta = self.ws[1].x
 		glo_var.l = self.ws[2].x
+
 		# self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas)) 
 		self.update_alpha_slid(self.ws[0])
 		self.update_beta_slid(self.ws[1])
@@ -349,6 +344,7 @@ class Widget(QtGui.QWidget):
 		glo_var.alpha = self.ws[0].x
 		glo_var.beta = self.ws[1].x
 		glo_var.l = self.ws[2].x
+		print(self.ws[2].x)
 		# self.lambdas_xs, self.lambdas_ys = zip(*sorted(glo_var.lambdas)) 
 		if remove == 0:
 			glo_var.lambdas[index][1] = y
@@ -364,9 +360,8 @@ class Widget(QtGui.QWidget):
 	def update_ab_rh(self):
 
 		glo_var.alpha = self.ws[0].x
-		print(self.ws[0].x)
-		print(glo_var.alpha)
 		glo_var.beta = self.ws[1].x
+		print("ab",self.ws[2].x)
 		self.rh.update()
 		self.phas.update()
 		self.jalph.update()
@@ -379,18 +374,20 @@ class Widget(QtGui.QWidget):
 		# data = a + np.cos(x + c * np.pi / 180) * np.exp(-b * x) * d
 		# self.curve.setData(data)
 		# self.show()
+
 	def update_l_slid(self,slid):
 		slid.x = glo_var.l
 		slid.spin.setValue(slid.x)
-		slid.intsetLabelValue(slid.x*glo_var.slid_precision)
+		slid.intsetLabelValue(slid.x)
 		slid.slider.setValue(glo_var.l)
 
 	def update_alpha_slid(self,slid):
 		slid.slider.setMaximum(2*glo_var.alpha_star*glo_var.slid_precision)
 		slid.spin.setRange(0,2*glo_var.alpha_star)
-		# slid.slider.setMaximum(2*glo_var.alpha_star*glo_var.slid_precision)
 		slid.x = glo_var.alpha
+		temp=glo_var.beta
 		slid.spin.setValue(slid.x)
+		glo_var.beta = temp
 		slid.setLabelValue(slid.x*glo_var.slid_precision)
 		slid.slider.setValue(glo_var.alpha*glo_var.slid_precision)
 		# slid.slider.valueChanged.connect(slid.setLabelValue)
@@ -400,7 +397,9 @@ class Widget(QtGui.QWidget):
 		slid.slider.setMaximum(2*glo_var.beta_star*glo_var.slid_precision)
 		slid.spin.setRange(0,2*glo_var.beta_star)
 		slid.x = glo_var.beta
+		temp = glo_var.beta	
 		slid.spin.setValue(slid.x)
+		glo_var.beta = temp
 		slid.setLabelValue(slid.x*glo_var.slid_precision)
 		slid.slider.setValue(glo_var.beta*glo_var.slid_precision)
 		# slid.slider.valueChanged.connect(slid.setLabelValue)
