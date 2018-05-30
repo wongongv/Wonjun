@@ -19,6 +19,10 @@ class rho:
 		self.frame = glo_var.setframe(self.p2main, width = 1)
 		self.drho.addWidget(self.frame)
 
+		self.p2.addLegend = glo_var.myaddLegend
+		self.p2.addLegend(self.p2, offset=(-10,50))
+		
+		self.initiating = 1
 
 		self.p2main.setLabel('left',"\u03c1",**glo_var.labelstyle)
 		self.p2main.setLabel('bottom',"x",**glo_var.labelstyle)
@@ -30,7 +34,13 @@ class rho:
 		self.lpen=pg.mkPen(color=(16,52,166), width=glo_var.line_width, style=QtCore.Qt.DashLine)
 		self.realpen=pg.mkPen('k', width=2)
 		self.update()
+		self.legend()
 
+	def legend(self):
+		self.p2.plot(pen=self.realpen, name='\u03c1')
+		self.p2.plot(pen=self.rpen, name='\u03c1+')
+		self.p2.plot(pen=self.lpen, name='\u03c1-')
+	
 	def set_range(self):
 		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax = 1.01, yMax = 1.01)
 		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l])
@@ -70,10 +80,14 @@ class rho:
 
 # should care about when there is no lambda? division by zero error.
 
-		self.p2main.clear()
+		self.p2.clear()
 		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l])
 		self.value_declaration()
 		self.cal_stars()
+		if self.initiating:
+			glo_var.alpha = 1.5 * self.alpha_star
+			glo_var.beta = 1.5 * self.beta_star
+			self.initiating = 0
 		# self.cal_lamb_fun()
 		self.calculation()
 # assign values
@@ -84,8 +98,8 @@ class rho:
 
 
 
-		self.p2main.plot(self.lambdas_xval, self.rho_l, name = r'\rho_L',pen=self.lpen)
-		self.p2main.plot(self.lambdas_xval, self.rho_r, name = r'\rho_R',pen=self.rpen)
+		self.p2main.plot(self.lambdas_xval, self.rho_l, pen=self.lpen)
+		self.p2main.plot(self.lambdas_xval, self.rho_r, pen=self.rpen)
 		self.plot_scat(self.scat_step)
 		# self.p2main.plot(self.scat_xs, self.scat_ys, pen=None, symbol='o', symbolPen='r')
 
@@ -208,6 +222,7 @@ class rho:
 		self.lambda_max=max(self.lambdas_ys)
 		self.scat_step = 3
 		self.scat_cross_step = 0
+
 		# notice, actual cross_steps will be twice + 1 of it.
 
 	def cal_stars(self):

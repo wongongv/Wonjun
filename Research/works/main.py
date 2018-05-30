@@ -270,6 +270,8 @@ class MainWindow(QtGui.QMainWindow):
 
 
 		self.copen=0
+		self.sopen=0
+		self.ropen=0
 
 		self.current_docks=[]
 
@@ -436,48 +438,58 @@ class MainWindow(QtGui.QMainWindow):
 
 		self.cwindow = QtGui.QMainWindow()
 
-		self.boxeswidget=QtGui.QWidget(self.cwindow)
-		self.checkbox_layout = QtGui.QGridLayout(self.boxeswidget)
-		self.ch_lamb=QtGui.QCheckBox(self.boxeswidget)
+		boxeswidget=QtGui.QWidget(self.cwindow)
+		checkbox_layout = QtGui.QGridLayout(boxeswidget)
+		self.ch_lamb=QtGui.QCheckBox(boxeswidget)
 		self.ch_lamb.setText('\u03bb(x)')
 		self.ch_lamb.setChecked(True)
 		self.ch_lamb.stateChanged.connect(lambda : self.dlamb.close() if not self.ch_lamb.isChecked() else self.dlambadd())
 
-		self.ch_rho=QtGui.QCheckBox(self.boxeswidget)
+		self.ch_rho=QtGui.QCheckBox(boxeswidget)
 		self.ch_rho.setText('\u03c1(x)')
 		self.ch_rho.setChecked(True)
 		self.ch_rho.stateChanged.connect(lambda : self.drho.close() if not self.ch_rho.isChecked() else self.drhoadd())
 
-		self.ch_alpha=QtGui.QCheckBox(self.boxeswidget)
+		self.ch_alpha=QtGui.QCheckBox(boxeswidget)
 		self.ch_alpha.setText('\u03b1')
 		self.ch_alpha.setChecked(True)
 		self.ch_alpha.stateChanged.connect(lambda : self.dalpha.close() if not self.ch_alpha.isChecked() else self.dalphaadd())
 
-		self.ch_beta=QtGui.QCheckBox(self.boxeswidget)
+		self.ch_beta=QtGui.QCheckBox(boxeswidget)
 		self.ch_beta.setText('\u03b2')
 		self.ch_beta.setChecked(True)
 		self.ch_beta.stateChanged.connect(lambda : self.dbeta.close() if not self.ch_beta.isChecked() else self.dbetaadd())
 
-		self.ch_phase=QtGui.QCheckBox(self.boxeswidget)
+		self.ch_phase=QtGui.QCheckBox(boxeswidget)
 		self.ch_phase.setText('Phase')
 		self.ch_phase.setChecked(True)
 		self.ch_phase.stateChanged.connect(lambda : self.dphase.close() if not self.ch_phase.isChecked() else self.dphaseadd())
 
-		self.ch_controls=QtGui.QCheckBox(self.boxeswidget)
+		self.ch_controls=QtGui.QCheckBox(boxeswidget)
 		self.ch_controls.setText('Controls')
 		self.ch_controls.setChecked(True)
 		self.ch_controls.stateChanged.connect(lambda : self.dcontrols.close() if not self.ch_controls.isChecked() else self.dcontrolsadd())
 
-		self.checkbox_layout.addWidget(self.ch_rho,0,0,1,1)
-		self.checkbox_layout.addWidget(self.ch_lamb,1,0,1,1)
-		self.checkbox_layout.addWidget(self.ch_alpha,0,1,1,1)
-		self.checkbox_layout.addWidget(self.ch_phase,1,1,1,1)
-		self.checkbox_layout.addWidget(self.ch_beta,0,2,1,1)
-		self.checkbox_layout.addWidget(self.ch_controls,1,2,1,1)	
-		self.cwindow.setCentralWidget(self.boxeswidget)		
+
+		checkbox_layout.addWidget(self.ch_rho,0,0,1,1)
+		checkbox_layout.addWidget(self.ch_lamb,1,0,1,1)
+		checkbox_layout.addWidget(self.ch_alpha,0,1,1,1)
+		checkbox_layout.addWidget(self.ch_phase,1,1,1,1)
+		checkbox_layout.addWidget(self.ch_beta,0,2,1,1)
+		checkbox_layout.addWidget(self.ch_controls,1,2,1,1)	
+		self.cwindow.setCentralWidget(boxeswidget)		
 		
 	def checkbox(self):
 		if self.copen == 0:
+			self.check_current_docks()
+			self.closed_docks = []
+
+			for i in self.docklist:
+				if i not in self.current_docks:
+					self.closed_docks+=[i]
+			for i in self.closed_docks:
+				eval(i[:5] + "ch_" + i[6:]).setChecked(False)
+
 			self.cwindow.show()
 			self.copen = 1
 		else:
@@ -496,15 +508,26 @@ class MainWindow(QtGui.QMainWindow):
 			makedirs(filepath)
 
 
-		file1=os.path.join(filepath, "Lambdas_data.csv")
+		lambda_data=os.path.join(filepath, "Lambda_data.csv")
 		#Assuming res is a flat list
 		# with open(filepath + 'h', "w") as output:
-		with open(file1, "w") as output:
-			writer = csv.writer(output, lineterminator='\n')
-			print(glo_var.lambdas)
-			for val in glo_var.lambdas:
-				writer.writerow([val])  
-		
+		with open(lambda_data, "w") as output:
+			try:
+				writer = csv.writer(output, lineterminator='\n')
+				for val in np.array(glo_var.lambdas)[:,1]:
+					writer.writerow([val])  
+			except:
+				pass
+
+		current_alpha_data=os.path.join(filepath, "Lambda_data.csv")
+		with open(current_alpha_data, "w") as output:
+			try:
+				writer = csv.writer(output, lineterminator='\n')
+				for val in np.array(glo_var.lambdas)[:,1]:
+					writer.writerow([val])  
+			except:
+				pass
+
 		for name, pitem in self.pltlist:
 			self.exportimg(pitem,os.path.join(filepath,name + ".png"))
 
@@ -544,21 +567,23 @@ class MainWindow(QtGui.QMainWindow):
 		self.toolbar = self.addToolBar("Toolbar")
 
 
-		home = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_ComputerIcon)),'Default dock position',self)
+		home = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_ComputerIcon)),'Default dock alignment',self)
 		home.triggered.connect(self.default_view_1)
 		self.toolbar.addAction(home)
 
 
-		fix = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_ArrowDown)),'Fix current position',self)
+		fix = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_ArrowDown)),'Fix current alignment',self)
 		fix.triggered.connect(self.fixdock)
 		self.toolbar.addAction(fix)
 		
-		save = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_FileDialogListView)),'Save current position',self)
-		save.triggered.connect(self.savedock)
+		self.savedockandvaluesinit()
+		save = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_FileDialogListView)),'Save current alignment',self)
+		save.triggered.connect(self.popsavedockandvalues)
 		self.toolbar.addAction(save)
 
-		restore = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_BrowserReload)),'Restore saved position',self)
-		restore.triggered.connect(self.restoredock)
+		self.restoredockandvaluesinit()
+		restore = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_BrowserReload)),'Restore saved alignment',self)
+		restore.triggered.connect(self.poprestoredockandvalues)
 		self.toolbar.addAction(restore)
 		
 		self.checkbox_init()
@@ -595,13 +620,114 @@ class MainWindow(QtGui.QMainWindow):
 			self.dphase.showTitleBar()
 			self.titlebarstate = 1
 
-	def savedock(self):
-		self.state = self.area.saveState()
+	def savedockandvaluesinit(self):
+
+		self.swindow = QtGui.QMainWindow()
+
+		boxeswidget=QtGui.QWidget(self.swindow)
+		checkbox_layout = QtGui.QGridLayout(boxeswidget)
 
 
-	def restoredock(self):
-		if self.state != None:
-			self.area.restoreState(self.state)
+		self.sa_dock=QtGui.QCheckBox(boxeswidget)
+		self.sa_dock.setText('Dock alignment')
+		self.sa_dock.setChecked(True)
+
+		self.sa_values=QtGui.QCheckBox(boxeswidget)
+		self.sa_values.setText('Values')
+		self.sa_values.setChecked(True)
+
+		self.save_button = QtGui.QPushButton('Save', self)
+		self.save_button.clicked.connect(self.savedockandvalues)
+		
+		checkbox_layout.addWidget(self.sa_dock,0,0,1,1)
+		checkbox_layout.addWidget(self.sa_values,0,1,1,1)
+		checkbox_layout.addWidget(self.save_button,1,0,1,2)
+		
+		self.swindow.setCentralWidget(boxeswidget)		
+
+	def restoredockandvaluesinit(self):
+
+		self.rwindow = QtGui.QMainWindow()
+
+		boxeswidget=QtGui.QWidget(self.rwindow)
+		checkbox_layout = QtGui.QGridLayout(boxeswidget)
+
+
+		self.re_dock=QtGui.QCheckBox(boxeswidget)
+		self.re_dock.setText('Dock alignment')
+		self.re_dock.setChecked(True)
+
+		self.re_values=QtGui.QCheckBox(boxeswidget)
+		self.re_values.setText('Values')
+		self.re_values.setChecked(True)
+
+		self.restore_button = QtGui.QPushButton('Restore', self)
+		self.restore_button.clicked.connect(self.restoredockandvalues)
+		
+		checkbox_layout.addWidget(self.re_dock,0,0,1,1)
+		checkbox_layout.addWidget(self.re_values,0,1,1,1)
+		checkbox_layout.addWidget(self.restore_button,1,0,1,2)
+		
+		self.rwindow.setCentralWidget(boxeswidget)
+
+	def savedockandvalues(self):
+		if self.sa_values.checkState:
+			self.savedlambdas=glo_var.lambdas[:]
+			self.savedalpha=glo_var.alpha
+			self.savedbeta=glo_var.beta
+			self.savedl=glo_var.l
+		if self.sa_dock.checkState:
+			self.saved_state = []
+			self.state = self.area.saveState()
+			self.saved_state = self.check_current_docks()[:]
+
+		self.sopen = 0
+		self.swindow.hide()
+	def popsavedockandvalues(self):
+		if self.sopen == 0:
+			self.swindow.show()
+			self.sopen = 1
+		
+		else:
+			self.swindow.hide()
+			self.sopen = 0
+		
+	def poprestoredockandvalues(self):
+		if self.ropen == 0:
+			self.rwindow.show()
+			self.ropen = 1
+		
+		else:
+			self.rwindow.hide()
+			self.ropen = 0
+		
+	def restoredockandvalues(self):
+		if self.re_values.checkState:
+			glo_var.lambdas = self.savedlambdas[:]
+			glo_var.alpha = self.savedalpha
+			glo_var.beta = self.savedbeta
+			glo_var.l = self.savedl
+
+			self.lamb_po.initiating = 1
+			self.lamb_po.update()
+			self.rh.update()
+			self.phas.update()
+			self.jalph.update()
+			self.jbet.update()
+			self.slid.update()
+
+		if self.re_dock.checkState:
+			closed_docks=[]
+			if self.state != None:
+				# self.default_view_1()
+				self.check_current_docks()
+				for i in self.saved_state:
+					if i not in self.current_docks:
+						eval(i+"add")()
+				self.area.restoreState(self.state)
+
+		self.ropen = 0
+		self.rwindow.hide()
 
 	def realinit(self):
 		
@@ -639,10 +765,25 @@ class MainWindow(QtGui.QMainWindow):
 		self.slid=slider.Widget(self.dcontrols, self.lamb_po,self.phas, self.rh, self.jbet,self.jalph)
 		self.lamb_po.receive(self.slid)
 
-		self.pltlist = [['Lambdas_fig', self.lamb_po.p1], ['Rho_fig',self.rh.p2], ['Jalpha_fig', self.jalph.p3], ['Jbeta_fig',self.jbet.p4], ['Phase_fig',self.phas.p5]]
+		# default values to restore is input
+		self.savedlambdas=glo_var.lambdas[:]
+		self.savedalpha=glo_var.alpha
+		self.savedbeta=glo_var.beta
+		self.savedl=glo_var.l
+
+		self.pltlist = [['Lambda_fig', self.lamb_po.p1], ['Density_fig',self.rh.p2], ['Current_alpha_fig', self.jalph.p3], ['Current_beta_fig',self.jbet.p4], ['Phase_fig',self.phas.p5]]
 
 		self.default_view_1()
 		self.setCentralWidget(self.area)
+
+	def check_current_docks(self):
+		self.current_docks=[]
+		for i in self.docklist:
+			if self.area.getContainer(eval(i)):
+				self.current_docks+=[i]
+			else:
+				pass
+		return self.current_docks
 
 	def default_view_1(self):
 		for i in self.docklist:
@@ -686,16 +827,6 @@ class MainWindow(QtGui.QMainWindow):
 		self.area.addDock(self.dalpha,'right')
 		self.area.addDock(self.dbeta,'bottom', self.dalpha)
 
-
-	def checkboxes(self):
-		self.alphacheck()
-
-	# def alphacheck(self):
-	# 	self.alphline = QtGui.QCheckBox('\u03B1 line')
-	# 	self.alproxy=QtGui.QGraphicsProxyWidget()
-	# 	self.alproxy.setWidget(self.alphline)
-	# 	self.win.addItem(self.alphline)
-	# 	self.alphline.stateChanged.connect(self.alphstate)
 
 
 	def opengraphs(self):

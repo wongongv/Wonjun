@@ -345,6 +345,7 @@ class Widget(QtGui.QWidget):
 		self.jbet.update()
 
 	def update_lamb_rh(self, index, y, remove):
+
 		glo_var.alpha = self.ws[0].x
 		glo_var.beta = self.ws[1].x
 		glo_var.l = self.ws[2].x
@@ -361,7 +362,10 @@ class Widget(QtGui.QWidget):
 		# self.show()
 
 	def update_ab_rh(self):
+
 		glo_var.alpha = self.ws[0].x
+		print(self.ws[0].x)
+		print(glo_var.alpha)
 		glo_var.beta = self.ws[1].x
 		self.rh.update()
 		self.phas.update()

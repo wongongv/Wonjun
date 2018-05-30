@@ -18,16 +18,16 @@ class myscat(pg.ScatterPlotItem):
 				self.index = glo_var.lambdas.index([self.ptsClicked[0]._data[0],self.ptsClicked[0]._data[1]])
 				self.sigClicked.emit(self, self.ptsClicked)
 				ev.accept()
-			elif self.lamb_po.curve.mouseShape().contains(ev.pos()):
-				self.ptsClicked = pts
-				self.toadd = [ev.pos()[0],ev.pos()[1]]
-				glo_var.lambdas += [self.toadd]
-				glo_var.lambdas.sort()
-				glo_var.lambdas_degree += 1
-				self.slid.update_lamb_rh_add()
-				self.lamb_po.lastClicked.resetPen()
-				self.lamb_po.lastClicked=[]
-				ev.accept()
+			# elif self.lamb_po.curve.mouseShape().contains(ev.pos()):
+			# 	self.ptsClicked = pts
+			# 	self.toadd = [ev.pos()[0],ev.pos()[1]]
+			# 	glo_var.lambdas += [self.toadd]
+			# 	glo_var.lambdas.sort()
+			# 	glo_var.lambdas_degree += 1
+			# 	self.slid.update_lamb_rh_add()
+			# 	self.lamb_po.lastClicked.resetPen()
+			# 	self.lamb_po.lastClicked=[]
+			# 	ev.accept()
 			else:
 				#print "no spots"
 				self.lamb_po.lastClicked[0].resetPen()
@@ -49,24 +49,24 @@ class myscat(pg.ScatterPlotItem):
 		else:
 			ev.ignore()
 	 
-	def wheelEvent(self, ev, axis=None):
-		if len(self.lamb_po.lastClicked) ==1:
-			s = self.ptsClicked[0]._data[1]+ ev.delta() / 2000 # actual scaling factor
-			# should say that I limited this number by 0.0001 to prevent zero division
-			if s < 0.0001 :
-				s = 0.0001
-			self.set_yval(s)
-			ev.accept()
+	# def wheelEvent(self, ev, axis=None):
+	# 	if len(self.lamb_po.lastClicked) ==1:
+	# 		s = self.ptsClicked[0]._data[1]+ ev.delta() / 2000 # actual scaling factor
+	# 		# should say that I limited this number by 0.0001 to prevent zero division
+	# 		if s < 0.0001 :
+	# 			s = 0.0001
+	# 		self.set_yval(s)
+	# 		ev.accept()
 	 
 	def set_yval(self, value):
 		self.ptsClicked[0]._data[1] = value
 		self.slid.update_lamb_rh(self.index, value, 0)
 
 
-	def remove_point(self):
-		glo_var.lambdas.remove([self.ptsClicked[0]._data[0],self.ptsClicked[0]._data[1]])
-		glo_var.lambdas_degree -= 1
-		self.slid.update_lamb_rh(0,0,1)
+	# def remove_point(self):
+	# 	glo_var.lambdas.remove([self.ptsClicked[0]._data[0],self.ptsClicked[0]._data[1]])
+	# 	glo_var.lambdas_degree -= 1
+	# 	self.slid.update_lamb_rh(0,0,1)
 
 	def raisecontextmenu(self, point, ev):
 		self.menu = Menu(self, point)
@@ -77,7 +77,7 @@ class Menu(QtGui.QMenu):
 		QtGui.QMenu.__init__(self)
 		self.point = point
 		self.item = item
-		self.removal = self.addAction("Remove point", lambda :self.item.remove_point())
+		# self.removal = self.addAction("Remove point", lambda :self.item.remove_point())
 		self.positionMenu = self.addMenu("Change \u03bb")
 		self.w=QtGui.QWidget()
 		self.l=QtGui.QGridLayout()
@@ -178,8 +178,9 @@ class lamb_pol:
 	def clicked(self, item, points):
 		self.points=points
 		for p in self.lastClicked:
-			points[0].resetPen()
-		points[0].setPen('b', width=2)
+			p.resetPen()
+		for p in points:
+			p.setPen('b', width=2)
 		self.lastClicked = points
 
 
