@@ -24,7 +24,7 @@ class rho:
 		
 		self.initiating = 1
 
-		self.p2main.setLabel('left',"\u03c1",**glo_var.labelstyle)
+		self.p2main.setLabel('left',"\u2374",**glo_var.labelstyle)
 		self.p2main.setLabel('bottom',"x",**glo_var.labelstyle)
 
 
@@ -37,9 +37,9 @@ class rho:
 		self.legend()
 
 	def legend(self):
-		self.p2.plot(pen=self.realpen, name='\u03c1')
-		self.p2.plot(pen=self.rpen, name='\u03c1+')
-		self.p2.plot(pen=self.lpen, name='\u03c1-')
+		self.p2.plot(pen=self.realpen, name='\u2374')
+		self.p2.plot(pen=self.rpen, name='\u2374+')
+		self.p2.plot(pen=self.lpen, name='\u2374-')
 	
 	def set_range(self):
 		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax = 1.01, yMax = 1.01)

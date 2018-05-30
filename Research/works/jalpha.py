@@ -18,7 +18,7 @@ class jalpha:
 
 		self.p3.setLabel('bottom',"\u03b1",**glo_var.labelstyle)
 		self.p3.setLabel('left',"J",**glo_var.labelstyle)
-		self.p3.setLabel('right',"\u03c1",**glo_var.labelstyle)
+		self.p3.setLabel('right',"\u27e8\u2374\u27e9",**glo_var.labelstyle)
 
 		self.p3.addLegend = glo_var.myaddLegend
 		self.p3.addLegend(self.p3)
@@ -131,7 +131,7 @@ class jalpha:
 
 	def legend(self):
 		self.p3.plot(pen=self.jpen, name='J')
-		self.p3.plot(pen=self.rho_dash, name='\u03c1')
+		self.p3.plot(pen=self.rho_dash, name='\u27e8\u2374\u27e9')
 
 	def updateview(self):
 		self.p3_2.setGeometry(self.p3.vb.sceneBoundingRect())

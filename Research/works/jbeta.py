@@ -26,7 +26,7 @@ class jbeta:
 
 		self.p4.setLabel('bottom',"\u03b2",**glo_var.labelstyle)
 
-		self.p4.setLabel('right',"\u03c1",**glo_var.labelstyle)
+		self.p4.setLabel('right',"\u27e8\u2374\u27e9",**glo_var.labelstyle)
 
 
 		self.rh=rh
@@ -120,7 +120,7 @@ class jbeta:
 
 	def legend(self):
 		self.p4.plot(pen=self.jpen, name='J')
-		self.p4.plot(pen=self.rho_dash, name='\u03c1')
+		self.p4.plot(pen=self.rho_dash, name='\u27e8\u2374\u27e9')
 
 	def updateview(self):
 		self.p4_2.setGeometry(self.p4.vb.sceneBoundingRect())

@@ -17,6 +17,7 @@ import pyqtgraph.widgets.RemoteGraphicsView
 from pyqtgraph.dockarea import *
 import os.path
 from os import makedirs
+from copy import deepcopy
 # for free movement
 	# def __init__(self,parent=None):
 	
@@ -672,7 +673,7 @@ class MainWindow(QtGui.QMainWindow):
 
 	def savedockandvalues(self):
 		if self.sa_values.checkState:
-			self.savedlambdas=glo_var.lambdas[:]
+			self.savedlambdas=deepcopy(glo_var.lambdas)
 			self.savedalpha=glo_var.alpha
 			self.savedbeta=glo_var.beta
 			self.savedl=glo_var.l
@@ -703,12 +704,11 @@ class MainWindow(QtGui.QMainWindow):
 		
 	def restoredockandvalues(self):
 		if self.re_values.checkState:
-			glo_var.lambdas = self.savedlambdas[:]
+			glo_var.lambdas = deepcopy(self.savedlambdas)
 			glo_var.alpha = self.savedalpha
 			glo_var.beta = self.savedbeta
 			glo_var.l = self.savedl
 
-			self.lamb_po.initiating = 1
 			self.lamb_po.update()
 			self.rh.update()
 			self.phas.update()
@@ -717,8 +717,9 @@ class MainWindow(QtGui.QMainWindow):
 			self.slid.update()
 
 		if self.re_dock.checkState:
-			closed_docks=[]
+
 			if self.state != None:
+				closed_docks=[]
 				# self.default_view_1()
 				self.check_current_docks()
 				for i in self.saved_state:

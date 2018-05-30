@@ -85,7 +85,7 @@ class Menu(QtGui.QMenu):
 		self.w.setLayout(self.l)
 
 		self.fracPosSpin = widgets.SpinBox.SpinBox()
-		self.fracPosSpin.setOpts(value=point[0]._data[1], bounds=(0.0, None), step=0.01, decimals=2)
+		self.fracPosSpin.setOpts(value=point[0]._data[1], bounds=(0.0, None), step=0.01, decimals=3)
 		self.l.addWidget(QtGui.QLabel("\u03bb(x) : "), 0,0)
 		self.l.addWidget(self.fracPosSpin, 0, 1)
 		self.a = QtGui.QWidgetAction(self)		
