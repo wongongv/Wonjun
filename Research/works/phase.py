@@ -366,6 +366,7 @@ class phase:
 	def initiate(self):
 		# self.p5main.clear()
 
+		self.value_declaration()
 		self.pointer = Cursor_Point(self)
 
 		self.pointer.legend(glo_var.alpha,glo_var.beta)

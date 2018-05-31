@@ -83,8 +83,10 @@ class rho:
 		self.value_declaration()
 		self.cal_stars()
 		if self.initiating:
-			glo_var.alpha = 1.5 * self.alpha_star
-			glo_var.beta = 1.5 * self.beta_star
+			glo_var.alpha = 0.01
+			glo_var.beta = 0.01
+			# glo_var.alpha = 1.5 * self.alpha_star
+			# glo_var.beta = 1.5 * self.beta_star
 			self.initiating = 0
 		# self.cal_lamb_fun()
 		self.calculation()
