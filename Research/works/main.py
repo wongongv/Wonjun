@@ -305,13 +305,13 @@ class MainWindow(QtGui.QMainWindow):
 		self.exportaction.setStatusTip("Export to a folder")
 		self.exportaction.triggered.connect(self.exportdata)
 
-		self.viewaction1 = QtGui.QAction("&Default View 1",self)
+		self.viewaction1 = QtGui.QAction("&Grid View 1",self)
 		self.viewaction1.setStatusTip("Export to latx")
-		self.viewaction1.triggered.connect(self.default_view_1)
+		self.viewaction1.triggered.connect(self.grid_view_1)
 
-		self.viewaction2 = QtGui.QAction("&Default View 2",self)
+		self.viewaction2 = QtGui.QAction("&Grid View 2",self)
 		self.viewaction2.setStatusTip("Export to latx")
-		self.viewaction2.triggered.connect(self.default_view_2)
+		self.viewaction2.triggered.connect(self.grid_view_2)
 
 		self.mainMenu = self.menuBar()
 		self.fileMenu = self.mainMenu.addMenu("&File")
@@ -442,12 +442,12 @@ class MainWindow(QtGui.QMainWindow):
 		boxeswidget=QtGui.QWidget(self.cwindow)
 		checkbox_layout = QtGui.QGridLayout(boxeswidget)
 		self.ch_lamb=QtGui.QCheckBox(boxeswidget)
-		self.ch_lamb.setText('\u03bb(x)')
+		self.ch_lamb.setText('\u03bb')
 		self.ch_lamb.setChecked(True)
 		self.ch_lamb.stateChanged.connect(lambda : self.dlamb.close() if not self.ch_lamb.isChecked() else self.dlambadd())
 
 		self.ch_rho=QtGui.QCheckBox(boxeswidget)
-		self.ch_rho.setText('\u03c1(x)')
+		self.ch_rho.setText('\u03c1')
 		self.ch_rho.setChecked(True)
 		self.ch_rho.stateChanged.connect(lambda : self.drho.close() if not self.ch_rho.isChecked() else self.drhoadd())
 
@@ -596,8 +596,8 @@ class MainWindow(QtGui.QMainWindow):
 		self.toolbar = self.addToolBar("Toolbar")
 
 
-		home = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_ComputerIcon)),'Default dock alignment',self)
-		home.triggered.connect(self.default_view_1)
+		home = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_ComputerIcon)),'Grid View 1',self)
+		home.triggered.connect(self.grid_view_1)
 		self.toolbar.addAction(home)
 
 
@@ -658,7 +658,7 @@ class MainWindow(QtGui.QMainWindow):
 
 
 		self.sa_dock=QtGui.QCheckBox(boxeswidget)
-		self.sa_dock.setText('Dock alignment')
+		self.sa_dock.setText('Grid View')
 		self.sa_dock.setChecked(True)
 
 		self.sa_values=QtGui.QCheckBox(boxeswidget)
@@ -683,7 +683,7 @@ class MainWindow(QtGui.QMainWindow):
 
 
 		self.re_dock=QtGui.QCheckBox(boxeswidget)
-		self.re_dock.setText('Dock alignment')
+		self.re_dock.setText('Grid view')
 		self.re_dock.setChecked(True)
 
 		self.re_values=QtGui.QCheckBox(boxeswidget)
@@ -751,7 +751,7 @@ class MainWindow(QtGui.QMainWindow):
 
 			if self.state != None:
 				closed_docks=[]
-				# self.default_view_1()
+				# self.grid_view_1()
 				self.check_current_docks()
 				for i in self.saved_state:
 					if i not in self.current_docks:
@@ -805,7 +805,7 @@ class MainWindow(QtGui.QMainWindow):
 
 		self.pltlist = [['Lambda_fig', self.lamb_po.p1], ['Density_fig',self.rh.p2], ['Current_alpha_fig', self.jalph.p3], ['Current_beta_fig',self.jbet.p4], ['Phase_fig',self.phas.p5]]
 
-		self.default_view_1()
+		self.grid_view_1()
 		self.setCentralWidget(self.area)
 
 	def check_current_docks(self):
@@ -817,7 +817,7 @@ class MainWindow(QtGui.QMainWindow):
 				pass
 		return self.current_docks
 
-	def default_view_1(self):
+	def grid_view_1(self):
 		for i in self.docklist:
 			try:
 				eval(i).close()
@@ -846,7 +846,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.dbeta.setMinimumSize(0,0)
 
 
-	def default_view_2(self):
+	def grid_view_2(self):
 		for i in self.docklist:
 			try:
 				eval(i).close()
