@@ -56,10 +56,8 @@ class jalpha:
 	def set_range(self):
 		self.uplim1 = min(self.jpost * 1.3, 1)
 		self.lolim1 = 0
-		# self.p3.vb.setRange(xRange=[0,self.vlim],yRange=[self.lolim1,self.uplim1],padding =0)
 		self.uplim2 = min(1, max(max(self.rho_avg_pre)*1.4,max(self.rho_avg_post)*1.4))
 		self.lolim2 = max(0, min(min(self.rho_avg_pre)*0.6,min(self.rho_avg_post)*0.6))
-		# self.p3_2.setRange(xRange=[0,self.vlim],yRange=[self.lolim2,self.uplim2], padding = 0)
 
 		self.p3.vb.setRange(xRange=[0,3*self.trans_point],yRange=[self.lolim1,self.uplim1],padding =0)
 		self.p3_2.setRange(xRange=[0,3*self.trans_point],yRange=[self.lolim2,self.uplim2], padding = 0)
@@ -73,11 +71,6 @@ class jalpha:
 		self.p3_w = self.win.addLayout(row=2,col=0)
 
 		self.p3_w.addItem(self.alproxy,row=0,col=1)
-
-
-	def alphstate(self):
-		self.alphacheck * (-1)
-		self.update()
 
 	def update(self):
 		self.p3.clear()
@@ -93,7 +86,6 @@ class jalpha:
 		# self.alphas_to_add = np.array([self.trans_point-0.000001, self.trans_point, self.trans_point+0.000001]) 
 		# self.alphas_pre = np.concatenate((self.alphas_pre_pre[:-1],self.alphas_to_add))
 		self.alphas_post=np.array([self.trans_point+ 0.000001, 1])
-		# self.domain = np.concatenate((self.alphas_pre,self.alphas_post))
 		self.j_l_values=np.array([i*(self.lambda_0-i)/(self.lambda_0 + (glo_var.l-1)*i) for i in self.alphas_pre])
 		
 		self.rho_avg_pre = []
@@ -117,8 +109,6 @@ class jalpha:
 			self.jpost= self.j_r
 		
 		self.p3.plot([self.trans_point,1],[self.jpost,self.jpost],pen = self.jpen)
-
-
 
 		self.trans_line = self.p3.plot([self.trans_point,self.trans_point],[0,1],pen=self.dash)
 		if self.alphacheck == 1:
@@ -296,10 +286,3 @@ class jalpha:
 
 			self.rho_sum += [self.basic_1 + self.j_inter*self.basic_2 +pow(-1,self.region == 1) * self.inter_sum/glo_var.lambdas_degree]
 			self.inter_sum = 0
-			
-	def get_cross(self,upper_array,lower_array,start_position,end_position,steps):
-		step_val=(upper_array[end_position] - lower_array[start_position])/steps
-		self.cross_array=[]
-		for i in range(steps + 1):
-			self.cross_array += [lower_array[start_position] + i*step_val]
-		return self.cross_array
