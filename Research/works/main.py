@@ -113,7 +113,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.fileMenu.addAction(self.loadaction)
 		self.fileMenu.addAction(self.exportaction)
 
-		self.viewMenu = self.mainMenu.addMenu("&View")
+		self.viewMenu = self.mainMenu.addMenu("&Display")
 		self.viewMenu.addAction(self.viewaction1)
 		self.viewMenu.addAction(self.viewaction2)
 
