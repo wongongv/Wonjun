@@ -116,50 +116,50 @@ class Cursor_Point(pg.GraphItem):
 
 
 
-class MyROI(pg.ROI):
-	def __init__(self, pos, size=[0.03,0.03], angle=0.0, invertible=False, maxBounds=None, snapSize=1.0, scaleSnap=False, translateSnap=False, rotateSnap=False, parent=None, pen=None, movable=True, removable=False):
-		super().__init__(pos, size)
+# class MyROI(pg.ROI):
+# 	def __init__(self, pos, size=[0.03,0.03], angle=0.0, invertible=False, maxBounds=None, snapSize=1.0, scaleSnap=False, translateSnap=False, rotateSnap=False, parent=None, pen=None, movable=True, removable=False):
+# 		super().__init__(pos, size)
 
-	def paint(self, p, opt, widget):
-		# Note: don't use self.boundingRect here, because subclasses may need to redefine it.
-		r = QtCore.QRectF(0, 0, self.state['size'][0], self.state['size'][1]).normalized()
-		p.setRenderHint(QtGui.QPainter.Antialiasing)
-		p.setPen(self.currentPen)
-		p.translate(r.left(), r.top())
-		p.scale(r.width(), r.height())
-		p.drawEllipse(0, 0, 1, 1)
+# 	def paint(self, p, opt, widget):
+# 		# Note: don't use self.boundingRect here, because subclasses may need to redefine it.
+# 		r = QtCore.QRectF(0, 0, self.state['size'][0], self.state['size'][1]).normalized()
+# 		p.setRenderHint(QtGui.QPainter.Antialiasing)
+# 		p.setPen(self.currentPen)
+# 		p.translate(r.left(), r.top())
+# 		p.scale(r.width(), r.height())
+# 		p.drawEllipse(0, 0, 1, 1)
 
-	def mouseDragEvent(self, ev):
-		super().mouseDragEvent(ev)
-		self.posi = self.pos()
-		a = self.posi[0]
-		b = self.posi[1]
-		self.slid.update_phas(a, b)
-		self.legend(a,b)
-	def receive(self, slid, phas):
-		self.slid = slid
-		self.phas = phas
+# 	def mouseDragEvent(self, ev):
+# 		super().mouseDragEvent(ev)
+# 		self.posi = self.pos()
+# 		a = self.posi[0]
+# 		b = self.posi[1]
+# 		self.slid.update_phas(a, b)
+# 		self.legend(a,b)
+# 	def receive(self, slid, phas):
+# 		self.slid = slid
+# 		self.phas = phas
 
-	def legend(self, a, b):
+# 	def legend(self, a, b):
 
-		if a > glo_var.alpha_star and b > glo_var.beta_star:
-			region = 'MC'
-			# penn = self.phas.purple
-		elif a> glo_var.alpha_star:
-			region = 'HD  ' + '\u2161'
-			# penn = self.phas.red
-		elif b> glo_var.beta_star:
-			region = 'LD  ' + '\u2161'
-			# penn = self.phas.blue
-		elif b > self.phas.trans_func(a):
-			region = 'LD  ' + '\u2160'
-			# penn = self.phas.blue
-		else:
-			# penn = self.phas.red
-			region = 'HD  ' + '\u2160'
-		self.phas.pointer.setPen(None)
-		self.phas.leg.items = []
-		self.phas.p5main.plot(pen=None, name=region)
+# 		if a > glo_var.alpha_star and b > glo_var.beta_star:
+# 			region = 'MC'
+# 			# penn = self.phas.purple
+# 		elif a> glo_var.alpha_star:
+# 			region = 'HD  ' + '\u2161'
+# 			# penn = self.phas.red
+# 		elif b> glo_var.beta_star:
+# 			region = 'LD  ' + '\u2161'
+# 			# penn = self.phas.blue
+# 		elif b > self.phas.trans_func(a):
+# 			region = 'LD  ' + '\u2160'
+# 			# penn = self.phas.blue
+# 		else:
+# 			# penn = self.phas.red
+# 			region = 'HD  ' + '\u2160'
+# 		self.phas.pointer.setPen(None)
+# 		self.phas.leg.items = []
+# 		self.phas.p5main.plot(pen=None, name=region)
 		
 # class myscat(pg.ScatterPlotItem):
 
@@ -324,8 +324,8 @@ class phase:
 
 		# self.roicolor = QtGui.QPen.brush(QtGui.QColor(20,20,140,255))
 		self.dphase = dphase
-		self.p5main = glo_var.MyPW()
-		self.p5main._rescale=self.set_range
+		self.p5main = glo_var.MyPW(x="\u03b1",y1="\u03b2",set_range = self.set_range)
+		# self.p5main._rescale=self.set_range
 		self.p5=self.p5main.plotItem
 		# self.p5main=pg.PlotWidget()
 
@@ -334,8 +334,10 @@ class phase:
 
 		self.viewbox = self.p5main.getPlotItem().getViewBox()
 		self.viewbox.setBackgroundColor('w')
+		# self.p5main.set_range = self.set_range
+		self.p5main.coordinate_label = QtGui.QLabel()
+		self.frame = glo_var.setframe(self.p5main, width = 1, coordinate_label = self.p5main.coordinate_label)
 
-		self.frame = glo_var.setframe(self.p5main, width = 1)
 		self.dphase.addWidget(self.frame)
 		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax=1.01, yMax=1.01)
 		self.set_range()

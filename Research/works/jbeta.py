@@ -11,23 +11,22 @@ class jbeta:
 
 
 		self.dbeta = dbeta
-		self.p4main = glo_var.MyPW()
+		self.p4main = glo_var.MyPW(x="\u03b2",y1="J",y2= "\u27e8\u2374\u27e9", set_range = self.set_range)
 		# self.p4main._rescale = self.set_range
 		self.p4 = self.p4main.plotItem
 		self.viewbox = self.p4.getViewBox()
 		# self.viewbox.setBackgroundColor('w')
 		self.item = self.p4
 
-
-		self.frame = glo_var.setframe(self.p4main, width = 1)
-		self.dbeta.addWidget(self.frame)
+		self.p4main.tempplotitem = pg.PlotItem()
+		self.p4_2 = self.p4main.tempplotitem.vb
 
 		self.p4.setLabel('left',"J",**glo_var.labelstyle)
 
 		self.p4.setLabel('bottom',"\u03b2",**glo_var.labelstyle)
 
 		self.p4.setLabel('right',"\u27e8\u2374\u27e9",**glo_var.labelstyle)
-
+		# self.p4main.set_range = self.set_range
 
 		self.rh=rh
 		self.rho_dash = pg.mkPen(color=(16,52,166),width=glo_var.line_width,style=QtCore.Qt.DashLine)
@@ -38,13 +37,16 @@ class jbeta:
 		self.p4.addLegend = glo_var.myaddLegend
 		self.p4.addLegend(self.p4)
 
-		self.p4_2 = pg.ViewBox()
 		self.p4.showAxis('right')
 		self.p4.scene().addItem(self.p4_2)
 		self.p4.getAxis('right').linkToView(self.p4_2)
 		self.p4_2.setXLink(self.p4)
 		self.p4_2.setBackgroundColor('w')
 		
+		self.p4main.coordinate_label = QtGui.QLabel()
+		self.frame = glo_var.setframe(self.p4main, width = 1, coordinate_label = self.p4main.coordinate_label)
+		self.dbeta.addWidget(self.frame)
+
 		self.viewbox.setLimits(xMin = 0, yMin = 0, xMax = 1, yMax = 1)
 		self.p4_2.setLimits(xMin = 0, yMin = 0, xMax = 1, yMax = 1)
 

@@ -8,12 +8,14 @@ class jalpha:
 	def __init__(self, dalpha, rh):
 
 		self.dalpha = dalpha
-		self.p3main = glo_var.MyPW()
+		self.p3main = glo_var.MyPW(x="\u03b1",y1="J",y2= "\u27e8\u2374\u27e9", set_range = self.set_range)
 		# self.p3main._rescale = self.set_range
 		self.p3 = self.p3main.plotItem
 
 		self.rh=rh
 
+
+		self.na = "ha"
 
 
 		self.p3.setLabel('bottom',"\u03b1",**glo_var.labelstyle)
@@ -23,7 +25,10 @@ class jalpha:
 		self.p3.addLegend = glo_var.myaddLegend
 		self.p3.addLegend(self.p3)
 
-		self.p3_2 = pg.ViewBox()
+# to use it as coordinate label
+		self.p3main.tempplotitem = pg.PlotItem()
+		# self.p3main.set_range = self.set_range
+		self.p3_2 = self.p3main.tempplotitem.vb
 		self.p3.showAxis('right')
 		self.p3.scene().addItem(self.p3_2)
 		self.p3.getAxis('right').linkToView(self.p3_2)
@@ -34,8 +39,9 @@ class jalpha:
 		self.dash = pg.mkPen('r',width=glo_var.line_width ,style=QtCore.Qt.DashLine)
 		self.jpen = pg.mkPen('k',width=glo_var.line_width)
 		self.alpha_pen = pg.mkPen('k',width = glo_var.line_width)
+		self.p3main.coordinate_label = QtGui.QLabel()
+		self.frame = glo_var.setframe(self.p3main, width = 1, coordinate_label = self.p3main.coordinate_label)
 
-		self.frame = glo_var.setframe(self.p3main, 1)
 		self.dalpha.addWidget(self.frame)
 
 

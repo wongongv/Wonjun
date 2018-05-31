@@ -11,18 +11,22 @@ class rho:
 	def __init__(self,drho):
 
 		self.drho = drho
-		self.p2main = glo_var.MyPW()
+		self.p2main = glo_var.MyPW(x="x", y1= "\u2374", set_range = self.set_range)
 		self.viewbox = self.p2main.getPlotItem().getViewBox()
 		self.viewbox.setBackgroundColor('w')
 		self.p2 = self.p2main.plotItem
-		self.frame = glo_var.setframe(self.p2main, width = 1)
+
+		self.p2main.coordinate_label = QtGui.QLabel()
+		self.frame = glo_var.setframe(self.p2main, width = 1, coordinate_label = self.p2main.coordinate_label)
+
 		self.drho.addWidget(self.frame)
 		self.p2.addLegend = glo_var.myaddLegend
 		self.p2.addLegend(self.p2, offset=(-10,50))
 		self.initiating = 1
 		self.p2main.setLabel('left',"\u2374",**glo_var.labelstyle)
 		self.p2main.setLabel('bottom',"x",**glo_var.labelstyle)
-		self.p2main._rescale=self.set_range
+		# self.p2main.set_range = self.set_range
+		# self.p2main._rescale=self.set_range
 		self.set_range()
 		self.rpen=pg.mkPen('r', width=glo_var.line_width, style=QtCore.Qt.DashLine)  
 		self.lpen=pg.mkPen(color=(16,52,166), width=glo_var.line_width, style=QtCore.Qt.DashLine)

@@ -555,6 +555,7 @@ class MainWindow(QtGui.QMainWindow):
 			for i in range(len(alpha_x_data)):
 				writer.writerow(list(alpha_data[:,i]) + [''] *2 + list(beta_data[:,i]))
 			writer.writerow('\n')
+			writer.writerow(['beta',glo_var.beta,'','','','alpha',glo_var.alpha,''])
 			writer.writerow(['transition point',self.jalph.trans_point,'','','','transition point',self.jbet.trans_point,''])
 		for name, pitem in self.pltlist:
 			self.exportimg(pitem,os.path.join(filepath,name + ".png"))

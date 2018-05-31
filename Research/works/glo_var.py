@@ -63,18 +63,44 @@ def myaddLegend(self, size=None, offset=(30, 30)):
 # --------------------------------------------------------------
 
 class MyPW(pg.PlotWidget):
-	def __init__(self):
+	def __init__(self, x = None, y1 = None, y2 = None, set_range = None):
 		super(MyPW,self).__init__()
 		self.plotItem.autoBtn = ButtonItem.ButtonItem(pixmaps.getPixmap('default'), 14, self.plotItem)
 		self._rescale = lambda:None
-		self.plotItem.autoBtn.clicked.connect(self._rescale)
+		# self.plotItem.autoBtn.clicked.connect(self._rescale)
 		self.plotItem.vb.menu.clear()
-		self.plotItem.ctrlMenu = None
-
+		
+		self.vmenu = QtGui.QMenu()
+		defaultview = QtGui.QAction("Default View",self.vmenu)
+		defaultview.triggered.connect(set_range)
+		self.vmenu.addAction(defaultview)
+		
+		self.plotItem.ctrlMenu = [defaultview]
+		
+# mouse tracking label
+		self.x = x
+		self.y1 = y1
+		self.y2 = y2
 # delete default view, get rid of Export
 		self.plotItem.hideButtons()
 		self.plotItem.scene().contextMenu = None  # get rid of 'Export'
+		self.proxy = pg.SignalProxy(self.plotItem.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
 
+	def mouseMoved(self,evt):
+		pos = evt[0]  ## using signal proxy turns original arguments into a tuple
+		# if self.p1.sceneBoundingRect().contains(pos):
+		if self.plotItem.vb.sceneBoundingRect().contains(pos):
+			if not self.y2:
+				mousePoint = self.plotItem.vb.mapSceneToView(pos)
+				syntax = "<span style='font-size: 12pt'>"+self.x+" = %0.4f,   <span>"+self.y1+" = %0.4f</span>"
+				self.coordinate_label.setText(syntax % (mousePoint.x(),  mousePoint.y()))
+			else:
+				mousePoint = self.plotItem.vb.mapSceneToView(pos)
+				mousePoint2 = self.tempplotitem.vb.mapSceneToView(pos)
+				syntax = "<span style='font-size: 12pt'>"+self.x+" = %0.4f,   <span>"+self.y1+" = %0.4f</span>, <span>"+self.y2+" = %0.4f</span>"
+				self.coordinate_label.setText(syntax % (mousePoint.x(),  mousePoint.y(), mousePoint2.y()))
+		else:
+			self.coordinate_label.setText("")
 	# 	self.vLine = pg.InfiniteLine(angle=90, movable=False)
 	# 	self.hLine = pg.InfiniteLine(angle=0, movable=False)
 	# 	self.proxy = pg.SignalProxy(self.plotItem.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
@@ -206,8 +232,16 @@ class MyPW(pg.PlotWidget):
 	#         newPos = self.mapToParent(ev.pos()) + self.cursorOffset
 	#         self.translate(newPos - self.pos(), snap=snap, finish=False)
 
-def setframe(p, width = 4):
-	layout=QtGui.QHBoxLayout()
+def setframe(p, width = 4, coordinate_label=None):
+	layout=QtGui.QVBoxLayout()
+	if coordinate_label:
+		coord_layout = QtGui.QHBoxLayout()
+
+		spacer = QtGui.QWidget()
+		spacer.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+		coord_layout.addWidget(spacer)
+		coord_layout.addWidget(coordinate_label)
+		layout.addLayout(coord_layout)
 	layout.addWidget(p)
 	frame = QtGui.QFrame()
 	frame.setLayout(layout)
@@ -219,14 +253,12 @@ def initialize():
 	global l, lambdas, lambdas_degree, alpha, beta
 	l = 1
 	lambdas=[]
-	# lambdas=np.array([])
 	lambdas_degree=0
 	alpha = 0.1
 	beta = 0.1
 
 l = 1
 lambdas=[]
-# lambdas=np.array([])
 lambdas_degree=0
 alpha = 0.1
 beta = 0.1

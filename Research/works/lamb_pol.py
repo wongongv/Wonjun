@@ -109,11 +109,15 @@ class Menu(QtGui.QMenu):
 
 class lamb_pol:
 	def __init__(self,dlamb) :
+
+
 		self.dlamb = dlamb
 
-		self.p1main = glo_var.MyPW()
-		self.p1main._rescale = self.set_range
+		self.p1main = glo_var.MyPW(x = 'x', y1='\u03bb',set_range = self.set_range)
+		# self.p1main._rescale = self.set_range
 		self.p1=self.p1main.plotItem
+
+
 		# self.viewbox = self.p1main.getPlotItem().getViewBox()
 		# self.viewbox.setBackgroundColor('w')
 		# self.item = self.p1main.getPlotItem()
@@ -123,6 +127,7 @@ class lamb_pol:
 
 		self.p1main.setLabel('bottom',"x",**glo_var.labelstyle)
 		self.p1main.setLabel('left',"\u03bb",**glo_var.labelstyle)
+		self.p1main.set_range = self.set_range
 
 # I didnt use it. Think about it.
 		self.font = QtGui.QFont()
@@ -152,9 +157,10 @@ class lamb_pol:
 		# self.viewbox.menu = None
 
 
-		self.frame = glo_var.setframe(self.p1main, width = 1)
+		self.p1main.coordinate_label = QtGui.QLabel()
+		self.frame = glo_var.setframe(self.p1main, width = 1, coordinate_label = self.p1main.coordinate_label)
+
 		self.dlamb.addWidget(self.frame)
-		
 		self.update()
 
 	def set_range(self):
