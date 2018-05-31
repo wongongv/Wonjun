@@ -21,7 +21,7 @@ class rho:
 
 		self.drho.addWidget(self.frame)
 		self.p2.addLegend = glo_var.myaddLegend
-		self.p2.addLegend(self.p2, offset=(-10,50))
+		self.p2.addLegend(self.p2, offset=(0,0.0000001))
 		self.initiating = 1
 		self.p2main.setLabel('left',"\u2374",**glo_var.labelstyle)
 		self.p2main.setLabel('bottom',"x",**glo_var.labelstyle)
@@ -40,8 +40,8 @@ class rho:
 		self.p2.plot(pen=self.lpen, name='\u2374-')
 	
 	def set_range(self):
-		self.viewbox.setLimits(xMin = -0.01, yMin = -0.01, xMax = 1.01, yMax = 1.01)
-		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l])
+		self.viewbox.setLimits(xMin = -0.03, yMin = -0.03, xMax = 1.03, yMax = 1.03)
+		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l],padding=0.1)
 		
 	def update(self):
 		# self.p2main.clear()

@@ -23,7 +23,7 @@ class jalpha:
 		self.p3.setLabel('right',"\u27e8\u2374\u27e9",**glo_var.labelstyle)
 
 		self.p3.addLegend = glo_var.myaddLegend
-		self.p3.addLegend(self.p3)
+		self.p3.addLegend(self.p3, offset = (20,20))
 
 # to use it as coordinate label
 		self.p3main.tempplotitem = pg.PlotItem()

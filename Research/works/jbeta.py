@@ -35,7 +35,7 @@ class jbeta:
 		self.beta_pen = pg.mkPen('k',width=glo_var.line_width)
 
 		self.p4.addLegend = glo_var.myaddLegend
-		self.p4.addLegend(self.p4)
+		self.p4.addLegend(self.p4,offset=(20,20))
 
 		self.p4.showAxis('right')
 		self.p4.scene().addItem(self.p4_2)

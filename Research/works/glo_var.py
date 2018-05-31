@@ -5,8 +5,7 @@ import pyqtgraph as pg
 from pyqtgraph.Qt import QtGui, QtCore
 from pyqtgraph import pixmaps
 from pyqtgraph.graphicsItems import ButtonItem
-# from pyqtgraph.GraphicsScene import exportDialog
-# from pyqtgraph import exporters as exporters
+
 class mylegend(pg.LegendItem):
 	def addItem(self, item, name):
 		legendLabelStyle = {'size': '14pt', 'bold': True}
@@ -236,9 +235,8 @@ def setframe(p, width = 4, coordinate_label=None):
 	layout=QtGui.QVBoxLayout()
 	if coordinate_label:
 		coord_layout = QtGui.QHBoxLayout()
-
 		spacer = QtGui.QWidget()
-		spacer.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+		spacer.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
 		coord_layout.addWidget(spacer)
 		coord_layout.addWidget(coordinate_label)
 		layout.addLayout(coord_layout)

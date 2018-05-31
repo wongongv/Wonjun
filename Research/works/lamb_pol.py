@@ -138,7 +138,7 @@ class lamb_pol:
 		self.viewbox=self.p1main.getViewBox()
 		self.viewbox.setBackgroundColor('w')
 
-		self.viewbox.setLimits(xMin = -0.02, yMin = -0.02, xMax = 1.02)
+		self.viewbox.setLimits(xMin = -0.03, yMin = -0.03, xMax = 1.03)
 
 
 
@@ -164,7 +164,7 @@ class lamb_pol:
 		self.update()
 
 	def set_range(self):
-		self.viewbox.setRange(xRange=[-0.02,1.2*self.lambda_max],yRange=[-0.02,1.2*self.lambda_max],padding =0)
+		self.viewbox.setRange(xRange=[0,1.2*self.lambda_max],yRange=[0,1.2*self.lambda_max],padding =0.1)
 	def update(self):
 		self.p1main.clear()
 
