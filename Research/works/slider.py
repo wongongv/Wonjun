@@ -90,7 +90,6 @@ class Slider(QtGui.QWidget):
 				self.slider.setValue(self.x)
 			else:
 				self.x = value
-				print(self.x)
 				self.spin.setValue(self.x)
 		
 
@@ -111,7 +110,6 @@ class Widget(QtGui.QWidget):
 		self.ws += [Slider(0, 1,"\u03b2")]
 # be careful, the label below affects creation of slide(int or float)
 		self.ws += [Slider(1, 10, "\u2113")]
-		print(self.ws[2].x)
 		for i in range(3) :
 			self.layout.addWidget(self.ws[i],row=0,col=i)
 		self.dcontrols.addWidget(self.layout)
