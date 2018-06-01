@@ -8,7 +8,7 @@ class jalpha:
 	def __init__(self, dalpha, rh):
 
 		self.dalpha = dalpha
-		self.p3main = glo_var.MyPW(x="\u03b1",y1="J",y2= "\u27e8\U0001d780\u27e9", set_range = self.set_range)
+		self.p3main = glo_var.MyPW(x="\u03b1",y1="J",y2= "\u27e8\u03c1\u27e9", set_range = self.set_range)
 		# self.p3main._rescale = self.set_range
 		self.p3 = self.p3main.plotItem
 

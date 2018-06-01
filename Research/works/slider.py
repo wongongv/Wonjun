@@ -12,7 +12,6 @@ class Slider(QtGui.QWidget):
 		self.label.setAlignment(QtCore.Qt.AlignCenter)
 		self.font = QtGui.QFont("?",18)
 		self.label.setFont(self.font)
-		
 		if label == "\u2113":
 			self.spin = pg.SpinBox(value = glo_var.l, bounds=[1, 20],parent = self)
 			self.spin.setRange(1,20)

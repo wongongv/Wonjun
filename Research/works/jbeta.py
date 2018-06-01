@@ -11,7 +11,7 @@ class jbeta:
 
 
 		self.dbeta = dbeta
-		self.p4main = glo_var.MyPW(x="\u03b2",y1="J",y2= "\u27e8\U0001d780\u27e9", set_range = self.set_range)
+		self.p4main = glo_var.MyPW(x="\u03b2",y1="J",y2= "\u27e8\u03c1\u27e9", set_range = self.set_range)
 		# self.p4main._rescale = self.set_range
 		self.p4 = self.p4main.plotItem
 		self.viewbox = self.p4.getViewBox()

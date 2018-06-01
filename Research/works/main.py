@@ -1,3 +1,8 @@
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
 import sys
 from pyqtgraph.Qt import QtGui, QtCore
 import numpy as np
@@ -64,7 +69,7 @@ class MainWindow(QtGui.QMainWindow):
 
 		QtGui.QMainWindow.__init__(self, parent)
 	
-		self.setWindowIcon(QtGui.QIcon('logo.png'))
+		#self.setWindowIcon(QtGui.QIcon('logo.png'))
 		self.setWindowTitle('CIVET')  
 
 		self.setGeometry(200,143,1574,740)
@@ -215,7 +220,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.dock_on = []
 
 		self.cwindow = QtGui.QMainWindow()
-		self.cwindow.setWindowIcon(QtGui.QIcon('logo.png'))
+		#self.cwindow.setWindowIcon(QtGui.QIcon('logo.png'))
 		self.cwindow.setWindowTitle('Plots')  
 
 		boxeswidget=QtGui.QWidget(self.cwindow)
@@ -279,7 +284,7 @@ class MainWindow(QtGui.QMainWindow):
 	def about_info(self):
 		
 		self.awindow = QtGui.QMainWindow()
-		self.awindow.setWindowIcon(QtGui.QIcon('logo.png'))
+		#self.awindow.setWindowIcon(QtGui.QIcon('logo.png'))
 		self.awindow.setWindowTitle('About')  
 		labels=QtGui.QWidget(self.awindow)
 		labels_layout = QtGui.QVBoxLayout(labels)
@@ -290,7 +295,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.line4 = QtGui.QLabel()
 		self.line5 = QtGui.QLabel("Copyright (c) 2018,")
 		self.line6 = QtGui.QLabel()
-		self.line7 = QtGui.QLabel("Won Jun Son, Dan D. Erdmann-Pham,  Khanh Dao Duc, Yun S. Song")
+		self.line7 = QtGui.QLabel("Wonjun Son, Dan D. Erdmann-Pham,  Khanh Dao Duc, Yun S. Song")
 		self.line8 = QtGui.QLabel()
 		self.line9 = QtGui.QLabel("All rights reserved.")
 		self.line10 = QtGui.QLabel()
@@ -420,7 +425,7 @@ class MainWindow(QtGui.QMainWindow):
 	def savedockandvaluesinit(self):
 
 		self.swindow = QtGui.QMainWindow()
-		self.swindow.setWindowIcon(QtGui.QIcon('logo.png'))
+		#self.swindow.setWindowIcon(QtGui.QIcon('logo.png'))
 		self.swindow.setWindowTitle('Save')  
 
 		boxeswidget=QtGui.QWidget(self.swindow)
@@ -446,7 +451,7 @@ class MainWindow(QtGui.QMainWindow):
 	def restoredockandvaluesinit(self):
 
 		self.rwindow = QtGui.QMainWindow()
-		self.rwindow.setWindowIcon(QtGui.QIcon('logo.png'))
+		#self.rwindow.setWindowIcon(QtGui.QIcon('logo.png'))
 		self.rwindow.setWindowTitle('Restore')  
 
 		boxeswidget=QtGui.QWidget(self.rwindow)

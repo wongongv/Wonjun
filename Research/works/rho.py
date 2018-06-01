@@ -11,7 +11,7 @@ class rho:
 	def __init__(self,drho):
 
 		self.drho = drho
-		self.p2main = glo_var.MyPW(x="x", y1= "\U0001d780", set_range = self.set_range)
+		self.p2main = glo_var.MyPW(x="x", y1= "\u03c1", set_range = self.set_range)
 		self.viewbox = self.p2main.getPlotItem().getViewBox()
 		self.viewbox.setBackgroundColor('w')
 		self.p2 = self.p2main.plotItem
