@@ -81,7 +81,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.copen=0
 		self.sopen=0
 		self.ropen=0
-
+		self.gridstate=0
 		self.current_docks=[]
 
 
@@ -97,11 +97,11 @@ class MainWindow(QtGui.QMainWindow):
 		self.exportaction.triggered.connect(self.exportdata)
 
 		self.viewaction1 = QtGui.QAction("&Grid View 1",self)
-		self.viewaction1.setStatusTip("Export to latx")
+		self.viewaction1.setStatusTip("Grid View 1")
 		self.viewaction1.triggered.connect(self.grid_view_1)
 
 		self.viewaction2 = QtGui.QAction("&Grid View 2",self)
-		self.viewaction2.setStatusTip("Export to latx")
+		self.viewaction2.setStatusTip("Grid View 2")
 		self.viewaction2.triggered.connect(self.grid_view_2)
 
 		self.about = QtGui.QAction("&Info", self)
@@ -373,8 +373,8 @@ class MainWindow(QtGui.QMainWindow):
 		self.titlebarstate = 1
 		self.toolbar = self.addToolBar("Toolbar")
 
-		home = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_ComputerIcon)),'Grid View 1',self)
-		home.triggered.connect(self.grid_view_1)
+		home = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_ComputerIcon)),'Toggle Grid View',self)
+		home.triggered.connect(self.toggle_grid_view)
 		self.toolbar.addAction(home)
 
 		fix = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_ArrowDown)),'Fix current layout',self)
@@ -561,6 +561,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.slid=slider.Widget(self.dcontrols, self.lamb_po,self.phas, self.rh, self.jbet,self.jalph)
 		self.lamb_po.receive(self.slid)
 
+
 		# default values to restore is input
 		self.savedlambdas=glo_var.lambdas[:]
 		self.savedalpha=glo_var.alpha
@@ -570,6 +571,8 @@ class MainWindow(QtGui.QMainWindow):
 		self.pltlist = [['Lambda_fig', self.lamb_po.p1], ['Density_fig',self.rh.p2], ['Current_alpha_fig', self.jalph.p3], ['Current_beta_fig',self.jbet.p4], ['Phase_fig',self.phas.p5]]
 
 		self.grid_view_1()
+
+ 
 		self.setCentralWidget(self.area)
 
 	def check_current_docks(self):
@@ -580,6 +583,14 @@ class MainWindow(QtGui.QMainWindow):
 			else:
 				pass
 		return self.current_docks
+
+	def toggle_grid_view(self):
+		if self.gridstate ==0:
+			self.grid_view_2()
+			self.gridstate = 1
+		else:
+			self.grid_view_1()
+			self.gridstate = 0
 
 	def grid_view_1(self):
 		for i in self.docklist:
