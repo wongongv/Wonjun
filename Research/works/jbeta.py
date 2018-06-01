@@ -11,7 +11,7 @@ class jbeta:
 
 
 		self.dbeta = dbeta
-		self.p4main = glo_var.MyPW(x="\u03b2",y1="J",y2= "\u27e8\u2374\u27e9", set_range = self.set_range)
+		self.p4main = glo_var.MyPW(x="\u03b2",y1="J",y2= "\u27e8\U0001d780\u27e9", set_range = self.set_range)
 		# self.p4main._rescale = self.set_range
 		self.p4 = self.p4main.plotItem
 		self.viewbox = self.p4.getViewBox()
@@ -25,7 +25,7 @@ class jbeta:
 
 		self.p4.setLabel('bottom',"\u03b2",**glo_var.labelstyle)
 
-		self.p4.setLabel('right',"\u27e8\u2374\u27e9",**glo_var.labelstyle)
+		self.p4.setLabel('right',"\u27e8\U0001d780\u27e9",**glo_var.labelstyle)
 		# self.p4main.set_range = self.set_range
 
 		self.rh=rh
@@ -122,7 +122,7 @@ class jbeta:
 
 	def legend(self):
 		self.p4.plot(pen=self.jpen, name='J')
-		self.p4.plot(pen=self.rho_dash, name='\u27e8\u2374\u27e9')
+		self.p4.plot(pen=self.rho_dash, name='\u27e8\U0001d780\u27e9')
 
 	def updateview(self):
 		self.p4_2.setGeometry(self.p4.vb.sceneBoundingRect())

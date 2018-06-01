@@ -11,7 +11,7 @@ class rho:
 	def __init__(self,drho):
 
 		self.drho = drho
-		self.p2main = glo_var.MyPW(x="x", y1= "\u2374", set_range = self.set_range)
+		self.p2main = glo_var.MyPW(x="x", y1= "\U0001d780", set_range = self.set_range)
 		self.viewbox = self.p2main.getPlotItem().getViewBox()
 		self.viewbox.setBackgroundColor('w')
 		self.p2 = self.p2main.plotItem
@@ -21,7 +21,7 @@ class rho:
 		self.p2.addLegend = glo_var.myaddLegend
 		self.p2.addLegend(self.p2, offset=(0,0.0000001))
 		self.initiating = 1
-		self.p2main.setLabel('left',"\u2374",**glo_var.labelstyle)
+		self.p2main.setLabel('left',"\U0001d780",**glo_var.labelstyle)
 		self.p2main.setLabel('bottom',"x",**glo_var.labelstyle)
 		self.set_range()
 		self.rpen=pg.mkPen('r', width=glo_var.line_width, style=QtCore.Qt.DashLine)  
@@ -31,9 +31,9 @@ class rho:
 		self.legend()
 
 	def legend(self):
-		self.p2.plot(pen=self.realpen, name='\u2374')
-		self.p2.plot(pen=self.rpen, name='\u2374+')
-		self.p2.plot(pen=self.lpen, name='\u2374-')
+		self.p2.plot(pen=self.realpen, name='\U0001d780')
+		self.p2.plot(pen=self.rpen, name='\U0001d780+')
+		self.p2.plot(pen=self.lpen, name='\U0001d780-')
 	
 	def set_range(self):
 		self.viewbox.setLimits(xMin = -0.03, yMin = -0.03, xMax = 1.03, yMax = 1.03)

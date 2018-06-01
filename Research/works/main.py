@@ -283,18 +283,19 @@ class MainWindow(QtGui.QMainWindow):
 		self.awindow.setWindowTitle('About')  
 		labels=QtGui.QWidget(self.awindow)
 		labels_layout = QtGui.QVBoxLayout(labels)
+		self.line0 = QtGui.QLabel()
 		self.line1 = QtGui.QLabel("CIVET: Current Inspired Visualization and Evaluation of the")
-		self.line2 = QtGui.QLabel("")
+		self.line2 = QtGui.QLabel()
 		self.line3 = QtGui.QLabel("Totally asymmetric simple exclusion process (TASEP)")
-		self.line4 = QtGui.QLabel("")
+		self.line4 = QtGui.QLabel()
 		self.line5 = QtGui.QLabel("Copyright (c) 2018,")
-		self.line6 = QtGui.QLabel("")
+		self.line6 = QtGui.QLabel()
 		self.line7 = QtGui.QLabel("Won Jun Son, Dan D. Erdmann-Pham,  Khanh Dao Duc, Yun S. Song")
-		self.line8 = QtGui.QLabel("")
+		self.line8 = QtGui.QLabel()
 		self.line9 = QtGui.QLabel("All rights reserved.")
-		self.line10 = QtGui.QLabel("")
+		self.line10 = QtGui.QLabel()
 		
-		for i in range(1,10):
+		for i in range(11):
 			eval("self.line" + str(i)).setAlignment(QtCore.Qt.AlignCenter)
 			labels_layout.addWidget(eval("self.line" + str(i)))
 		self.awindow.setCentralWidget(labels)
@@ -629,7 +630,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.window.hide()
 
 	def loaddata(self):
-		name = QtGui.QFileDialog.getOpenFileName(self, 'Open File', '\home','text (*.txt *.csv)')
+		name = QtGui.QFileDialog.getOpenFileName(self, 'Open File', '.','text (*.txt *.csv)')
 		if name == "" :
 			pass
 		else:

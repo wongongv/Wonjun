@@ -8,7 +8,7 @@ class jalpha:
 	def __init__(self, dalpha, rh):
 
 		self.dalpha = dalpha
-		self.p3main = glo_var.MyPW(x="\u03b1",y1="J",y2= "\u27e8\u2374\u27e9", set_range = self.set_range)
+		self.p3main = glo_var.MyPW(x="\u03b1",y1="J",y2= "\u27e8\U0001d780\u27e9", set_range = self.set_range)
 		# self.p3main._rescale = self.set_range
 		self.p3 = self.p3main.plotItem
 
@@ -20,7 +20,7 @@ class jalpha:
 
 		self.p3.setLabel('bottom',"\u03b1",**glo_var.labelstyle)
 		self.p3.setLabel('left',"J",**glo_var.labelstyle)
-		self.p3.setLabel('right',"\u27e8\u2374\u27e9",**glo_var.labelstyle)
+		self.p3.setLabel('right',"\u27e8\U0001d780\u27e9",**glo_var.labelstyle)
 
 		self.p3.addLegend = glo_var.myaddLegend
 		self.p3.addLegend(self.p3, offset = (20,20))
@@ -127,7 +127,7 @@ class jalpha:
 
 	def legend(self):
 		self.p3.plot(pen=self.jpen, name='J')
-		self.p3.plot(pen=self.rho_dash, name='\u27e8\u2374\u27e9')
+		self.p3.plot(pen=self.rho_dash, name='\u27e8\U0001d780\u27e9')
 
 	def updateview(self):
 		self.p3_2.setGeometry(self.p3.vb.sceneBoundingRect())
