@@ -1,7 +1,3 @@
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(base_path, relative_path)
 
 import sys
 from pyqtgraph.Qt import QtGui, QtCore
@@ -22,6 +18,16 @@ from pyqtgraph.dockarea import Dock, DockArea
 import os.path
 from os import makedirs
 from copy import deepcopy
+
+def resource_path(relative_path):
+	""" Get absolute path to resource, works for dev and for PyInstaller """
+	try:
+		# PyInstaller creates a temp folder and stores path in _MEIPASS
+		base_path = sys._MEIPASS
+	except Exception:
+		base_path = os.path.abspath(".")
+	return os.path.join(base_path, relative_path)
+logo = resource_path("logo.png")
 
 
 
@@ -69,7 +75,7 @@ class MainWindow(QtGui.QMainWindow):
 
 		QtGui.QMainWindow.__init__(self, parent)
 	
-		#self.setWindowIcon(QtGui.QIcon('logo.png'))
+		self.setWindowIcon(QtGui.QIcon(logo))
 		self.setWindowTitle('CIVET')  
 
 		self.setGeometry(200,143,1574,740)
@@ -149,9 +155,7 @@ class MainWindow(QtGui.QMainWindow):
 
 # all those have different relative positions so made bunch of functions, not one.
 	def modified_register(self,cls):
-		print('he')
-		print(dir(cls))
-		print(cls.Name)
+
 
 		exporters.Exporter.Exporters.append(None)
 
@@ -220,7 +224,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.dock_on = []
 
 		self.cwindow = QtGui.QMainWindow()
-		#self.cwindow.setWindowIcon(QtGui.QIcon('logo.png'))
+		self.cwindow.setWindowIcon(QtGui.QIcon(logo))
 		self.cwindow.setWindowTitle('Plots')  
 
 		boxeswidget=QtGui.QWidget(self.cwindow)
@@ -284,7 +288,7 @@ class MainWindow(QtGui.QMainWindow):
 	def about_info(self):
 		
 		self.awindow = QtGui.QMainWindow()
-		#self.awindow.setWindowIcon(QtGui.QIcon('logo.png'))
+		self.awindow.setWindowIcon(QtGui.QIcon(logo))
 		self.awindow.setWindowTitle('About')  
 		labels=QtGui.QWidget(self.awindow)
 		labels_layout = QtGui.QVBoxLayout(labels)
@@ -356,7 +360,6 @@ class MainWindow(QtGui.QMainWindow):
 			alpha_data = np.vstack([alpha_x_data,alpha_j_data,alpha_rho_data])
 			beta_data = np.vstack([beta_x_data,beta_j_data,beta_rho_data])
 
-			print(alpha_data)
 			writer.writerow(["alpha","Current","Average Density",'\t','\t',"beta","Current","Average Density"])
 			for i in range(len(alpha_x_data)):
 				writer.writerow(list(alpha_data[:,i]) + [''] *2 + list(beta_data[:,i]))
@@ -425,7 +428,7 @@ class MainWindow(QtGui.QMainWindow):
 	def savedockandvaluesinit(self):
 
 		self.swindow = QtGui.QMainWindow()
-		#self.swindow.setWindowIcon(QtGui.QIcon('logo.png'))
+		self.swindow.setWindowIcon(QtGui.QIcon(logo))
 		self.swindow.setWindowTitle('Save')  
 
 		boxeswidget=QtGui.QWidget(self.swindow)
@@ -451,7 +454,7 @@ class MainWindow(QtGui.QMainWindow):
 	def restoredockandvaluesinit(self):
 
 		self.rwindow = QtGui.QMainWindow()
-		#self.rwindow.setWindowIcon(QtGui.QIcon('logo.png'))
+		self.rwindow.setWindowIcon(QtGui.QIcon(logo))
 		self.rwindow.setWindowTitle('Restore')  
 
 		boxeswidget=QtGui.QWidget(self.rwindow)
@@ -679,20 +682,17 @@ class MainWindow(QtGui.QMainWindow):
 
 		elif input[-3:] == 'txt':
 			f = open(input,'r')
-			N = int(f.readline().strip())
  # Breaks the loop i 
 			try:
+				temp=[]
 				while(True):
-					if(eval(T) > -1):
-						T = f.readline().strip()
-						temp +=[[glo_var.lambdas_degree,round(eval(T),2)]]
-						glo_var.lambdas_degree+=1
-				glo_var.lambdas=np.array(temp)
-			except:
-				pass
+					T = f.readline().strip()
+					temp +=[[glo_var.lambdas_degree,round(eval(T),2)]]
+					glo_var.lambdas_degree+=1
 
-			glo_var.alpha = 0.2
-			glo_var.beta = 0.2
+			except:
+				for x,y in temp:
+					glo_var.lambdas += [[x/(glo_var.lambdas_degree - 1),y]]
 			glo_var.l = 1
 
 		else:

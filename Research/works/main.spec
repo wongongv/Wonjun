@@ -14,6 +14,7 @@ a = Analysis(['main.py'],
              win_no_prefer_redirects=False,
              win_private_assemblies=False,
              cipher=block_cipher)
+a.datas += [('logo.png','/home/wonjun/project/wonjun-private/Research/works/logo.png','Data')]
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
@@ -24,6 +25,7 @@ exe = EXE(pyz,
           name='main',
           debug=False,
           strip=False,
+          manifest=None,
           upx=True,
           runtime_tmpdir=None,
-          console=False , icon='logo.svg')
+          console=False , icon='logo.ico')
