@@ -12,7 +12,8 @@ class rho:
 	def __init__(self,drho):
 
 		self.drho = drho
-		self.p2main = glo_var.MyPW(x="x", y1= "\u03c1", set_range = self.set_range)
+		# 'num' is for using it in clear points
+		self.p2main = glo_var.MyPW(x="x", y1= "\u03c1", set_range = self.set_range, num = 2, set_range_byspbox = self.set_range_byspbox)
 		self.viewbox = self.p2main.getPlotItem().getViewBox()
 		self.viewbox.setBackgroundColor('w')
 		self.p2 = self.p2main.plotItem
@@ -24,9 +25,12 @@ class rho:
 		self.initiating = 1
 		self.p2main.setLabel('left',"\u03c1",**glo_var.labelstyle)
 		self.p2main.setLabel('bottom',"x",**glo_var.labelstyle)
+		self.range=[[0,1],[0,1/glo_var.l]]
+		self.p2main.receive_range(self.range)
 		self.set_range()
 		self.rpen=pg.mkPen('r', width=glo_var.line_width, style=QtCore.Qt.DashLine)  
 		self.lpen=pg.mkPen(color=(16,52,166), width=glo_var.line_width, style=QtCore.Qt.DashLine)
+		
 		self.realpen=pg.mkPen('k', width=2)
 		self.update()
 		self.legend()
@@ -36,15 +40,23 @@ class rho:
 		self.p2.plot(pen=self.rpen, name='\u03c1+')
 		self.p2.plot(pen=self.lpen, name='\u03c1-')
 	
+
 	def set_range(self):
-		self.viewbox.setLimits(xMin = -0.03, yMin = -0.03, xMax = 1.03, yMax = 1.03)
-		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l],padding=0.1)
+		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l],padding =0.1)
+		self.range[0] = [0,1]
+		self.range[1] = [0,1/glo_var.l]
+		self.p2main.set_spbox_value()
+	
+	def set_range_byspbox(self):
+		# self.viewbox.setLimits(xMin = -0.03, yMin = -0.03, xMax = 1.03, yMax = 1.03)
+		self.viewbox.setRange(xRange=self.range[0],yRange=self.range[1],padding=0.1)
 		
 	def update(self):
 # should care about when there is no lambda? division by zero error.
 
 		self.p2.clear()
-		self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l])
+		# to disable auto rescale
+		# self.viewbox.setRange(xRange=[0,1],yRange=[0,1/glo_var.l])
 		self.value_declaration()
 		self.cal_stars()
 		if self.initiating:

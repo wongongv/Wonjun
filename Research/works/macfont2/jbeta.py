@@ -11,12 +11,13 @@ class jbeta:
 
 
 		self.dbeta = dbeta
-		self.p4main = glo_var.MyPW(x="\u03b2",y1="J",y2= "\u2329\u03c1\u232a", set_range = self.set_range)
+		self.p4main = glo_var.MyPW(x="\u03b2",y1="J",y2= '\u2039\u03c1\u203a', set_range = self.set_range, num = 4)
 		# self.p4main._rescale = self.set_range
 		self.p4 = self.p4main.plotItem
 		self.viewbox = self.p4.getViewBox()
 		# self.viewbox.setBackgroundColor('w')
 		self.item = self.p4
+
 
 		self.p4main.tempplotitem = pg.PlotItem()
 		self.p4_2 = self.p4main.tempplotitem.vb
@@ -27,7 +28,7 @@ class jbeta:
 
 		self.p4.setLabel('bottom',"\u03b2",**glo_var.labelstyle)
 
-		self.p4.setLabel('right',"\u2329\u03c1\u232a",**glo_var.labelstyle)
+		self.p4.setLabel('right','<span style="font-size: 32pt;">\u2039</span></div>\u03c1<span style="font-size: 32pt;">\u203a</span></div>',**glo_var.labelstyle)
 		# self.p4main.set_range = self.set_range
 
 		self.rh=rh
@@ -37,7 +38,7 @@ class jbeta:
 		self.beta_pen = pg.mkPen('k',width=glo_var.line_width)
 
 		self.p4.addLegend = glo_var.myaddLegend
-		self.p4.addLegend(self.p4,offset=(20,20))
+		self.p4.addLegend(self.p4,offset=(7,20))
 
 		self.p4.showAxis('right')
 		self.p4.scene().addItem(self.p4_2)
@@ -53,8 +54,21 @@ class jbeta:
 		self.p4_2.setLimits(xMin = 0, yMin = 0, xMax = 1, yMax = 1)
 
 		self.p4.vb.sigResized.connect(self.updateview)
-		
+
+
 		self.update()
+
+		# set range
+		self.uplim1 = min(self.jpost * 1.3, 1)
+		self.lolim1 = 0
+		# self.viewbox.setRange(xRange=[0,self.vlim],yRange=[self.lolim1,self.uplim1],padding =0)
+		self.uplim2 = min(1, max(max(self.rho_avg_pre)*1.4,max(self.rho_avg_post)*1.4))
+		self.lolim2 = max(0, min(min(self.rho_avg_pre)*0.6,min(self.rho_avg_post)*0.6))
+
+		self.range=[[0,3*self.trans_point],[self.lolim1,self.uplim1],[self.lolim2,self.uplim2]]
+		self.p4main.receive_range(self.range)
+		self.set_range()
+
 		self.legend()
 
 	def set_range(self):
@@ -64,11 +78,18 @@ class jbeta:
 		self.uplim2 = min(1, max(max(self.rho_avg_pre)*1.4,max(self.rho_avg_post)*1.4))
 		self.lolim2 = max(0, min(min(self.rho_avg_pre)*0.6,min(self.rho_avg_post)*0.6))
 		# self.p4_2.setRange(xRange=[0,self.vlim],yRange=[self.lolim2,self.uplim2], padding = 0)
-
 		self.viewbox.setRange(xRange=[0,3*self.trans_point],yRange=[self.lolim1,self.uplim1],padding =0)
 		self.p4_2.setRange(xRange=[0,3*self.trans_point],yRange=[self.lolim2,self.uplim2], padding = 0)
+		self.range[0] = [0,3*self.trans_point]
+		self.range[1] = [self.lolim1,self.uplim1]
+		self.range[2] = [self.lolim2,self.uplim2]
+		self.p4main.set_spbox_value()
+		
+	def set_range_byspbox(self):
+		self.viewbox.setRange(xRange=self.range[0],yRange=self.range[1],padding =0)
+		self.p4_2.setRange(xRange=self.range[0],yRange=self.range[2], padding = 0)
 
-	def update(self, fromlambda = 0):
+	def update(self):
 		self.p4.clear()
 		self.p4_2.clear()
 		self.value_declaration()
@@ -100,7 +121,7 @@ class jbeta:
 			self.rho_avg_post += [self.cal_rho(self.js(glo_var.alpha,i))]
 
 		if self.betacheck == 1:
-			self.text = pg.TextItem(html='<span style="color: #1034A6; font-size: 16pt;">\u03b2</span></div>', anchor=(0.5,1.5))
+			self.text = pg.TextItem(html='<span style="color: #1034A6; font-size: 16pt;">\u03b2</span></div>', anchor=(0.5,1.7))
 			self.p4.addItem(self.text)
 			self.arrow = pg.ArrowItem(pos=(glo_var.beta,0),angle=-90)
 			self.p4.addItem(self.arrow)
@@ -120,11 +141,14 @@ class jbeta:
 		self.p4.plot([self.trans_point,1],[self.jpost,self.jpost], pen = self.jpen)
 		self.trans_line = self.p4.plot([self.trans_point,self.trans_point],[0,1],pen=self.dash)
 		self.make_right_axis()
-		self.set_range()
+		
+		# if self.jpost < 0.1:
+		# 	self.set_range()
+
 
 	def legend(self):
 		self.p4.plot(pen=self.jpen, name='J')
-		self.p4.plot(pen=self.rho_dash, name='\u2329\u03c1\u232a')
+		self.p4.plot(pen=self.rho_dash, name='\u2039\u03c1\u203a')
 
 	def updateview(self):
 		self.p4_2.setGeometry(self.p4.vb.sceneBoundingRect())

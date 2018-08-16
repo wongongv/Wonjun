@@ -8,22 +8,18 @@ class jalpha:
 	def __init__(self, dalpha, rh):
 
 		self.dalpha = dalpha
-		self.p3main = glo_var.MyPW(x="\u03b1",y1="J",y2= "\u2329\u03c1\u232a", set_range = self.set_range)
+		self.p3main = glo_var.MyPW(x="\u03b1",y1="J",y2= '\u2039\u03c1\u203a', set_range = self.set_range, num = 3, set_range_byspbox = self.set_range_byspbox)
 		# self.p3main._rescale = self.set_range
 		self.p3 = self.p3main.plotItem
 
 		self.rh=rh
 
-
-		self.na = "ha"
-
-
 		self.p3.setLabel('bottom',"\u03b1",**glo_var.labelstyle)
 		self.p3.setLabel('left',"J",**glo_var.labelstyle)
-		self.p3.setLabel('right',"\u2329\u03c1\u232a",**glo_var.labelstyle)
+		self.p3.setLabel('right','<span style="font-size: 32pt;">\u2039</span></div>\u03c1<span style="font-size: 32pt;">\u203a</span></div>' ,**glo_var.labelstyle)
 
 		self.p3.addLegend = glo_var.myaddLegend
-		self.p3.addLegend(self.p3, offset = (20,20))
+		self.p3.addLegend(self.p3, offset = (7,20))
 
 		self.plotitemtoexport = self.p3.scene()
 # to use it as coordinate label
@@ -52,6 +48,18 @@ class jalpha:
 		self.p3.vb.sigResized.connect(self.updateview)
 
 		self.update()
+
+# set range(initially)
+		self.uplim1 = min(self.jpost * 1.3, 1)
+		self.lolim1 = 0
+		self.uplim2 = min(1, max(max(self.rho_avg_pre)*1.4,max(self.rho_avg_post)*1.4))
+		self.lolim2 = max(0, min(min(self.rho_avg_pre)*0.6,min(self.rho_avg_post)*0.6))
+
+
+		self.range=[[0,3*self.trans_point],[self.lolim1,self.uplim1],[self.lolim2,self.uplim2]]
+		self.p3main.receive_range(self.range)
+		self.set_range()
+
 		self.legend()
 	
 	def set_range(self):
@@ -62,6 +70,14 @@ class jalpha:
 
 		self.p3.vb.setRange(xRange=[0,3*self.trans_point],yRange=[self.lolim1,self.uplim1],padding =0)
 		self.p3_2.setRange(xRange=[0,3*self.trans_point],yRange=[self.lolim2,self.uplim2], padding = 0)
+		self.range[0] = [0,3*self.trans_point]
+		self.range[1] = [self.lolim1,self.uplim1]
+		self.range[2] = [self.lolim2,self.uplim2]
+		self.p3main.set_spbox_value()
+
+	def set_range_byspbox(self):
+		self.p3.vb.setRange(xRange=self.range[0],yRange=self.range[1],padding =0)
+		self.p3_2.setRange(xRange=self.range[0],yRange=self.range[2], padding = 0)
 
 	def checkbox(self):
 		self.alphline = QtGui.QCheckBox('\u03B1 line')
@@ -73,7 +89,7 @@ class jalpha:
 
 		self.p3_w.addItem(self.alproxy,row=0,col=1)
 
-	def update(self, fromlambda = 0):
+	def update(self):
 		self.p3.clear()
 		self.p3_2.clear()
 		self.value_declaration()
@@ -113,7 +129,7 @@ class jalpha:
 
 		self.trans_line = self.p3.plot([self.trans_point,self.trans_point],[0,1],pen=self.dash)
 		if self.alphacheck == 1:
-			self.text = pg.TextItem(html='<span style="color: #1034A6; font-size: 16pt;">\u03b1</span></div>', anchor=(0.5,1.5))
+			self.text = pg.TextItem(html='<span style="color: #1034A6; font-size: 16pt;">\u03b1</span></div>', anchor=(0.5,1.7))
 			self.p3.addItem(self.text)
 			self.arrow = pg.ArrowItem(pos=(glo_var.alpha,0),angle=-90)
 			self.p3.addItem(self.arrow)
@@ -122,16 +138,12 @@ class jalpha:
 		self.arrow.setPos(glo_var.alpha,0)
 
 		self.make_right_axis()
-		if fromlambda == 1:
-			pass
-		else:
-			self.set_range()
-		if self.jpost < 0.1:
-			self.set_range()
+		# if self.jpost < 0.1:
+		# 	self.set_range()
 
 	def legend(self):
 		self.p3.plot(pen=self.jpen, name='J')
-		self.p3.plot(pen=self.rho_dash, name='\u2329\u03c1\u232a')
+		self.p3.plot(pen=self.rho_dash, name='\u2039\u03c1\u203a')
 
 	def updateview(self):
 		self.p3_2.setGeometry(self.p3.vb.sceneBoundingRect())

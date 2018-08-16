@@ -1,6 +1,6 @@
 
 import sys
-from pyqtgraph.Qt import QtGui, QtCore
+from pyqtgraph.Qt import QtGui, QtCore, QtSvg
 import numpy as np
 import pyqtgraph as pg
 import glo_var
@@ -18,6 +18,14 @@ from pyqtgraph.dockarea import Dock, DockArea
 import os.path
 from os import makedirs
 from copy import deepcopy
+
+
+
+
+
+
+
+
 
 def resource_path(relative_path):
 	""" Get absolute path to resource, works for dev and for PyInstaller """
@@ -227,34 +235,34 @@ class MainWindow(QtGui.QMainWindow):
 		self.cwindow.setWindowIcon(QtGui.QIcon(logo))
 		self.cwindow.setWindowTitle('Plots')  
 
-		boxeswidget=QtGui.QWidget(self.cwindow)
-		checkbox_layout = QtGui.QGridLayout(boxeswidget)
-		self.ch_lamb=QtGui.QCheckBox(boxeswidget)
+		self.boxeswidget=QtGui.QWidget(self.cwindow)
+		checkbox_layout = QtGui.QGridLayout(self.boxeswidget)
+		self.ch_lamb=QtGui.QCheckBox(self.boxeswidget)
 		self.ch_lamb.setText('\u03bb')
 		self.ch_lamb.setChecked(True)
 		self.ch_lamb.stateChanged.connect(lambda : self.dlamb.close() if not self.ch_lamb.isChecked() else self.dlambadd())
 
-		self.ch_rho=QtGui.QCheckBox(boxeswidget)
+		self.ch_rho=QtGui.QCheckBox(self.boxeswidget)
 		self.ch_rho.setText('\u03c1')
 		self.ch_rho.setChecked(True)
 		self.ch_rho.stateChanged.connect(lambda : self.drho.close() if not self.ch_rho.isChecked() else self.drhoadd())
 
-		self.ch_alpha=QtGui.QCheckBox(boxeswidget)
+		self.ch_alpha=QtGui.QCheckBox(self.boxeswidget)
 		self.ch_alpha.setText('\u03b1')
 		self.ch_alpha.setChecked(True)
 		self.ch_alpha.stateChanged.connect(lambda : self.dalpha.close() if not self.ch_alpha.isChecked() else self.dalphaadd())
 
-		self.ch_beta=QtGui.QCheckBox(boxeswidget)
+		self.ch_beta=QtGui.QCheckBox(self.boxeswidget)
 		self.ch_beta.setText('\u03b2')
 		self.ch_beta.setChecked(True)
 		self.ch_beta.stateChanged.connect(lambda : self.dbeta.close() if not self.ch_beta.isChecked() else self.dbetaadd())
 
-		self.ch_phase=QtGui.QCheckBox(boxeswidget)
+		self.ch_phase=QtGui.QCheckBox(self.boxeswidget)
 		self.ch_phase.setText('Phase')
 		self.ch_phase.setChecked(True)
 		self.ch_phase.stateChanged.connect(lambda : self.dphase.close() if not self.ch_phase.isChecked() else self.dphaseadd())
 
-		self.ch_controls=QtGui.QCheckBox(boxeswidget)
+		self.ch_controls=QtGui.QCheckBox(self.boxeswidget)
 		self.ch_controls.setText('Controls')
 		self.ch_controls.setChecked(True)
 		self.ch_controls.stateChanged.connect(lambda : self.dcontrols.close() if not self.ch_controls.isChecked() else self.dcontrolsadd())
@@ -266,8 +274,9 @@ class MainWindow(QtGui.QMainWindow):
 		checkbox_layout.addWidget(self.ch_phase,1,1,1,1)
 		checkbox_layout.addWidget(self.ch_beta,0,2,1,1)
 		checkbox_layout.addWidget(self.ch_controls,1,2,1,1)	
-		self.cwindow.setCentralWidget(boxeswidget)		
-		
+		self.cwindow.setCentralWidget(self.boxeswidget)		
+
+
 	def checkbox(self):
 		if self.copen == 0:
 			self.check_current_docks()
@@ -311,6 +320,12 @@ class MainWindow(QtGui.QMainWindow):
 		self.awindow.show()
 
 	def exportdata(self):
+
+
+
+		
+
+
 		self.dialog = QtGui.QFileDialog()
 		self.dialog.setOption(QtGui.QFileDialog.ShowDirsOnly)
 		self.dialog.setFileMode(QtGui.QFileDialog.DirectoryOnly)
@@ -319,6 +334,31 @@ class MainWindow(QtGui.QMainWindow):
 		filepath = os.path.join(os.path.abspath(os.sep), folder_name)
 		if not os.path.exists(filepath):
 			makedirs(filepath)
+
+		# arr = QtCore.QByteArray()
+		# buf = QtCore.QBuffer(arr)
+		# svg = QtSvg.QSvgGenerator()
+		# svg.setOutputDevice(buf)
+		# dpi = QtGui.QDesktopWidget().physicalDpiX()
+		# svg.setResolution(dpi)
+
+
+		svg = QtSvg.QSvgGenerator()
+		svg.setFileName("hh")
+		svg.setSize(QtCore.QSize(2000, 2000))
+		svg.setViewBox(self.rect())
+		svg.setTitle("SVG svg Example Drawing")
+		svg.setDescription("An SVG drawing created by the SVG Generator ")
+
+		p = QtGui.QPainter()
+		p.begin(svg)
+		try:
+			self.render(p)
+		finally:
+			p.end()
+		# gen.setViewBox(QtGui.QRect(0, 0, 200, 200));
+		# gen.setTitle(tr("SVG Gen Example Drawing"));
+		# gen.setDescription(tr("An SVG drawing created by the SVG Generator ""Example provided with Qt."));
 
 
 		lambda_data=os.path.join(filepath, "Lambda_data.csv")
@@ -372,20 +412,47 @@ class MainWindow(QtGui.QMainWindow):
 
 		self.pdfgroup1 = ['Lambda_fig','Density_fig']
 		self.pdfgroup2 = ['Current_alpha_fig','Current_beta_fig']
+
+	
 		for name, pitem in self.pltlist:
 			# self.exportimg(pitem,os.path.join(filepath,name + ".png"))
 			path = os.path.join(filepath,name + ".svg")
+#			if name == 'Current_alpha_fig':
+#				self.jalph.p3.setLabel('right',"\u2329\u03c1 \u232a",**glo_var.labelstyle)
+#				self.jalph.p3main.plotItem.legend.items=[]
+#				self.jalph.p3.plot(pen=self.jalph.jpen, name='J')
+#				self.jalph.p3.plot(pen=self.jalph.rho_dash, name='\u2329\u03c1 \u232a')
+
+#			elif name == 'Current_beta_fig':
+#				self.jbet.p4.setLabel('right',"\u2329\u03c1 \u232a",**glo_var.labelstyle)
+#				self.jbet.p4main.plotItem.legend.items=[]
+#				self.jbet.p4.plot(pen=self.jbet.jpen, name='J')
+#				self.jbet.p4.plot(pen=self.jbet.rho_dash, name='\u2329\u03c1 \u232a')
 			self.exportimg(pitem,path)
+		
 			if name in self.pdfgroup1:  
-		# self.pltlist = [['Lambda_fig', self.lamb_po.p1], ['Density_fig',self.rh.p2], ['Current_alpha_fig', self.jalph.plotitemtoexport], ['Current_beta_fig',self.jbet.plotitemtoexport], ['Phase_fig',self.phas.p5]]
-				self.makepdf(path,os.path.join(filepath,name + ".pdf"),550,260,20,240)
-			elif name in self.pdfgroup2:
-				self.makepdf(path,os.path.join(filepath,name + ".pdf"),350,250,10,230)
+				self.makepdf(path,os.path.join(filepath,name + ".pdf"),500,260,20,240)
+			elif name == 'Current_alpha_fig':
+				self.makepdf(path,os.path.join(filepath,name + ".pdf"),350,280,30,230)
+#				self.jalph.p3.setLabel('right',"\u2329 \u03c1 \u232a",**glo_var.labelstyle)
+#				self.jalph.p3main.plotItem.legend.items=[]
+#				self.jalph.p3.plot(pen=self.jalph.jpen, name='J')
+#				self.jalph.p3.plot(pen=self.jalph.rho_dash, name='\u2329 \u03c1 \u232a')
+			elif name == 'Current_beta_fig':
+				self.makepdf(path,os.path.join(filepath,name + ".pdf"),350,280,30,230)
+#				self.jbet.p4.setLabel('right',"\u2329 \u03c1 \u232a",**glo_var.labelstyle)
+#				self.jbet.p4main.plotItem.legend.items=[]
+#				self.jbet.p4.plot(pen=self.jbet.jpen, name='J')
+#				self.jbet.p4.plot(pen=self.jbet.rho_dash, name='\u2329 \u03c1 \u232a')
+			
 			else:
 				self.makepdf(path,os.path.join(filepath,name + ".pdf"),410,330,10,300)
+
 			os.remove(path)
 
 	def makepdf(self,path,name,x,y,z,q):
+
+
 		from svglib.svglib import svg2rlg
 		from reportlab.pdfgen import canvas
 		from reportlab.graphics import renderPDF
@@ -407,6 +474,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.state = None
 		self.titlebarstate = 1
 		self.toolbar = self.addToolBar("Toolbar")
+
 
 		home = QtGui.QAction(QtGui.QIcon(QtGui.QApplication.style().standardIcon(QtGui.QStyle.SP_ComputerIcon)),'Toggle Grid View',self)
 		home.triggered.connect(self.toggle_grid_view)
@@ -565,11 +633,17 @@ class MainWindow(QtGui.QMainWindow):
 					if i not in self.current_docks:
 						eval(i+"add")()
 				self.area.restoreState(self.state)
-
 		self.ropen = 0
 		self.rwindow.hide()
 
 	def realinit(self):
+		self.clear_buttons = ["self.lamb_po.p1main.coordinate_label.setText(\"\")",
+		"self.rh.p2main.coordinate_label.setText(\"\")",
+		"self.jalph.p3main.coordinate_label.setText(\"\")",
+		"self.jbet.p4main.coordinate_label.setText(\"\")",
+		"self.phas.p5main.coordinate_label.setText(\"\")"]
+		
+		glo_var.pass_main(self)
 
 		self.docklist = ['self.drho','self.dlamb','self.dalpha','self.dbeta','self.dphase','self.dcontrols']
 		self.area = DockArea()
@@ -607,9 +681,12 @@ class MainWindow(QtGui.QMainWindow):
 
 		self.grid_view_1()
 
- 
 		self.setCentralWidget(self.area)
 
+		print(dir(self.area))
+		print(self.area.childrenRect(), "childrenRect")
+		print(self.area.contentsRect(),"contentesRect")
+		print(self.area.rect())
 	def check_current_docks(self):
 		self.current_docks=[]
 		for i in self.docklist:
@@ -715,8 +792,6 @@ class MainWindow(QtGui.QMainWindow):
 				while(True):
 					T = f.readline().strip()
 					temp +=[[glo_var.lambdas_degree,round(eval(T),2)]]
-					glo_var.lambdas_degree+=1
-
 			except:
 				for x,y in temp:
 					glo_var.lambdas += [[x/(glo_var.lambdas_degree - 1),y]]
@@ -732,12 +807,36 @@ class MainWindow(QtGui.QMainWindow):
 
 
 
+	def eventFilter(self, source, event):
+		if event.type() == QtCore.QEvent.MouseMove:
+			if event.buttons() == QtCore.Qt.NoButton:
+				pos = event.pos()
+				if self.toolbar.rect().contains(pos) or not self.area.rect().contains(pos):
+					self.clear_points()
+			else:
+				pass
+		return QtGui.QMainWindow.eventFilter(self, source, event)
+
+	def clear_points(self, exclude = None):
+		if not exclude:
+			for x in self.clear_buttons:
+				eval(x)
+		else:
+			for x in self.clear_buttons[:exclude - 1] + self.clear_buttons[exclude:]:	
+				eval(x)
+
+
 if __name__ == "__main__":
 	app = QtGui.QApplication(sys.argv)
+
+
+
 
 	ison = 0
 	# window = MainWindow()
 	# window.show()
 	main = MainWindow()
+	app.installEventFilter(main)
+
 	main.show()
 	sys.exit(app.exec_())

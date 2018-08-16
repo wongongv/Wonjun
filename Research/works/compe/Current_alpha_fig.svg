@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  version="1.2" baseProfile="tiny">
+<title>pyqtgraph SVG export</title>
+<desc>Generated with Qt and pyqtgraph</desc>
+<defs>
+</defs>
+<g id="GraphicsScene_1">
+    <g fill="none" fill-rule="evenodd" id="ViewBox_1" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+        <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="none">
+            <path d="M64.8,1.0 L340.8,1.0 L340.8,224.2 L64.8,224.2 L64.8,1.0 " fill-rule="evenodd" vector-effect="non-scaling-stroke"/>
+        </g>
+        <clipPath id="ViewBox_1_clip">
+            <path d="M64.8,1.0 L340.8,1.0 L340.8,224.2 L64.8,224.2 L64.8,1.0 " fill-rule="evenodd" vector-effect="non-scaling-stroke"/>
+        </clipPath>
+        <g clip-path="url(#ViewBox_1_clip)">
+            <g fill="none" fill-rule="evenodd" id="QGraphicsRectItem_1" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                <g fill="#ffffff" fill-opacity="1" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="none">
+                    <path d="M64.8,1.0 L340.8,1.0 L340.8,224.2 L64.8,224.2 L64.8,1.0 " fill-rule="evenodd" vector-effect="non-scaling-stroke"/>
+                </g>
+            </g>
+            <g fill="none" fill-rule="evenodd" id="ChildGroup_1" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                <g fill="none" fill-rule="evenodd" id="PlotCurveItem_1" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                    <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#1034a6" stroke-dasharray="8,4" stroke-dashoffset="0" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="2">
+                        <path d="M64.8,224.2 L72.0631332,222.1059115261 L79.32629399999999,220.0819933357 L86.58942719999999,218.1315106232 L93.852588,216.2577913752 L101.115804,214.4644147471 L108.378744,212.7550540826 L115.64196,211.1336338942 L122.905176,209.6041728827 L130.16839199999998,208.1708781255 L137.431332,206.8380822844 L144.694548,205.6102750017 L151.957764,204.4919459197 L159.22098,203.48767886899998 L166.48392,202.60193209579998 L173.747136,201.8389754697 L181.010352,201.202670711 L188.273568,200.69634580629997 L195.53650800000003,200.322638028 L202.79972400000003,200.08308578499998 " fill-rule="evenodd" vector-effect="non-scaling-stroke"/>
+                    </g>
+                </g>
+                <g fill="none" fill-rule="evenodd" id="PlotCurveItem_2" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                    <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#1034a6" stroke-dasharray="8,4" stroke-dashoffset="0" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="2">
+                        <path d="M202.800276,64.77154608299998 L340.8,64.77154608299998 " fill-rule="evenodd" vector-effect="non-scaling-stroke"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+    <g fill="none" fill-rule="evenodd" id="PlotItem_1" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+        <g fill="none" fill-rule="evenodd" id="AxisItem_1" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1">
+                <polyline fill="none" points="64.8,224.2 340.8,224.2" vector-effect="non-scaling-stroke"/>
+            </g>
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1">
+                <polyline fill="none" points="65.3,224.2 65.3,219.2" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="341.3,224.2 341.3,219.2" vector-effect="non-scaling-stroke"/>
+            </g>
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="0.498039" stroke-width="1">
+                <polyline fill="none" points="120.5,224.2 120.5,220.86667" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="175.7,224.2 175.7,220.86667" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="230.89999999999998,224.2 230.89999999999998,220.86667" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="286.1,224.2 286.1,220.86667" vector-effect="non-scaling-stroke"/>
+            </g>
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="0.333333" stroke-width="1">
+                <polyline fill="none" points="92.9,224.2 92.9,221.7" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="148.1,224.2 148.1,221.7" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="203.3,224.2 203.3,221.7" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="258.5,224.2 258.5,221.7" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="313.7,224.2 313.7,221.7" vector-effect="non-scaling-stroke"/>
+            </g>
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1" transform="matrix(1,0,0,1,65.3,224.2)">
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="-4.125" xml:space="preserve" y="14">0</text>
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="271.859" xml:space="preserve" y="14">1</text>
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="45.125" xml:space="preserve" y="14">0.2</text>
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="100.328" xml:space="preserve" y="14">0.4</text>
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="155.531" xml:space="preserve" y="14">0.6</text>
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="210.734" xml:space="preserve" y="14">0.8</text>
+            </g>
+            <g fill="none" fill-rule="evenodd" id="QGraphicsTextItem_1" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                
+
+
+                
+
+
+                <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#3c3c3c" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1" transform="matrix(1,0,0,1,187.8,241.2)">
+                    <text fill="#3c3c3c" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="24" font-style="normal" font-weight="400" stroke="none" x="4" xml:space="preserve" y="27">α</text>
+                    <text fill="#3c3c3c" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="24" font-style="normal" font-weight="400" stroke="none" x="18.5312" xml:space="preserve" y="27"> </text>
+                </g>
+                
+
+
+                
+
+            </g>
+        </g>
+        <g fill="none" fill-rule="evenodd" id="AxisItem_2" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1">
+                <polyline fill="none" points="64.8,1.0 64.8,224.2" vector-effect="non-scaling-stroke"/>
+            </g>
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1">
+                <polyline fill="none" points="65.3,224.2 70.3,224.2" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,86.8462 70.3,86.8462" vector-effect="non-scaling-stroke"/>
+            </g>
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="0.498039" stroke-width="1">
+                <polyline fill="none" points="65.3,155.523 68.6333,155.523" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,18.1692 68.6333,18.1692" vector-effect="non-scaling-stroke"/>
+            </g>
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="0.333333" stroke-width="1">
+                <polyline fill="none" points="65.3,210.465 67.8,210.465" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,196.729 67.8,196.729" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,182.994 67.8,182.994" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,169.258 67.8,169.258" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,141.788 67.8,141.788" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,128.05200000000002 67.8,128.05200000000002" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,114.317 67.8,114.317" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,100.5815 67.8,100.5815" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,73.1108 67.8,73.1108" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,59.3754 67.8,59.3754" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,45.64 67.8,45.64" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,31.9046 67.8,31.9046" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="65.3,4.43385 67.8,4.43385" vector-effect="non-scaling-stroke"/>
+            </g>
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1" transform="matrix(1,0,0,1,1.5,1)">
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="50.5312" xml:space="preserve" y="228.391">0</text>
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="38.6719" xml:space="preserve" y="91.0312">0.2</text>
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="38.6719" xml:space="preserve" y="159.719">0.1</text>
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="38.6719" xml:space="preserve" y="22.3594">0.3</text>
+            </g>
+            <g fill="none" fill-rule="evenodd" id="QGraphicsTextItem_2" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                
+
+
+                
+
+
+                <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#3c3c3c" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1" transform="matrix(0,-1,1,0,-4,125)">
+                    <text fill="#3c3c3c" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="24" font-style="normal" font-weight="400" stroke="none" x="4" xml:space="preserve" y="27">J </text>
+                </g>
+                
+
+
+                
+
+            </g>
+        </g>
+        <g fill="none" fill-rule="evenodd" id="AxisItem_3" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1">
+                <polyline fill="none" points="340.8,1.0 340.8,224.2" vector-effect="non-scaling-stroke"/>
+            </g>
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1">
+                <polyline fill="none" points="341.3,224.2 336.3,224.2" vector-effect="non-scaling-stroke"/>
+            </g>
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="0.498039" stroke-width="1">
+                <polyline fill="none" points="341.3,161.408 337.96667,161.408" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="341.3,98.6156 337.96667,98.6156" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="341.3,35.8234 337.96667,35.8234" vector-effect="non-scaling-stroke"/>
+            </g>
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="0.333333" stroke-width="1">
+                <polyline fill="none" points="341.3,192.804 338.8,192.804" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="341.3,130.012 338.8,130.012" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="341.3,67.2195 338.8,67.2195" vector-effect="non-scaling-stroke"/>
+                <polyline fill="none" points="341.3,4.42725 338.8,4.42725" vector-effect="non-scaling-stroke"/>
+            </g>
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1" transform="matrix(1,0,0,1,341.3,1)">
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="5" xml:space="preserve" y="228.391">0</text>
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="5" xml:space="preserve" y="165.594">0.2</text>
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="5" xml:space="preserve" y="102.812">0.4</text>
+                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="14.6667" font-style="normal" font-weight="400" stroke="none" x="5" xml:space="preserve" y="40.0156">0.6</text>
+            </g>
+            <g fill="none" fill-rule="evenodd" id="QGraphicsTextItem_3" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                
+
+
+                
+
+
+                <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#3c3c3c" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1" transform="matrix(0,-1,1,0,371.8,138)">
+                    <text fill="#3c3c3c" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="24" font-style="normal" font-weight="400" stroke="none" x="4" xml:space="preserve" y="32">〈</text>
+                    <text fill="#3c3c3c" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="24" font-style="normal" font-weight="400" stroke="none" x="15.9844" xml:space="preserve" y="32">ρ</text>
+                    <text fill="#3c3c3c" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="24" font-style="normal" font-weight="400" stroke="none" x="30.25" xml:space="preserve" y="32">〉</text>
+                    <text fill="#3c3c3c" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="24" font-style="normal" font-weight="400" stroke="none" x="42.2344" xml:space="preserve" y="32"> </text>
+                </g>
+                
+
+
+                
+
+            </g>
+        </g>
+        <g fill="none" fill-rule="evenodd" id="ViewBox_2" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="none">
+                <path d="M64.8,1.0 L340.8,1.0 L340.8,224.2 L64.8,224.2 L64.8,1.0 " fill-rule="evenodd" vector-effect="non-scaling-stroke"/>
+            </g>
+            <clipPath id="ViewBox_2_clip">
+                <path d="M64.8,1.0 L340.8,1.0 L340.8,224.2 L64.8,224.2 L64.8,1.0 " fill-rule="evenodd" vector-effect="non-scaling-stroke"/>
+            </clipPath>
+            <g clip-path="url(#ViewBox_2_clip)">
+                <g fill="none" fill-rule="evenodd" id="ChildGroup_2" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                    <g id="PlotDataItem_1">
+                        <g fill="none" fill-rule="evenodd" id="PlotCurveItem_3" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="2">
+                                <path d="M64.8,224.2 L72.0631332,206.6027805592 L79.32629399999999,189.95673618339998 L86.58942719999999,174.26193554949998 L93.852588,159.5182413037 L101.115804,145.72565344599997 L108.378744,132.88444668399998 L115.64196,120.994414987 L122.905176,110.05555835499999 L130.16839199999998,100.06787678799999 L137.431332,91.031370286 L144.694548,82.94672561799999 L151.957764,75.81256924599998 L159.22098,69.629587939 L166.48392,64.39778169699997 L173.747136,60.117150519999996 L181.010352,56.78838117699999 L188.273568,54.41010012999999 L195.53650800000003,52.98368091699999 L202.79972400000003,52.50774999999999 " fill-rule="evenodd" vector-effect="non-scaling-stroke"/>
+                            </g>
+                        </g>
+                    </g>
+                    <g id="PlotDataItem_2">
+                        <g fill="none" fill-rule="evenodd" id="PlotCurveItem_4" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="2">
+                                <path d="M202.8,52.50774999999999 L340.8,52.50774999999999 " fill-rule="evenodd" vector-effect="non-scaling-stroke"/>
+                            </g>
+                        </g>
+                    </g>
+                    <g id="PlotDataItem_3">
+                        <g fill="none" fill-rule="evenodd" id="PlotCurveItem_5" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#ff0000" stroke-dasharray="8,4" stroke-dashoffset="0" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="2">
+                                <path d="M202.8,224.2 L202.8,-462.569 " fill-rule="evenodd" vector-effect="non-scaling-stroke"/>
+                            </g>
+                        </g>
+                    </g>
+                    <g fill="none" fill-rule="evenodd" id="TextItem_1" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                        <g fill="none" fill-rule="evenodd" id="QGraphicsTextItem_4" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                            
+
+
+                            
+
+
+                            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#1034a6" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1" transform="matrix(1,0,0,1,219.439,174.7)">
+                                <text fill="#1034a6" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="21.3333" font-style="normal" font-weight="400" stroke="none" x="4" xml:space="preserve" y="24">α</text>
+                            </g>
+                            
+
+
+                            
+
+                        </g>
+                    </g>
+                    <g fill="none" fill-rule="evenodd" id="ArrowItem_1" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                        <g fill="#3232c8" fill-opacity="1" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#c8c8c8" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1">
+                            <path d="M230.4,224.2 L225.96611000000001,204.2 L230.4,204.2 L234.83389,204.2 L230.4,224.2 " fill-rule="evenodd" vector-effect="non-scaling-stroke"/>
+                        </g>
+                    </g>
+                </g>
+                <g fill="none" fill-rule="evenodd" id="mylegend_1" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                    <g fill="#646464" fill-opacity="0.196078" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#ffffff" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="0.392157" stroke-width="1">
+                        <path d="M84.8,21.0 L148.5656,21.0 L148.5656,111.0 L84.8,111.0 L84.8,21.0 " fill-rule="evenodd" vector-effect="non-scaling-stroke"/>
+                    </g>
+                    <g fill="none" fill-rule="evenodd" id="MyItem_1" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                        <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="2">
+                            <polyline fill="none" points="95.8,32.0 111.8,32.0" vector-effect="non-scaling-stroke"/>
+                        </g>
+                    </g>
+                    <g fill="none" fill-rule="evenodd" id="LabelItem_1" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                        <g fill="none" fill-rule="evenodd" id="QGraphicsTextItem_5" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                            
+
+
+                            
+
+
+                            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1" transform="matrix(1,0,0,1,111.245,30)">
+                                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="18.6667" font-style="normal" font-weight="700" stroke="none" x="4" xml:space="preserve" y="22">J</text>
+                            </g>
+                            
+
+
+                            
+
+                        </g>
+                    </g>
+                    <g fill="none" fill-rule="evenodd" id="MyItem_2" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                        <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#1034a6" stroke-dasharray="8,4" stroke-dashoffset="0" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="2">
+                            <polyline fill="none" points="95.8,68.0 111.8,68.0" vector-effect="non-scaling-stroke"/>
+                        </g>
+                    </g>
+                    <g fill="none" fill-rule="evenodd" id="LabelItem_2" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                        <g fill="none" fill-rule="evenodd" id="QGraphicsTextItem_6" stroke="black" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1">
+                            
+
+
+                            
+
+
+                            <g fill="none" font-family="Ubuntu" font-size="14.6667" font-style="normal" font-weight="400" stroke="#000000" stroke-linecap="square" stroke-linejoin="bevel" stroke-opacity="1" stroke-width="1" transform="matrix(1,0,0,1,100.8,66)">
+                                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="18.6667" font-style="normal" font-weight="700" stroke="none" x="4" xml:space="preserve" y="26">〈</text>
+                                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="18.6667" font-style="normal" font-weight="700" stroke="none" x="13.6719" xml:space="preserve" y="26">ρ</text>
+                                <text fill="#000000" fill-opacity="1" font-family="Ubuntu, sans-serif" font-size="18.6667" font-style="normal" font-weight="700" stroke="none" x="25.0938" xml:space="preserve" y="26">〉</text>
+                            </g>
+                            
+
+
+                            
+
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</g>
+
+</svg>

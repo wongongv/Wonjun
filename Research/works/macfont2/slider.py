@@ -10,9 +10,11 @@ class Slider(QtGui.QWidget):
 		self.verticalLayout = QtGui.QVBoxLayout(self)
 		self.label = QtGui.QLabel(self)
 		self.label.setAlignment(QtCore.Qt.AlignCenter)
-		self.font = QtGui.QFont("?",18)
+		self.font = QtGui.QFont("",18)
 		self.label.setFont(self.font)
 		if label == "\u2113":
+			self.font = QtGui.QFont("",14)
+			self.label.setFont(self.font)
 			self.spin = pg.SpinBox(value = glo_var.l, bounds=[1, 20],parent = self)
 			self.spin.setRange(1,20)
 			self.intspinargs = {"int":True, "step":1}
@@ -166,8 +168,8 @@ class Widget(QtGui.QWidget):
 		self.update_alpha_slid(self.ws[0])
 		self.update_beta_slid(self.ws[1])
 		self.phas.update()
-		self.jalph.update(fromlambda = 1)
-		self.jbet.update(fromlambda = 1)
+		self.jalph.update()
+		self.jbet.update()
 
 
 	def update_lamb_l(self):
